@@ -5,7 +5,7 @@ from app import create_app, db
 from app.database_manager import define_admin
 
 if __name__ == '__main__':
-    # config_name = os.environ.get('FLASK_CONFIG') or 'development'
+    config_name = os.environ.get('FLASK_CONFIG') or 'development'
     # print(' * Loading configuration "{0}"'.format(config_name))
     app = create_app()
     with app.app_context():

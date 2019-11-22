@@ -5,6 +5,7 @@ import time
 from flask_wtf.csrf import CSRFError
 from werkzeug.utils import secure_filename
 
+from app.config.constants import URL
 from app.main.routes_utils import *
 import app.sessions_manager as sm
 from app.utils import *

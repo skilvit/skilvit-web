@@ -150,14 +150,25 @@
 {##}
 {#{% endmacro %}#}
 
-{% macro choisir_date(jour, mois, annee, _id="") %}
+{% macro choisir_date(jour, mois, annee, _id="", language="fr") %}
 
-    <div class="input-group date" id="datetimepicker-date_{{ _id }}" data-target-input="nearest">
-        <input type="text" class="form-control datetimepicker-date_{{ _id }}" data-target="#datetimepicker-date"/>
-        <div class="input-group-append" data-target="#datetimepicker-date_{{ _id }}" data-toggle="datetimepicker">
-            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+    <div class="form-group required">
+        <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label>
+        <div class="input-group date form-group required" id="datetimepicker-date-{{ id }}" data-target-input="nearest">
+            <input type="text" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input form-control" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/>
+            <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+            $(function(){$('#datetimepicker-date-{{ id }}').datetimepicker({
+                format: 'L',
+                locale: '{{ language }}'
+            });
+            });
+    </script>
 
 <!--    <label for="jour_{{ id }}">{{ _('Jour') }}</label>-->
 <!--    <select id="jour_{{ id }}" name="jour_{{ id }}">-->

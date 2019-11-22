@@ -3,6 +3,9 @@
 # from PyQt5.QtGui.QRawFont import glyphIndexesForString
 import time
 
+from flask_babel import to_utc
+
+from app.data_manager import DateHeure
 from app.database_manager import *
 from app.utils import *
 from app import data_manager as dm
@@ -120,14 +123,16 @@ class PatientSess(Utilisateur):
         #     self.patient_db = nouveau_patient
 
     @staticmethod
-    def creer_nouveau(forme, mdp_hash):
+    def creer_nouveau(formulaire, mdp_hash):
         # TODO normaliser les données
         print("tout", PatientDB.query.all())
-        date_naissance = datetime.strptime(forme["jour_"]+"/"+forme["mois_"]+"/"+forme["annee_"], "%d/%m/%Y")
-        nouveau_patient = PatientDB(prenom=forme["first_name"], nom=forme["family_name"],
-                                    sexe=Sexe[forme["sex"]],
+        print(formulaire)
+        # date_naissance = datetime.strptime(forme["jour_"]+"/"+forme["mois_"]+"/"+forme["annee_"], "%d/%m/%Y")
+        date_naissance = to_utc(DateHeure.from_datepicker(formulaire, ""))
+        nouveau_patient = PatientDB(prenom=formulaire["first_name"], nom=formulaire["family_name"],
+                                    sexe=Sexe[formulaire["sex"]],
                                     date_naissance=date_naissance,
-                                    email=forme["email_address"], mdp_hash=mdp_hash,
+                                    email=formulaire["email_address"], mdp_hash=mdp_hash,
                                     date_inscription=datetime.now())
         print("new", nouveau_patient)
         # nouveau_patient = PatientDB(prenom=forme.prenom.data, nom=forme.nom.data,

@@ -149,6 +149,16 @@ class DateHeure(Date, Heure):
         return datetime.datetime(int(annee), int(mois), int(jour), int(heure), int(minute))
 
     @staticmethod
+    def from_datepicker(d: dict, label: str):
+        date = d["datetimepicker-date-input-" + label]
+        date_s = date.split("/")
+        if len(date_s) == 3:
+            jour, mois, annee = date_s
+        else:
+            return None
+        return datetime.datetime(int(annee), int(mois), int(jour), 0, 0)
+
+    @staticmethod
     def from_datetimepicker(d: dict, label: str):
         date = d["datetimepicker-date-input-"+label]
         date_s = date.split("/")
