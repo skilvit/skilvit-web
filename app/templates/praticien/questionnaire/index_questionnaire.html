@@ -1,0 +1,7 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <a href="{{ url_for('main.afficher_accueil_questionnaire') }}"><button class="btn-secondary">{{ _('Accueil questionnaire') }}</button></a>
+
+    {{ super() }}
+{% endblock %}

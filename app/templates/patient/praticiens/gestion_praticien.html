@@ -1,0 +1,28 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Gestionnaire des praticiens') }}</h2>
+        {% if praticiens | length > 0 %}
+            <h5>{{ _('Liste des praticiens qui ont accès à vos données') }}</h5>
+            <ul>
+                {% set i = 1 %}
+                {% for praticien in praticiens %}
+                    <li class="moyennement-important">
+                        <a href="{{ url_for("main.afficher_profil_praticien", numero_praticien=i) }}">
+                            {{ praticien.prenom }} {{ praticien.nom }} : {{ praticien.profession }}
+                        </a>
+                    </li>
+                {% set i = i + 1 %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <h5>{{ _('Ajouter un praticien') }}</h5>
+        <form id="formulaire_ajout_praticien" method="POST">
+            <p>{{ _("Donnez l'adresse email du praticien qui vous suivra : ") }}<input type="text" name="ajout_email_pratcien" class="form-control"></p>
+            {% if message_ajout_praticien is defined %}
+                <p class="moyennement-important">{{ message_ajout_praticien }}</p>
+            {% endif %}
+            <input type="submit" name="valider" class="btn btn-primary">
+        </form>
+    {{ super() }}
+{% endblock %}

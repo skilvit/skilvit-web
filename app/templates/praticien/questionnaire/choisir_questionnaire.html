@@ -1,0 +1,16 @@
+{% extends "praticien/questionnaire/index_questionnaire.html" %}
+
+{% block content %}
+    <p>{{ super() }}</p>
+    <p><label for="liste-quetionnaires"><h2>{{ _('Votre liste de questionnaire') }}</h2></label></p>
+       <p> <select id="liste-quetionnaires">
+            {% for questionnaire in questionnaires %}
+                <option>{{ questionnaire.contenu["titre"] }}</option>
+            {% endfor %}
+
+        </select>
+    </p>
+
+    <p><a href="{{ url_for('main.consulter_questionnaire') }}"><button id="charger_questionnaire" class="btn btn-primary">{{ _("Charger le questionnaire") }}</button></a></p>
+
+{% endblock %}

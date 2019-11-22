@@ -1,0 +1,46 @@
+{% macro afficher_situation_indice_court(indice, situation) %}
+    {% if situation.date_heure %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ situation.date_heure }}</a>
+    {% else %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ situation.date }} {{ situation.heure }}</a>
+    {% endif %}
+{#    <a href="/tcc/patient/visualiser_entree/{{ indice }}"> {{ situation.date }} {{ situation.heure }}</a>#}
+    <p>{{ _('Evénement général') }}</p>
+    <p>{{ _("Intensité de l'événement : ") }}{{ situation.intensite }} </p>
+    <p class="texte_pas_long">{{ _('Situation : ') }}{{ situation.situation }}</p>
+    <p class="texte_pas_long">{{ _('Emotions et sensations du moment : ') }}{{ situation.emotions_sensations }}</p>
+
+{% endmacro %}
+
+{% macro afficher_situation_praticien(situation) %}
+    <p class="important">{{ _('Situation') }}</p>
+    <ul>
+         {% if situation.date_heure %}
+            <li> {{ _('Date et heure : ') }}{{ situation.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date : ') }}{{ situation.date }} {{ _('et heure : ') }}{{ situation.heure }}</li>
+        {% endif %}
+        <li>{{ _("Intensité de l'événement : ") }}{{ situation.intensite }}</li>
+        <li>{{ _('Situation : ') }}{{ situation.situation }}</li>
+        <li>{{ _('Emotions et sensations du moment : ') }}{{ situation.emotions_sensations }}</li>
+        <li>{{ _('Comportement : ') }}{{ situation.comportement }}</li>
+        <li>{{ _('Pensées : ') }}{{ situation.pensees }}</li>
+        {% if situation.taux_croyance %}<li>{{ _('Taux de croyance : ') }}{{ situation.taux_croyance }}</li>{% endif %}
+        {% if situation.taux_croyance %}<li>{{ _('ensées alternatives : ') }}P{{ situation.pensee_alternative }}</li>{% endif %}
+        {% if situation.taux_croyance %}<li>{{ _('Taux de croyance actualisé : ') }}{{ situation.taux_croyance_actualise }}</li>{% endif %}
+    </ul>
+{% endmacro %}
+
+{% macro afficher_situation(situation) %}
+    <ul>
+        <li> {{ _('Date : ') }}{{ situation.date }} {{ _('et heure : ') }}{{ situation.heure }}</li>
+        <li>{{ _("Intensité de l'événement : ") }}{{ situation.intensite }}</li>
+        <li>{{ _('Situation : ') }}{{ situation.situation }}</li>
+        <li>{{ _('Emotions et sensations du moment : ') }}{{ situation.emotions_sensations }}</li>
+        <li>{{ _('Comportement : ') }}{{ situation.comportement }}</li>
+        <li>{{ _('Pensées : ') }}{{ situation.pensees }}</li>
+        {% if situation.taux_croyance %}<li>{{ _('Taux de croyance : ') }}{{ situation.taux_croyance }}</li>{% endif %}
+        {% if situation.taux_croyance %}<li>{{ _('ensées alternatives : ') }}P{{ situation.pensee_alternative }}</li>{% endif %}
+        {% if situation.taux_croyance %}<li>{{ _('Taux de croyance actualisé : ') }}{{ situation.taux_croyance_actualise }}</li>{% endif %}
+    </ul>
+{% endmacro %}

@@ -1,0 +1,52 @@
+{% extends "motif_principal_bs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+    <h2>{{ form.titre }} </h2>
+    {% if mettre_message_succes %}
+        <p>{{ form.message_succes }}</p>
+    {% endif %}
+
+    {% if message == "inscription" %}
+        <p class="important">{{ _('Une fois cette fiche remplie, vous serez contacté afin de confirmer votre identité et vos qualifications.') }}</p>
+    {% elif message == "attente_verification" %}
+        <p  class="important">{{ _('Merci de votre inscription. Vous serez contacté pour vérifier votre identité et vos compétences.') }}</p>
+    {% elif message == "mauvaises_donnees" %}
+        <p class="important">{{ _('Vérifiez vos données dans le formulaire') }}</p>
+    {% endif %}
+    <h2>
+        {{ _("Fiche d'inscription") }}
+    </h2>
+    <div class="row">
+        <div class="col-xs-9 col-9">
+            <form id="creation_praticien_form" method="POST">
+
+{#                {{ form.csrf_token }}#}
+                {{ form.hidden_tag() }}
+{#                {{ wtf.form_errors(form) }}#}
+{#                {{ wtf.form_errors(form, hiddens="only") }}#}
+                {{ wtf.form_field(form.first_name) }}
+                {{ wtf.form_field(form.family_name) }}
+
+                {{ wtf.form_field(form.job) }}
+
+                {{ wtf.form_field(form.email_address) }}
+
+                {{ wtf.form_field(form.phone_number) }}
+
+                {{ wtf.form_field(form.street) }}
+                {{ wtf.form_field(form.post_code) }}
+                {{ wtf.form_field(form.city) }}
+                {{ wtf.form_field(form.country) }}
+
+                {{ wtf.form_field(form.first_password) }}
+                {{ wtf.form_field(form.second_same_password) }}
+                {{ wtf.form_field(form.submit) }}
+            </form>
+        </div>
+    </div>
+    {{ super() }}
+    {% block scripts %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}

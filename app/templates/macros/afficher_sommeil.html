@@ -1,0 +1,37 @@
+{% macro afficher_sommeil_indice_court(indice, sommeil) %}
+    {% if sommeil.date_heure %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ sommeil.date_heure }}</a>
+    {% else %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ sommeil.date }} {{ sommeil.heure }}</a>
+    {% endif %}
+
+{#    <a href="/tcc/patient/visualiser_entree/{{ indice }}"> {{ sommeil.date }} {{ sommeil.heure }}</a>#}
+
+    <p>{{ _('Sommeil') }}</p>
+    <p class="texte_pas_long">{{ _('Commentaire : ') }}{{ sommeil.commentaire }}</p>
+{% endmacro %}
+
+{% macro afficher_sommeil_praticien(sommeil) %}
+    <p class="important">{{ _('Sommeil') }}</p>
+    <ul>
+        {% if sommeil.date_heure %}
+            <li> {{ _('Date et heure :') }}{{ sommeil.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date :') }} {{ sommeil.date }} {{ _('et heure : ') }} {{ sommeil.heure }}</li>
+        {% endif %}
+
+        <li>{{ _('Evénement : ') }}{{ sommeil.evenement.name }} </li>
+        <li>{{ _("Date et heure de l'événement : ") }}{{ sommeil.date_heure_evenement }}</li>
+        <li>{{ _('Commentaire : ') }}{{ sommeil.commentaire }}</li>
+    </ul>
+{% endmacro %}
+
+
+{% macro afficher_sommeil(sommeil) %}
+    <ul>
+        <li> {{ _('Date :') }} {{ sommeil.date }} {{ _('et heure : ') }} {{ sommeil.heure }}</li>
+        <li>{{ _('Evénement : ') }}{{ sommeil.evenement.name }} </li>
+        <li>{{ _("Date et heure de l'événement : ") }}{{ sommeil.date_heure_evenement }}</li>
+        <li>{{ _('Commentaire : ') }}{{ sommeil.commentaire }}</li>
+    </ul>
+{% endmacro %}

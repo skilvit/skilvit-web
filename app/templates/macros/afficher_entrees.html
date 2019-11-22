@@ -1,0 +1,65 @@
+{% from "macros/afficher_activite_physique.html" import afficher_activite_physique_indice_court, afficher_activite_physique_praticien %}
+{% from "macros/afficher_alimentation.html" import afficher_alimentation_indice_court, afficher_alimentation_praticien %}
+{% from "macros/afficher_situation.html" import afficher_situation_indice_court, afficher_situation_praticien %}
+{% from "macros/afficher_prise_medicament.html" import afficher_prise_medicament_indice_court, afficher_prise_medicament_praticien %}
+{% from "macros/afficher_sommeil.html" import afficher_sommeil_indice_court, afficher_sommeil_praticien %}
+
+{% macro afficher_entrees(entrees) %}
+
+    {% for ligne in entrees %}
+        <li class="list-group-item">
+        {#                <p>{{ ligne.type }} - {{ indice }}</p>#}
+        {% set indice = loop.index - 1%}
+        {#                <p>{{ bizarre }}</p>#}
+        {% if ligne.type == "situation" %}
+            {{ afficher_situation_indice_court(indice, ligne) }}
+
+        {% elif ligne.type == "prise_medicament" %}
+            {{ afficher_prise_medicament_indice_court(indice, ligne) }}
+
+        {% elif ligne.type == "sommeil" %}
+            {{ afficher_sommeil_indice_court(indice, ligne) }}
+
+        {% elif ligne.type == "alimentation" %}
+            {{ afficher_alimentation_indice_court(indice, ligne) }}
+
+        {% elif ligne.type == "activite_physique" %}
+            {{ afficher_activite_physique_indice_court(indice, ligne) }}
+
+        {% endif %}
+        </li>
+    {% else %}
+        <p>Vous n'avez aucune entrée.</p>
+    {% endfor %}
+{% endmacro %}
+
+{% macro afficher_entrees_pour_praticien(entrees) %}
+
+    {% for ligne in entrees %}
+        <li class="list-group-item">
+            <div class="annotable" id="annotable-{{ loop.index0 }}" name="{{ ligne.type }}:{{ ligne.id }}">
+            {#                <p>{{ ligne.type }} - {{ indice }}</p>#}
+            {% set indice = loop.index - 1%}
+            {#                <p>{{ bizarre }}</p>#}
+            {% if ligne.type == "situation" %}
+                {{ afficher_situation_praticien(ligne) }}
+
+            {% elif ligne.type == "prise_medicament" %}
+                {{ afficher_prise_medicament_praticien(ligne) }}
+
+            {% elif ligne.type == "sommeil" %}
+                {{ afficher_sommeil_praticien(ligne) }}
+
+            {% elif ligne.type == "alimentation" %}
+                {{ afficher_alimentation_praticien(ligne) }}
+
+            {% elif ligne.type == "activite_physique" %}
+                {{ afficher_activite_physique_praticien(ligne) }}
+
+            {% endif %}
+            </div>
+        </li>
+    {% else %}
+        <p>{{ _("Vous n'avez aucune entrée.") }}</p>
+    {% endfor %}
+{% endmacro %}

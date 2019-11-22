@@ -1,0 +1,28 @@
+{% extends "motif_principal_bs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{#    <p>Aujourd'hui : {{ moment().format('H:M d/M/Y') }}</p>#}
+{#    <p>Aujourd'hui : {{ moment(now).calendar() }}</p>#}
+    {% if connecte != "connecte" %}
+        <h2>{{ form.titre }} </h2>
+        {% if mettre_message_succes %}
+        <p>{{ form.message_succes }}</p>
+        {% endif %}
+    {% endif %}
+
+    {% if connecte == "pseudo_non_enrigistre" or connecte == "mdp_incorrect" %}
+        <p>{{ _("L'adresse email ou le mot de passe est incorrect.") }}</p>
+    {% elif connecte == "connecte" %}
+        <p>{{ _('Bonjour ') }}{{ prenom }} {{ nom }}. {{ _("Le connexion est bien établie.") }}</p>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-md-9">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+
+    <p>Vous n'avez pas de compte ? Créez en un. <a href="{{ url_for('main.creer_nouveau_patient') }}">{{ _("Nouveau patient") }}</a></p>
+    {{ super() }}
+{% endblock %}

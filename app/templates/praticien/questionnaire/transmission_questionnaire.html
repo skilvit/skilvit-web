@@ -1,0 +1,33 @@
+{% extends "praticien/questionnaire/index_questionnaire.html" %}
+{% block title %} Transmettre un questionnaire pour le faire remplir{% endblock %}
+
+{% block content %}
+    <p>{{ super() }}</p>
+    <h2>Transmission d'un questionnaire à un patient</h2>
+    <form id="">
+        <p>Questionnaire à envoyer : <input type="file" id="questionnaire_charge" name="questionnaire_charge"></p>
+        <p>Adresse email du patient : <input type="email" id="courriel" name="courriel"></p>
+        <input type="submit" id="envoyer" name="envoyer" value="Envoyer le questionnaire">
+    </form>
+    <p id="message">
+        {% if message == "ok"}}
+            Le questionnaire a bien été envoyé.
+
+        {% elif message == "courriel_invalide"%}
+            L'adresse email est invalide.
+        {% elif message == "questionnaire_invalide" %}
+            Le questionnaire donné est invalide.
+        {% else %}
+
+        {% endif %}
+    </p>
+
+    <script type="text/javascript">
+        $("#envoyer").click(function(){
+
+        });
+
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>
+        {{ _('Création de fiches personnalisées') }}
+    </h2>
+    <div id="menu_fiches_pour_patient">
+        <form id="menu_action_pour_patients_form" method="POST">
+            <p><input type="submit" name="bouton_creer_nouvelle_entree" value="{{ _('Création nouvelle entrée') }}" class="btn btn-primary"></p>
+            <p><input type="submit" name="bouton_prise_medicament" value="{{ _('Créer nouvelle prise de médicament') }}" class="btn btn-primary"></p>
+            <p><input type="submit" name="bouton_creer_fiche_repas" value="{{ _('Création nouvelle fiche repas') }}" class="btn btn-primary"></p>
+            <p><input type="submit" name="bouton_creer_evenement_sommeil" value="{{ _('Création événement sommeil') }}" class="btn btn-primary"></p>
+            <p><input type="submit" name="bouton_creation_activite_physique" value="{{ _('Création fiche activité physique') }}" class="btn btn-primary"></p>
+
+        </form>
+    </div>
+
+{#<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>#}
+{#<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>#}
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>-->
+{#    <script>#}
+{#        window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.min.js') }}">\x3C/script>')#}
+{#    </script>#}
+    {{ super() }}
+{% endblock %}

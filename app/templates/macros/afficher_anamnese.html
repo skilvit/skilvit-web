@@ -1,0 +1,25 @@
+
+{% macro afficher_anamneses(anamneses, categories) %}
+    {% for categorie in categories %}
+        <div>
+            <h5>{{ categorie | capitalize }}</h5>
+            <ul>
+            {% for i in anamneses[categorie] %}
+                <span id="{{ i.id }}-element">
+
+                    <p> <span id="{{ i.id }}-element-texte">{{ i.contenu }}</span>
+                        <button style="display: inline-block;" class="modification-anamnese btn btn-outline-secondary" id="{{ i.id }}-modification-anamnese">
+                            Modifier
+                        </button>
+                        <button style="display: inline-block;" class="suppression-anamnese btn btn-outline-secondary" id="{{ i.id }}-suppression-anamnese">
+                            Supprimer
+                        </button>
+                    </p>
+                </span>
+            {% else %}
+                <p>Aucune entrée pour {{ categorie }}.</p>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endmacro %}

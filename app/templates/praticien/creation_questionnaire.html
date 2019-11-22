@@ -1,0 +1,123 @@
+{% extends "praticien/questionnaire/index_questionnaire.html" %}
+
+{% block content %}
+    <p>{{ super() }}</p>
+    <h2>{{ _("Gestionnaire de questionnaire - Création d'un questionnaire") }}</h2>
+    <div style="padding-bottom: 15px">
+        <form id="questionnaire_form">
+            <div id="questionnaire">
+                <label for="titre">{{ _('Titre') }} : </label><input type="text" id="titre" name="titre" style="margin: 5px;" class='form-control'>
+
+            </div>
+        </form>
+    </div>
+    <div class="form-group row">
+        <button type="button" id="creation_question" class="btn btn-primary">{{ _('Ajouter nouvelle question') }}</button>
+    </div>
+    <div class="form-group row">
+        <button type="button" id="suppression_question" class="btn btn-primary">{{ _('Supprimer dernière question') }}</button>
+    </div>
+    <div class="form-group row">
+{#        <form id="validation_questionnaire">#}
+        <button type="button" class="btn btn-primary" id="validation_questionnaire">
+            {{ _('Enregistrer le questionnaire') }}
+        </button>
+            <!--<a id="validation_questionnaire" download="" target="_blank"><button>Validation</button></a>-->
+{#        </form>#}
+    </div>
+    {% block scripts %}
+        {{ super() }}
+    {% endblock %}
+
+        <script type="text/javascript">
+
+            $(window).load(function()
+            {
+
+            });
+
+            var n_questions = 0;
+            var body = $("body");
+
+            body.on("click", 'button#creation_question', function(){
+                n_questions ++;
+                var bloc_question = "<div class='card'><div class='question' id='question_"+n_questions+"'><p><button type='button' class='btn btn-secondary ajouter_reponse' id='ajouter_reponse'>Ajouter une réponse</button><button type='button' class='btn btn-secondary supprimer_reponse'>Supprimer dernière réponse</button></p>" +
+                        "<p>Question "+n_questions+" : <input type='text' id='question"+n_questions+"' name='question_"+n_questions+"' class='form-control'></p>" +
+                        "<div id='reponse_1' class='reponse'><p>Réponse 1 : <input type='text' id='reponse_1' name='question_"+n_questions+"_reponse_1' class='form-control'> poids 1 : <input type='text' id='poids_1' name='question_"+n_questions+"_poids_1' class='form-control'></p></div></div></div>";
+                $('div#questionnaire').append(bloc_question);
+            });
+            body.on("click", 'button#suppression_question', function(){
+                $('div#question_'+n_questions).remove();
+                n_questions --;
+            });
+            body.on("click", 'button.ajouter_reponse', function(){
+                var n_question = $(this).parents(".question").attr("id");
+    //            console.log($n_question = $(this).parents(".question").html());
+               var n_reponse = $(this).parents(".question").find("div.reponse p").length + 1;
+    //            console.log($(this).parents(".question").find("div.reponse").html());
+               $(this).parents(".question").find(".reponse").append("" +
+                       "<div id="+n_question+"_"+n_reponse+"> <p> Réponse "+n_reponse+" : " +
+                         "<input type='text' id='reponse_"+n_reponse+"' name='"+n_question+"_reponse_"+n_reponse+"' class='form-control'>" +
+                       " poids "+n_reponse +" : " +
+                       "<input type='text' id='poids_"+n_reponse+"' name='"+n_question+"_poids_"+n_reponse+"' class='form-control'></p></div>");
+                });
+            body.on("click", 'button.supprimer_reponse', function() {
+                var n_question = $(this).parents(".question").attr("id");
+    //            console.log($n_question = $(this).parents(".question").html());
+                var n_reponse = $(this).parents(".question").find("div.reponse p").length;
+    //            console.log($(this).parents(".question").find("div.reponse").html());
+                $("div#"+n_question+"_"+n_reponse).remove();
+    {#            $(this).parents(".question").find(".reponse").remove($("input[id='reponse_" + $n_reponse + "']"));#}
+            });
+
+
+            jQuery.download = function(url, key, data){
+                // Build a form
+                var form = $('<form></form>').attr('action', url).attr('method', 'post');
+                // Add the one key/value
+                form.append($("<input></input>").attr('type', 'hidden').attr('name', key).attr('value', data));
+                //send request
+                form.appendTo('body').submit().remove();
+            };
+
+
+            $("#validation_questionnaire").on("click", function () {
+                $.ajax({
+                    url: "/tcc/ajax/verifier_enregistrer_questionnaire",
+                    data: $('#questionnaire_form').serializeArray(),
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        console.log(data);
+                    }
+                });
+                {#$.download("/tcc/ajax/verifier_enregistrer_questionnaire", "data", $('#questionnaire_form').serialize());#}
+                console.log("j'ai cliqué");
+    //            $.ajax({
+    //                url: "/tcc/ajax/verifier_enregistrer_questionnaire",
+    //                data: $('#questionnaire_form').serialize(),
+    //                type: "POST",
+    //                success: function (data, statut) {
+    //                    console.log(data);
+    //                    $.                }
+    //            });
+                return false;
+            });
+    //        $("#validation_questionnaire").click(function (){
+    //            console.log("j'ai cliqué");
+    //            $.ajax({
+    //                url : "/tcc/ajax/verifier_enregistrer_questionnaire",
+    //                data : $('#questionnaire_form').serialize(),
+    //                type: "POST",
+    //                success: function(data, statut)
+    //                {
+    //                    console.log(data);
+    //                }
+    //            });
+    //            return false;
+    //
+    //        });
+
+        </script>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "motif_principal_bs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date %}
+{#{% from "macros/form_helpers.html" import render_field %}#}
+
+{% block content %}
+    <h2>{{ form.titre }} </h2>
+    {% if mettre_message_succes %}
+        <p>{{ form.message_succes }}</p>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-xs-9 col-9">
+
+            <form id="creation_patient_form" method="POST">
+                {{ form.csrf_token }}
+{#                {{ form.hidden_tag() }}#}
+{#                {{ wtf.form_errors(form) }}#}
+
+                {{ wtf.form_field(form.first_name) }}
+                {{ wtf.form_field(form.family_name) }}
+
+                <label for="sex">{{ _("Sexe") }}</label>
+                {{ wtf.form_field(form.sex) }}
+                <label >{{ _("Date de naissance") }}</label>
+                {{ choisir_date(1, 1, 1980) }}
+                {{ wtf.form_field(form.email_address) }}
+                {{ wtf.form_field(form.first_password) }}
+                {{ wtf.form_field(form.second_same_password) }}
+                {{ wtf.form_field(form.submit) }}
+            </form>
+        </div>
+    </div>
+    {{ super() }}
+    {% block scripts %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
+
+
+{##}
+{##}
+{#<!--{% extends "motif_principal.html" %}-->#}
+{##}
+{##}
+{##}
+{##}
+{#<!--{% block body %}-->#}
+{#    <!--<h2>-->#}
+{#        <!--Fiche d'inscription-->#}
+{#    <!--</h2>-->#}
+{#    <!--<div id="creation_fiche_nouveau_patient">-->#}
+{#        <!--<form id="creation_fiche_nouveau_patient_form" method="POST">-->#}
+{#            <!--<p>Prénom : <input type="text" name="prenom_patient"> </p>-->#}
+{#            <!--<p>Nom : <input type="text" name="nom_patient"> </p>-->#}
+{#            <!--<p>Sexe : </p>-->#}
+{#            <!--<p><input type="radio" name="sexe" value="femme">Femme</p>-->#}
+{#            <!--<p><input type="radio" name="sexe" value="homme">Homme</p>-->#}
+{#            <!--<p>-->#}
+{#                <!--Date  de naissance : <input type="date" name="date_naissance_patient">-->#}
+{#            <!--</p>-->#}
+{#            <!--<p>Informations pour vous connecter </p>-->#}
+{#            <!--<p>Adresse email : <input type="email" name="adresse_courriel"> </p>-->#}
+{#            <!--<p>Mot de passe : <input type="password" name="mdp_patient"> </p>-->#}
+{#            <!--<p>Le même mot de passe : <input type="password" name="encore_mdp_patient"> </p>-->#}
+{#            <!--<p><input type="submit" name="valider"> </p>-->#}
+{#        <!--</form>-->#}
+{#    <!--</div>-->#}
+{##}
+{#<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>-->#}
+{#<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>-->#}
+{#    <!--&lt;!&ndash;<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&ndash;&gt;-->#}
+{#    <!--&lt;!&ndash;<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>&ndash;&gt;-->#}
+{#    <!--<script>-->#}
+{#        <!--window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.min.js') }}">\x3C/script>')-->#}
+{#    <!--</script>-->#}
+{#    <!--<script>-->#}
+{##}
+{#    <!--</script>-->#}
+{#<!--{% endblock %}-->#}

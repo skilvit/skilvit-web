@@ -1,0 +1,8 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <a href="{{ url_for('main.afficher_menu_entrees_patient') }}"><button class="btn btn-secondary isolement">{{ _('Ses entrées') }}</button></a>
+    {{ super() }}
+
+
+{% endblock %}

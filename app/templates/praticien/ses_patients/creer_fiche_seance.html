@@ -1,0 +1,31 @@
+{% extends "praticien/ses_patients/index_gestionnaire_patient.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date_heure %}
+
+
+{% block content %}
+    {{ super() }}
+    <h2>{{ form.titre }} </h2>
+
+    <div class="row">
+        <div class="col-xs-11 col-9 card">
+
+            <form id="creation_patient_form" method="POST">
+
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                <div class="card-body">
+                    <label >{{ _("Date de de la consultation/séance") }}</label>
+                    {{ choisir_date_heure(aujourdhui.day, aujourdhui.month, aujourdhui.year, aujourdhui.hour, aujourdhui.minute) }}
+
+                    {{ wtf.form_field(form.contenu) }}
+
+
+                    {{ wtf.form_field(form.enregistrement_fiche_seance) }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

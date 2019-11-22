@@ -1,0 +1,31 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="{{ '/static/style.css' }}">
+<title>{% block title %} Suivi des angoisses{% endblock %} </title>
+<body>
+  <header>
+    <h1>Suivi des angoisses</h1>
+    <nav>
+      <ul class="nav navbar-nav">
+        <li class="active">
+		<a href="/">Accueil</a>
+	</li>
+        {% for href, title in [
+          ['/tcc/affichage_suivi', 'Analyse fichier suivi'],
+
+        ] %}
+           <li class="active">
+		<a href={{ href }}> {{ title }} </a>
+	</li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </header>
+  <div class="page">
+    {% block body %}{% endblock %}
+  </div>
+  <footer>
+    Un problème ? Contactez Clément Besnier clemsciences@aol.com
+  </footer>
+
+</body>

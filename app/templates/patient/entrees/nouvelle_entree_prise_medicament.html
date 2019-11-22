@@ -1,0 +1,27 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date_heure %}
+
+{% block content %}
+    {{ super() }}
+    <h2>
+        {{ _('Nouvelle prise de médicament') }}
+    </h2>
+    {% if message != "" %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div id="creation_fiche_repas_pour_patients" class="col-8">
+        <form id="creation_fiche_repas_pour_patients_form" method="POST">
+            {{ form.csrf_token }}
+            {{ choisir_date_heure(maintenant.jour, maintenant.mois, maintenant.annee, maintenant.heure, maintenant.minute) }}
+
+            {{ wtf.form_field(form.medicament) }}
+            {{ wtf.form_field(form.dosage) }}
+            {{ wtf.form_field(form.enregistrement_prise_medicament) }}
+
+{#            <p> Médicament : <input type="text" name="medicament" value=""></p>#}
+{#            <p> Dosage : <input type="text" name="dosage"></p>#}
+{#            <p><input type="submit" name="enregistrement_prise_medicament" value="Enregistrer prise médicament" class="btn btn-primary"> </p>#}
+        </form>
+    </div>
+{% endblock %}

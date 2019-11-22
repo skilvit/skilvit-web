@@ -1,0 +1,55 @@
+{% extends "praticien/questionnaire/index_questionnaire.html" %}
+{% block title %}{{ _('Gestionnaire de questionnaire') }}{% endblock %}
+
+{% block content %}
+    <p>{{ super() }}</p>
+<h2>{{ _('Gestionnaire de questionnaire - Voir le questionnaire') }}</h2>
+
+    <form id="chargement_questionnaire" method="POST" action="consulter_questionnaire" enctype="multipart/form-data">
+        <input type="file" name="questionnaire">
+        <input type="submit" name="valider_questionnaire" value="{{ _('Valider le chargement du fichier') }}">
+    </form>
+    <div id="questionnaire">
+        {% if message == "ici" %}
+            {% set index = 1 %}
+            {% for question in questionnaire %}
+
+                <div id='question_{{ index }}'>
+                    <p>{{ _('Question ') }}{{ index }} : {{ question.question }}</p>
+                {% set index_reponse = 1 %}
+                {% for proposition in question.propositions %}
+
+                    <p> {{ _('Réponse ') }}{{ index_reponse }} - {{ proposition.reponse }} : {{ proposition.poids }}</p>
+                    {% set index_reponse = index_reponse + 1 %}
+                {% endfor %}
+                </div>
+            {% set index = index + 1 %}
+            {% endfor %}
+        {% elif message == "erreur" %}
+            <p>{{ _('Erreur, veuillez vous adresser au concepteur de cette application.') }}</p>
+        {% elif message == "debut" %}
+        <p></p>
+        {% endif %}
+
+    </div>
+    <script type="text/javascript">
+    //        $n_questions_generes = 0;
+    //        function generer_questionnaire(questionnaire)
+    //        {
+    //            var nombre_questions = questionnaire.length;
+    //            $.each(questionnaire, function(index, value){
+    //                $n_questions_generes ++;
+    //                $("div#questionnaire").append("<div id='question_"+index+"'><p>"+value["question"]+"</p></div>");
+    //                $.each(value["propositions"], function(index_reponse, value_reponse){
+    //                    $("div#question_"+index).append("<p><input type='radio' name='question_"+index+"' value='"+value_reponse["poids"]+"'> : "+index_reponse["reponse"]+"</p>")
+    //                });
+    //            });
+    //            $("<div id=''> </div>")
+    //        }
+    //      generer_questionnaire();
+        </script>
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+{% endblock %}

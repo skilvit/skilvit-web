@@ -1,0 +1,28 @@
+{% extends "praticien/ses_patients/index_gestionnaire_patient.html" %}
+
+{% block content %}
+    {{ super() }}
+    <h2>{{ _("Envoyer un message") }}</h2>
+
+    {% if patient %}
+        <p>Destinataire : {{ patient.prenom }} {{ patient.nom }}</p>
+    {% endif %}
+    <div class="col-11">
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="object-message">{{ _('Sujet') }} :</label> <input type="text" name="sujet-message" id="sujet-message" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="body-message">{{ _('Corps') }} : </label>
+                <textarea  class="form-control" name="corps-message" id="corps-message" style="height: 200px"> </textarea>
+            </div>
+
+        <input type="submit" value="Envoyer" class="btn btn-primary">
+
+        </form>
+    </div>
+
+
+
+{% endblock %}

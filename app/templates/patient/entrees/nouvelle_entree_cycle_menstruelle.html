@@ -1,0 +1,23 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+
+{% block content %}
+    <h2>
+        {{ _('Nouvelle fiche cycle menstruelle') }}
+    </h2>
+    <form method="post" action="">
+        <label>Catégories</label>
+        <select>
+            {% set categories = ["début", "fin"] %}
+            {% for categorie in categories %}
+                <option value="{{ categorie }}">{{ categorie }}</option>
+            {% endfor %}
+        </select>
+        <p><input type="number" name="douleur" min="0" max="10"></p>
+        <p><input type="submit" class="btn btn-primary"></p>
+    </form>
+
+
+
+
+    {{ super() }}
+{% endblock %}

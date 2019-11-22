@@ -1,0 +1,2 @@
+chemin_base_donnees:static\\database.db
+champs:Entree,prise_medicament

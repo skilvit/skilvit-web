@@ -1,0 +1,173 @@
+{% extends "praticien/ses_patients/index_gestionnaire_patient.html" %}
+{% from "macros/afficher_entrees.html" import afficher_entrees_pour_praticien %}
+{% block content %}
+    {{ super() }}
+    <h2>{{ _('Gestionnaire des patients') }}</h2>
+    <div class="row" style="padding: 12px">
+        <form action="" method="post">
+            <button name="analyse_patient" class="btn btn-primary isolement">{{ _('Analyser patient') }}</button>
+        </form>
+        <form action="" method="post">
+            <button name="contacter_patient" class="btn btn-primary isolement">{{ _('Contacter patient') }}</button>
+        </form>
+        <form action="" method="post">
+            <button name="suppression_patient" class="btn btn-primary isolement">{{ _('Supprimer patient') }}</button>
+        </form>
+{#        <form action="" method="post">#}
+        <a href="{{ url_for("main.afficher_fiches_seances", index=patient.get_id()) }}">
+            <button name="ajouter_fiche_seance" id="ajouter_fiche_seance" class="btn btn-primary isolement">{{ _('Fiches séances') }}</button>
+        </a>
+        <a href="{{ url_for("main.afficher_anamnese_patient", index=patient.get_id()) }}">
+            <button name="afficher_anamnese_patient" id="afficher_anamnese_patient" class="btn btn-primary isolement">{{ _('Anamnèse') }}</button>
+        </a>
+{#        </form>#}
+{#        <form action="" method="post">#}
+{#        <button name="ajouter_commentaire" id="ajouter_commentaire" class="btn btn-primary isolement">{{ _('Ajouter commentaire') }}</button>#}
+{#        </form>#}
+    </div>
+     <div id="visualiation_fiches_entrees_pour_patients">
+
+        <ul class="list-group list_" style="height: 500px; overflow: auto">
+            {{ afficher_entrees_pour_praticien(entrees) }}
+        </ul>
+    </div>
+
+
+
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/truncate.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename="js/praticien/ses_patients/visualiser_patient.js") }}"></script>
+        <script type="text/javascript">
+        $(window).load(function () {
+            console.log('ok');
+            $.ajax({
+                    data :
+                        {
+                        entrees_ids: JSON.stringify($(".annotable").map(
+                            function()
+                            {
+                                return $(this).attr("name");
+                            }
+                    ).get()),
+                        patient_id: {{ patient.id }}
+                    },
+                    type : "POST",
+                    url: "{{ url_for('main.charger_commentaires_entrees') }}",
+                    success:
+                    function(data, statut)
+                    {
+                        {#console.log("MOUAIS");#}
+                        {#console.log(data);#}
+                        var i;
+                        for(i = 0; i < data.length; i++)
+                        {
+                            console.log(data[i].name);
+                            console.log(data[i].texte);
+                            var a_commntr = $('div[name="'+data[i].name+'"');
+                            a_commntr.after('<div class="commentaire" id="'+data[i].id_commentaire+'"><p>'+data[i].texte+
+                                '<button class="close-remove-comment" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button></p></div>');
+
+                        }
+                        remove_comment();
+
+                    }
+                });
+        });
+
+        function remove_comment()
+        {
+            $(".close-remove-comment").on("click", function(){
+
+            var comment_id = $(this).closest("div").attr("id");
+            console.log(comment_id);
+            $.ajax({
+                data:
+                    {
+                        comment_id: comment_id,
+                        patient_id: {{ patient.id }}
+                    },
+                url: '{{ url_for("main.supprimer_commentaire_entree") }}',
+                type: 'POST',
+                success:
+                function(data, statut)
+                {
+                    console.log(data);
+                    $("#"+comment_id).remove()
+
+                }
+            }
+            )
+        });
+        }
+
+
+        function onClickAnamneseCommentaireAnnuler(id)
+        {
+            $(".annuler-anamnese-commentaire").click(
+                function()
+                {
+                    console.log($(this).attr("id"));
+                    console.log(id);
+                    $("#anamnese-"+id).remove();
+                }
+            );
+        }
+
+        function onClickAnamneseCommentaireValider(id)
+        {
+            $('.valider-anamnese-commentaire').click(
+            function()
+            {
+                var texte = $("#"+$(this).attr("id").substr(8) +" textarea").val();
+                console.log("contenu : "+texte);
+                $.ajax({
+                    data : {
+                        "texte": texte,
+                        "entree": $(this).attr("id"),
+                        "name": $(this).attr("name"),
+                        "patient_id": {{ patient.id }}
+                    },
+                    type : "POST",
+                    url: "{{ url_for('main.ajouter_commentaire_entree') }}",
+                    success:
+                    function(data, statut)
+                    {
+                        $('anamnese-'+$(this).attr("id")).remove();
+                        {#displayBlockAnamnese($(this).attr("id"), texte);#}
+                        console.log("success : "+data["success"]);
+                        console.log("success : "+data);
+                        console.log(data);
+                        $("#anamnese-"+id).remove();
+                        {#addComment(texte)#}
+                        // TODO add something next to the entry so that if we click on it, the comment will appear.
+                        console.log("texte : "+texte +" id : "+id +" et "+data["commentaire_id"]);
+                        addComment(texte, id, data["commentaire_id"]);
+                        remove_comment();
+                    }
+                });
+            }
+        );
+        }
+        {#function displayBlockAnamnese(id, texte)#}
+        {# { #}
+        {#    var block = $.createElement("div");#}
+        {#    block.attr("class", "anamnese");#}
+        {#    block.attr("id", id);#}
+        {#    var line = $.createElement("p");#}
+        {#    line.text(texte);#}
+        {#    block.append(line); #}
+            // Pouvoir sélectionner une entrée et ajouter un commentaire par dessus.
+            // Pouvoir aussi sélectionner entre les entrées pour ajouter des commentaires indépendants
+            // Un commentaire doit s'écrire dans une petite fenêtre surplonbant le texte ou une autre page où dès
+            // qu'on valide ou annule, on revient à l'état précédent (là où on était exactement).
+
+        //https://css-tricks.com/snippets/jquery/make-entire-div-clickable/
+        </script>
+{% endblock %}

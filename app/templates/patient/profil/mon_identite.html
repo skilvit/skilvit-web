@@ -1,0 +1,13 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+
+    <h2>{{ _('Mon profil') }}</h2>
+    <p>{{ _('Prénom : ') }}{{ patient.prenom }} {{ _(' Nom : ') }}{{ patient.nom }}</p>
+    <p>{{ _('Sexe : ') }}{{ patient.sexe.name }}</p>
+    <p>{{ _('Adresse email : ') }}{{ patient.email}}</p>
+
+    <a href="{{ url_for("main.creer_et_voir_anamnese") }}"><button class="btn btn-secondary">{{ _('Anamnèse') }}</button></a>
+
+    {{ super() }}
+{% endblock %}

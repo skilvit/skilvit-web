@@ -1,0 +1,65 @@
+{% extends "motif_principal_bs.html" %}
+{% from "macros/afficher_activite_physique.html" import afficher_activite_physique_praticien %}
+{% from "macros/afficher_alimentation.html" import afficher_alimentation_praticien %}
+{% from "macros/afficher_situation.html" import afficher_situation_praticien %}
+{% from "macros/afficher_prise_medicament.html" import afficher_prise_medicament_praticien %}
+{% from "macros/afficher_sommeil.html" import afficher_sommeil_praticien %}
+
+{% block content %}
+    <h2>{{ _('Mise en forme du suivi') }}</h2>
+
+        <div id="visualiation_fiches_entrees_pour_patients">
+
+        <ul class="list_ sortable" style="width: 600px; height: 500px; overflow: auto">
+
+            {% for ligne in lignes %}
+                <li>
+                    {% set indice = loop.index - 1%}
+{#                        <p>{{ ligne.type }} - {{ indice }}</p>#}
+{#                    <p>{{ bizarre }}</p>#}
+                    {% if ligne.type == "situation" %}
+                        {{ afficher_situation_praticien(ligne) }}
+
+                    {% elif ligne.type == "prise_medicament" %}
+                        {{ afficher_prise_medicament_praticien(ligne) }}
+
+                    {% elif ligne.type == "sommeil" %}
+                        {{ afficher_sommeil_praticien(ligne) }}
+
+                    {% elif ligne.type == "alimentation" %}
+                        {{ afficher_alimentation_praticien(ligne) }}
+
+                    {% elif ligne.type == "activite_physique" %}
+                        {{ afficher_activite_physique_praticien(ligne) }}
+
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% block scripts %}
+        <script type="text/javascript" src="{{ url_for('static', filename='js/truncate.js') }}"></script>
+    {% endblock %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+
+
+
+        function truncateText(selector, maxLength) {
+        var element = document.querySelector(selector),
+            truncated = element.innerText;
+
+        if (truncated.length > maxLength) {
+                truncated = truncated.substr(0,maxLength) + '...';
+            }
+            return truncated;
+        }
+        //You can then call the function with something like what i have below.
+        $(".texte_pas_long").innerText = truncateText('.texte_pas_long', 100);
+
+
+        $( ".sortable" ).sortable().disableSelection(;
+    </script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>
+        {% if inscription_validee %}{{ _('Inscription validée') }}{% else %}{{ _("Demande d'inscription confirmée") }}{% endif %}
+    </h2>
+    {% if inscription_validee %}
+        <p class="important">{{ _("Vous êtes inscrits sur notre application web. Vous pouvez dorénavant l'utiliser pour vous.") }}</p>
+    {% else %}
+        <p class="important">{{ _("Une demande de validation de l'inscription a été envoyée sur votre boîte électronique.") }}</p>
+    {% endif %}
+
+{#    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>#}
+{#    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>#}
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>-->
+{#    <script>#}
+{#        window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.min.js') }}">\x3C/script>')#}
+{#    </script>#}
+{#    <script>#}
+{##}
+{#    </script>#}
+    {{ super() }}
+{% endblock %}

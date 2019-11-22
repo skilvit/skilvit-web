@@ -1,0 +1,150 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import script_choisir_heure, script_choisir_date %}
+
+{% block head %}
+    {{ super() }}
+    {% block metas %}
+        {{ super() }}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% endblock %}
+    {% block styles -%}
+        {{ super() }}
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" >
+        {#        <style>#}
+        {#            #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }#}
+        {#        </style>#}
+
+          <link rel="stylesheet" href="{{ url_for('static', filename='css/tempusdominus-bootstrap-4.min.css') }}" />
+    {% endblock %}
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon-32x32.png') }}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon-16x16.png') }}" sizes="16x16" />
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+
+{% endblock %}
+
+{% block body %}
+    {% block navbar %}
+        {{ super() }}
+        <div class="navbar navbar-default fixed-top navbar-expand-lg navbar-dark bg-primary">
+        {#        <div class="container-fluid">#}
+            <div class="container">
+                <div class="navbar-header">
+                    <h1 style="margin: 0;font-weight: normal;font-size: 42px;color: #ffffff;">
+                        <b>
+                        {% block title %}
+                            SKILVIT
+                        {% endblock %}
+                        </b>
+                    </h1>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav nav-pills mr-auto">
+                        <li class="active nav-item" >
+                          <a class="nav-link" href="/">{{ _('Accueil') }}</a>
+                        </li>
+                        {% if "pseudo" in session %}
+                            <li class="nav-item active" >
+                                <a class="nav-link" href="{{ url_for('main.afficher_index_praticien') }}">{{  _('Menu principal') }}</a>
+                            </li>
+                        {% elif "pseudo_patient" in session %}
+                            <li class="nav-item active" >
+                                <a class="nav-link" href="{{ url_for('main.afficher_menu_principal_patient') }}">{{  _('Menu principal') }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item active" >
+                                <a class="nav-link" href="{{ url_for('main.connecter_praticien') }}">{{ _('Praticien') }}</a>
+                            </li>
+                            <li class="nav-item active" >
+                                <a class="nav-link" href="{{ url_for('main.connecter_patient') }}">{{ _('Patient') }}</a>
+                            </li>
+{#                            <li class="nav-item active" >#}
+{#                                <a class="nav-link" href="{{ url_for('main.creer_nouveau_praticien') }}">{{ _('Nouveau praticien') }}</a>#}
+{#                            </li>#}
+{#                            <li class="nav-item active" >#}
+{#                                <a class="nav-link" href="{{ url_for('main.creer_nouveau_patient') }}">{{ _("Nouveau patient") }}</a>#}
+{#                            </li>#}
+                        {% endif %}
+                        <li class="nav-item active" >
+                            <a class="nav-link" href="{{ url_for('main.a_propos') }}">{{ _("À propos") }}</a>
+                        </li>
+                        <li class="nav-item active" >
+                            <a class="nav-link" href="{{ url_for('main.contact') }}">{{ _("Contact") }}</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav nav-pills ml-auto">
+                        {% if "pseudo_patient" in session %}
+                        <li class="nav-item active" >
+                            <a class="nav-link" href="{{ url_for('main.deconnecter_patient') }}">{{ _('Déconnexion') }}</a>
+                        </li>
+                        {% endif %}
+                        {% if "pseudo" in session %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url_for('main.deconnecter_praticien') }}">{{ _('Déconnexion') }}</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div id="flash-message" class="alert alert-info alert-dismissible fade show" role="alert"
+                     style="display: none; position: absolute; left: 0; width: 100%;
+                     list-style-type: square;">
+                    <div style="padding-bottom: 10px;">
+                        {% for message in messages %}
+                            <p>
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+    {% endblock %}
+
+    <div class="page">
+        <div class="container">
+        {% block content %}
+            {{ super() }}
+            <form method="post" action="/">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            </form>
+        {% endblock %}
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/flash.js') }}"></script>
+<!--    <script type="text/javascript" src="{{ url_for('static', filename='js/moment-with-locales.min.js') }}"></script>-->
+<!--    <script type="text/javascript" src="{{ url_for('static', filename='js/moment-timezone-with-data.min.js') }}"></script>-->
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!--             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>-->
+
+    {% block scripts %}
+{#        {{ super() }}#}
+    {% endblock %}
+    {% block footer %}
+        <footer>Contact : skilvitapp@gmail.com</footer>
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Non connecté') }}</h2>
+        <p class="important">{{ _("Vous n'avez pas le droit d'accéder à cette page parce que vous n'êtes pas connecté.") }}</p>
+
+    {{ super() }}
+
+{% endblock %}

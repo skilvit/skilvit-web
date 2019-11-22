@@ -1,0 +1,30 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date_heure with context %}
+
+{% block content %}
+    <h2>{{ form.titre }} </h2>
+    <div class="row">
+        <div class="col-8">
+            <div id="creation_fiche_entree_pour_patients" class ="form-row">
+                <form id="creation_fiche_entree_pour_patients_form" name="creation_fiche_entree_pour_patients_form" method="POST">
+                    {{ form.csrf_token }}
+
+                    {{ choisir_date_heure(maintenant.jour, maintenant.mois, maintenant.annee, maintenant.heure, maintenant.minute) }}
+
+                    {{ wtf.form_field(form.situation) }}
+                    {{ wtf.form_field(form.emotions_sensations) }}
+                    {{ wtf.form_field(form.intensite) }}
+                    {{ wtf.form_field(form.pensees) }}
+                    {{ wtf.form_field(form.comportement) }}
+                    {{ wtf.form_field(form.enregistrement_entree) }}
+
+{#            {{ wtf.quick_form(form) }}#}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{ super() }}
+
+{% endblock %}

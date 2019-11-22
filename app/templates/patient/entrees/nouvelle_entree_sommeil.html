@@ -1,0 +1,30 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date_heure %}
+
+{% block content %}
+    {{ super() }}
+    <h2>
+        {{ _('Nouvelle fiche sommeil') }}
+    </h2>
+    {% if message != "" %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div id="creation_fiche_repas_pour_patients" class="col-8">
+        <form id="creation_fiche_repas_pour_patients_form" method="POST">
+            {{ form.csrf_token }}
+
+            <p>{{ _('Maintenant') }}</p>
+            <p>{{ choisir_date_heure(maintenant.jour, maintenant.mois, maintenant.annee, maintenant.heure, maintenant.minute) }}</p>
+
+            {{ wtf.form_field(form.evenement) }}
+
+            <p>
+                {{ choisir_date_heure(date_heure_evenement.jour, date_heure_evenement.mois, date_heure_evenement.annee, date_heure_evenement.heure, date_heure_evenement.minute, "evenement") }}
+            </p>
+            {{ wtf.form_field(form.commentaire) }}
+            {{ wtf.form_field(form.enregistrement_sommeil) }}
+
+        </form>
+    </div>
+{% endblock %}

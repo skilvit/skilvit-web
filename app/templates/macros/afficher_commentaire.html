@@ -1,0 +1,11 @@
+{% macro afficher_commentaire(classe, id, themes, vocabulaire, mots, mots_choisis, themes_choisis) %}
+
+
+    <form method="post" action="analyse_fichier_suivi" class="{{ classe }}">
+        <textarea rows="10" cols="30" name="texte_commentaire" id="texte_commentaire"></textarea>
+    </form>
+
+
+
+
+{% endmacro %}

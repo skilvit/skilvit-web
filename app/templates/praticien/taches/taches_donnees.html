@@ -1,0 +1,20 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Tâches données') }}</h2>
+    {% if taches | length > 0 %}
+
+        {% for patient_id in taches %}
+            <p>{{ patients[patient_id].prenom }} {{ patients[patient_id].nom }} </p>
+            <ul>
+                {% for tache in taches[patient_id] %}
+                    <li>{{ tache["titre"] }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>Vous n'avez attribué aucune tâche.</p>
+    {% endif %}
+
+    {{ super() }}
+{% endblock %}

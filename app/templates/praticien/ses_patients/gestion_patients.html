@@ -1,0 +1,49 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    {{ super() }}
+    <div style="padding-bottom: 5px;">
+        <h2>{{ _('Gestionnaire des praticiens') }}</h2>
+        {% if patients | length > 0 %}
+            <p>{{ _('Liste des patient pour lesquels vous avez accès à leurs données') }}</p>
+            <ul id="mes_patients">
+                {% for patient in patients %}
+
+                    <li><a href="{{ url_for('main.visualiser_patient', index=patient.id) }}">{{ patient.prenom }} {{ patient.nom }}</a>
+    {#                    <button id="patient_{{ patient.email }}_analyse_manuelle">Analyser ses entrées manuellement</button>#}
+    {#                    <button id="patient_{{ patient.email }}_analyse_automatique">Analyser ses entrées automatiquement</button>#}
+    {#                    <button id="patient_{{ patient.email }}_donner_taches">Donner des tâches</button>#}
+    {#                    <button id="patient_{{ patient.email }}_ecrire_compte_rendu">Ecrire compte-rendu</button>#}
+                    </li>
+                {% endfor %}
+
+            </ul>
+    {% else %}
+            <p>{{ _("Vous n'avez aucun patient.") }}</p>
+    {% endif %}
+    </div>
+
+    {% if nouveaux_patients | length > 0 %}
+    <p>{{ _('Liste des nouveaux patients') }}</p>
+        <ul id="nouveaux_patients">
+            {% for nouveau_patient in nouveaux_patients %}
+                <li id="{{ nouveau_patient.email }}">
+                    <button class="acceptation_patient btn btn-primary" id="{{ nouveau_patient.email }}">
+                        {{ _('Accepter : ') }}{{ nouveau_patient.prenom }} {{ nouveau_patient.nom }} {{ nouveau_patient.email }}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{ _("Vous n'avez aucun nouveau patient.") }}</p>
+    {% endif %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/gestion_patients.js') }}">
+        </script>
+
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+
+
+{% endblock %}

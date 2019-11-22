@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Coucou</p>
+    <div id="iframeContainer">
+
+    </div>
+    <script src='/static/pdfmake.min.js'></script>
+    <script src='/static/vfs_fonts.js'></script>
+{#    <script type='text/javascript' src="file:///android_asset/pdfmake.min.js">#}
+
+
+{#    </script>#}
+{#    <script type='text/javascript' src="file:///android_asset/vfs_fonts.js">#}
+
+{#                        </script>#}
+
+    <script type="text/javascript">
+        var docDefinition = {{ data|safe }};
+        const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+     pdfDocGenerator.getDataUrl( function (dataUrl){
+            const targetElement = document.querySelector('#iframeContainer');
+            const iframe = document.createElement('iframe');
+
+            iframe.src = dataUrl;
+            iframe.width = "250";
+            iframe.height = "400";
+            targetElement.appendChild(iframe);
+        });
+     </script>
+
+</body>
+</html>

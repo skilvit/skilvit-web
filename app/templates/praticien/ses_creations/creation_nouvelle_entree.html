@@ -1,0 +1,27 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Gestionnaire des praticiens') }}</h2>
+        <p>{{ _('Liste des patient pour lesquels vous avez accès à leurs données') }}</p>
+        <ul id="mes_patients">
+            {% for patient in patients %}
+                <li>{{ patient.prenom }} {{ patient.nom] }}
+                    <button id="patient_{{ patient.addresse_email }}_analyse_manuelle" class="btn btn-primary">{{ _('Analyser ses entrées manuellement') }}</button>
+                    <button id="patient_{{ patient.addresse_email }}_analyse_automatique" class="btn btn-primary">{{ _('Analyser ses entrées automatiquement') }}</button>
+                    <button id="patient_{{ patient.addresse_email }}_donner_taches" class="btn btn-primary">{{ _('Donner des tâches') }}</button>
+                    <button id="patient_{{ patient.addresse_email }}_ecrire_compte_rendu" class="btn btn-primary">{{ _('Ecrire compte-rendu') }}</button>
+                </li>
+            {% endfor #}
+
+        </ul>
+
+
+    <p>{{ _('Liste des nouveaux patients') }}</p>
+    <ul id="nouveaux_patients">
+        {% for nouveau_patient in nouveaux_patients %}
+            <li> <button id="patient_{{ nouveau_patient.addresse_email }}" class="btn btn-primary">{{ _('Accepter : ') }} {{ nouveau_patient.prenom }} {{ nouveau_patient.nom }}</button></li>
+        {% endfor %}
+    </ul>
+
+    {{ super() }}
+{% endblock %}

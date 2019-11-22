@@ -1,0 +1,25 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+
+
+{% from "macros/afficher_entrees.html" import afficher_entrees %}
+
+{% block content %}
+    {{ super() }}
+    <h2>
+        {{ _('Visualiser ses entrées') }}
+    </h2>
+    {# TODO Visualiser une courbe avec le niveau d'intensité des situations. #}
+    <div id="visualiation_fiches_entrees_pour_patients">
+
+        <ul class="list_" style="overflow: auto">
+            {{ afficher_entrees(lignes) }}
+        </ul>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/truncate.js') }}"></script>
+    {% block scripts %}
+        {{ super() }}
+
+
+    {% endblock %}
+
+{% endblock %}

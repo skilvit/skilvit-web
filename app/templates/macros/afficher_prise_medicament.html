@@ -1,0 +1,35 @@
+{% macro afficher_prise_medicament_indice_court(indice, pm) %}
+    {% if pm.date_heure %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ pm.date_heure }}</a>
+    {% else %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ pm.date }} {{ pm.heure }}</a>
+    {% endif %}
+
+{#    <a href="/tcc/patient/visualiser_entree/{{ indice }}"> {{ pm.date }} {{ pm.heure }}</a>#}
+    <p>Prise de médicament</p>
+    <p class="texte_pas_long">{{ _('Médicament : ') }}{{ pm.medicament }}</p>
+    <p class="texte_pas_long">{{ _('Situation : ') }}{{ pm.dosage }}</p>
+
+{% endmacro %}
+
+{% macro afficher_prise_medicament_praticien(pm) %}
+    <p class="important">{{ _('Prise de médicament') }}</p>
+    <ul>
+
+        {% if pm.date_heure %}
+            <li> {{ _('Date et heure :') }}{{ pm.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date :') }} {{ pm.date }} {{ _('et heure : ') }} {{ pm.heure }}</li>
+        {% endif %}
+        <li>{{ _('Médicament : ') }}{{ pm.medicament }}</li>
+        <li>{{ _('Situation : ') }}{{ pm.dosage }}</li>
+    </ul>
+{% endmacro %}
+
+{% macro afficher_prise_medicament(pm) %}
+    <ul>
+        <li> {{ _('Date :') }} {{ pm.date }} {{ _('et heure : ') }} {{ pm.heure }}</li>
+        <li>{{ _('Médicament : ') }}{{ pm.medicament }}</li>
+        <li>{{ _('Situation : ') }}{{ pm.dosage }}</li>
+    </ul>
+{% endmacro %}

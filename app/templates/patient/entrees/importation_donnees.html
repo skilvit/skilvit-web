@@ -1,0 +1,15 @@
+{% extends "motif_principal_bs.html" %}
+{% block content %}
+    <h2>{{ _("Importation de ses données") }}</h2>
+
+    <form method="post" name="importation_donnees">
+        <p><input type="file" name="fichier_donnees" class="btn btn-primary form-control-file"/></p>
+        <p><input type="submit" value="Importer" class="btn btn-primary"/></p>
+    </form>
+
+    {% if message == "envoyé" %}
+        <p class="important">{{ _("Le fichier a été correctement importé.") }}</p>
+    {% endif %}
+
+    {{ super() }}
+{% endblock %}

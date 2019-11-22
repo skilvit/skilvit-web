@@ -1,0 +1,19 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Elément de suivi') }}</h2>
+    <ul>
+        <li>{{ _('Type : ') }}{{ element["type"] }}</li>
+        <li>{{ _('Date : ') }}{{ element["date"] }} et heure : {{ element["heure"] }}</li>
+        <li>{{ _("Intensité de l'événement : ") }}{{ element["intensite"] }}</li>
+        <li>{{ _('Situation : ') }}{{ element["situation"] }}</li>
+        <li>{{ _('Emotions et sensations du moment : ') }}{{ element["emotions_sensations"] }}</li>
+        <li>{{ _('Comportement : ') }}{{ element["comportement"] }}</li>
+
+        <li>{{ _('Pensées : ') }}{{ element["pensees"] }}</li>
+        <li>{{ _('Taux de croyance : ') }}{{ element["taux_croyance"] }}</li>
+        <li>{{ _('Pensées alternatives : ') }}{{ element["pensee_alternative"] }}</li>
+        <li>{{ _('Taux de croyance actualisé : ') }}{{ element["taux_croyance_actualise"] }}</li>
+    </ul>
+    {{ super() }}
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Donner des tâches') }}</h2>
+    {% if message == "valide" %}
+        <p>{{ _('Les tâches ont bien été envoyées.') }}</p>
+    {% endif %}
+    {% if patients | length > 0 %}
+        <form id="taches_form" method="post">
+            <p><label>{{ _('Liste de vos patients') }}</label></p>
+            <p>
+                <select>
+                    {% for patient in patients %}
+                        <option name="{{ patient.id }}" value="{{ patient.prenom }} {{ patient.nom }}">{{ patient.prenom }} {{ patient.nom }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+
+
+
+        <div id="taches">
+
+
+        </div>
+    </form>
+    <form id="validation_taches">
+    <button type="button" id="ajout_tache" class="btn btn-primary isolement">{{ _('Ajouter une tâche') }}</button>
+    <button type="button" id="supprimer_taches" class="btn btn-primary isolement">{{ _('Remettre à zéro') }}</button>
+        <input type="submit" class="btn btn-primary isolement">
+    </form>
+        {% else %}
+        <p>Vous n'avez aucun patient.</p>
+    {% endif %}
+
+
+    <script type="text/javascript">
+            $n_taches = 0;
+
+            $("button#ajout_tache").bind("click", function(){
+                $n_taches ++;
+                var bloc_tache = "<div class='tache' id='tache"+$n_taches+"'>"+
+                        "Tâche "+$n_taches+" : <input width='150px' height='50px' type='text' id='tache_"+$n_taches+"' name='tache_"+$n_taches+"' class='form-control'></p></div>";
+                $('div#taches').append(bloc_tache);
+            });
+        //        $("#validation_taches").on("submit", function () {
+        //             $.ajax({
+        //                url: "/tcc/ajax/valider_taches",
+        //                data: $('#taches_form').serialize(),
+        //                type: "POST",
+        //                success: function (data, statut) {
+        //
+        //                }
+        //            });
+            $('#supprimer_taches').bind("click", function(){
+                $("div#taches").html("");
+                $n_taches = 0;
+            })
+        </script>
+
+
+    {% block scripts %}
+
+        {{ super() }}
+
+    {% endblock %}
+
+{% endblock %}

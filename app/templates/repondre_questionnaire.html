@@ -1,0 +1,68 @@
+{% extends "motif_principal_bs.html" %}
+{% block title %}Gestionnaire de questionnaire{% endblock %}
+
+{% block body %}
+    <h2>Répondre au questionnaire</h2>
+    {% if message == "ici" %}
+        <form id="chargement_questionnaire"  method="POST" enctype="multipart/form-data">
+            <input type="file" name="questionnaire">
+            <p><input type="submit" name="charger_fichier" value="Charger le fichier"></p>
+        </form>
+    {% endif %}
+
+    <form id="questionnaire_form">
+        <div id="questionnaire">
+            {% if message == "ici" %}
+                {% set index = 1 %}
+                {% for question in questionnaire %}
+                    <div id='question_{{ index }}'><p>
+                        {{ question["question"] }}
+                    </p></div>
+                    {% for proposition in question["propositions"] %}
+                        <p><input type='radio' name='question_{{ index }}' value='{{ proposition["poids"] }}'> : {{ proposition["reponse"] }}</p>
+                    {% endfor %}
+                    {% set index = index + 1 %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </form>
+    <form id="validation_questionnaire" method="POST">
+        <input type="submit" name="valider_score">
+        <!--<a id="validation_questionnaire" download="" target="_blank"><button>Validation</button></a>-->
+    </form>
+
+    <script type="text/javascript">
+        $n_questions_generes = 0;
+        function generer_questionnaire(questionnaire)
+        {
+            var nombre_questions = questionnaire.length;
+            $.each(questionnaire, function(index, value){
+                $n_questions_generes ++;
+                $("div#questionnaire").append("<div id='question_"+index+"'><p>"+value["question"]+"</p></div>");
+                $.each(value["propositions"], function(index_reponse, value_reponse){
+                    $("div#question_"+index).append("<p><input type='radio' name='question_"+index+"' value='"+value_reponse["poids"]+"'> : "+index_reponse["reponse"]+"</p>")
+                });
+            });
+        }
+
+        jQuery.download = function(url, key, data){
+            // Build a form
+            var form = $('<form></form>').attr('action', url).attr('method', 'post');
+            // Add the one key/value
+            form.append($("<input></input>").attr('type', 'hidden').attr('name', key).attr('value', data));
+            //send request
+            form.appendTo('body').submit().remove();
+        };
+        function questionnaire_plein(){
+
+        }
+    </script>
+    {% block scripts %}
+        {{ super() }}
+
+
+
+        {% endblock %}
+
+{% endblock %}

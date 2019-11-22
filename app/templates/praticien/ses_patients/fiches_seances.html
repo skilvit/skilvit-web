@@ -1,0 +1,140 @@
+{% extends "praticien/ses_patients/index_gestionnaire_patient.html" %}
+{% block content %}
+    {{ super() }}
+    <h2>Vos fiches consultation/séances</h2>
+    <a href="{{ url_for("main.ajouter_fiche_seance", index=patient.id) }}">
+        <button class="btn btn-secondary isolement">{{ _("Créer une fiche consultation/séance") }}</button>
+    </a>
+    <ul class="list-group">
+    {% for fiche_seance in fiches_seances %}
+        <li class="list-group-item">
+            <div id="{{ fiche_seance.id }}">
+                <p>{{ fiche_seance.date_heure.strftime("%H:%M %d/%m/%Y") }}
+                    <button class="btn modify-fiche" aria-label="Modify">
+                        <span aria-hidden="true">{{ _("Modifier") }}</span>
+                    </button>
+                    <button class="btn close-remove-fiche" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </p>
+                <p class="contenu">{{ fiche_seance.contenu }}</p>
+
+            </div>
+        </li>
+    {% else %}
+
+        <li>{{ _("Il n'y a aucune fiche pour le patient : ") }}{{ patient.prenom }} {{ patient.nom }}</li>
+
+    {% endfor %}
+    </ul>
+
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+
+    <script type="text/javascript">
+
+            $(".close-remove-fiche").click(function () {
+                var fiche_id = $(this).closest("div").attr("id");
+                console.log(fiche_id);
+                $.ajax({
+                    data:
+                        {
+                            fiche_id: fiche_id,
+                            patient_id: {{ patient.id }}
+                        },
+                    url: '{{ url_for("main.supprimer_fiche_seance") }}',
+                    type: 'POST',
+                    success:
+                    function(data, statut)
+                    {
+                        console.log(data);
+                        $("#"+fiche_id).closest('li').remove()
+
+                    }
+                }
+                )
+            });
+
+            $(".modify-fiche").click(function(){
+                var fiche_id = $(this).closest("div").attr("id");
+                 {#$("#"+fiche_id).appendTo("") #}
+                var fiche_div = $("#"+fiche_id);
+                 var text = fiche_div.find("p.contenu").text();
+                 console.log(text);
+                var modif = makeModificationView(fiche_id, text);
+                fiche_div.append(modif);
+
+             });
+
+            function makeModificationView(id, text)
+            {
+                /*<div class="commentaire" id="'+data[i].id_commentaire+'"><p>'+data[i].texte+
+                                '<button class="close-remove-comment" aria-label="Close">' +
+                                '<span aria-hidden="true">&times;</span>' +
+                                '</button></p></div>*/
+                var modification_div = document.createElement('div');
+                var modification_textarea = document.createElement('textarea');
+                var modification_cancel = document.createElement("button");
+                var modification_validate = document.createElement("button");
+
+
+                $(modification_textarea).val(text);
+                $(modification_cancel)
+                    .text("Annuler")
+                    .attr("class", "btn isolement")
+                    .click(function()
+                    {
+                        $("#"+"modification-"+id).remove();
+                    });
+                $(modification_validate)
+                    .text("Valider")
+                    .attr("class", "btn isolement")
+                    .click(function()
+                    {
+                        modifier_fiche(id, $(modification_textarea).val());
+                        $("#"+"modification-"+id).css("backgroundColor", "blue");
+                        {#$("#"+"modification-"+id).remove();#}
+                    });
+
+
+                $(modification_div)
+                    .attr("class", "modification_fiche")
+                    .attr("id", "modification-"+id)
+                    .append(modification_textarea);
+
+                $(modification_div)
+                    .append("<p></p>");
+                $(modification_div)
+                    .append(modification_cancel);
+                $(modification_div)
+                    .append(modification_validate);
+                return modification_div;
+            }
+
+            modifier_fiche = function(id, texte)
+            {
+                $.ajax({
+                    data:
+                        {
+                            patient_id: {{ patient.get_id() }},
+                            fiche_id: id,
+                            texte: texte
+
+                        },
+                    url: '{{ url_for("main.modifier_fiche_seance") }}',
+                    type: "POST",
+                    success:
+                        function(data, statut)
+                        {
+                            console.log("data", data);
+                            console.log("texte", texte);
+                            $("#"+id+" .contenu").text(texte);
+                        }
+
+                });
+            };
+
+        </script>
+{% endblock %}

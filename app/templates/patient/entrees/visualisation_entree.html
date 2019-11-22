@@ -1,0 +1,27 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+
+{% from "macros/afficher_situation.html" import afficher_situation %}
+{% from "macros/afficher_prise_medicament.html" import afficher_prise_medicament %}
+{% from "macros/afficher_sommeil.html" import afficher_sommeil %}
+{% from "macros/afficher_alimentation.html" import afficher_alimentation %}
+{% from "macros/afficher_activite_physique.html" import afficher_activite_physique%}
+
+{% block content %}
+
+    <h2>{{ _('Elément de suivi') }}</h2>
+
+    {% if element.type == "situation" %}
+        {{ afficher_situation(element) }}
+    {% elif element.type == "prise_medicament" %}
+        {{ afficher_prise_medicament(element) }}
+    {% elif element.type == "sommeil" %}
+        {{ afficher_sommeil(element) }}
+    {% elif element.type == "alimentation" %}
+        {{ afficher_alimentation(element) }}
+    {% elif element.type == "activite_physique" %}
+        {{ afficher_activite_physique(element) }}
+    {% endif %}
+
+    {{ super() }}
+
+{% endblock %}

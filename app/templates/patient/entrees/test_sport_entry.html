@@ -1,0 +1,16 @@
+{% extends "motif_principal_bs.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+    <!--<h1>Food Form</h1>-->
+
+    {% if message != "" %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-3">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+        {{ super() }}
+{% endblock %}

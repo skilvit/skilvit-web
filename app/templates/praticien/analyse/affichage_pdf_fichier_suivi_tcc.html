@@ -1,0 +1,28 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+
+    <div id="iframeContainer">
+
+    </div>
+    <script type='text/javascript' src='/static/pdfmake.min.js'></script>
+    <script type='text/javascript' src='/static/vfs_fonts.js'></script>
+    <script type="text/javascript">
+        var docDefinition = {{ data|safe }};
+        pdfMake.createPdf(docDefinition).open();
+        pdfMake.createPdf(docDefinition).download('optionalName.pdf');
+        pdfMake.createPdf(docDefinition).open();
+
+     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+     pdfDocGenerator.getDataUrl( function (dataUrl){
+            const targetElement = document.querySelector('#iframeContainer');
+            const iframe = document.createElement('iframe');
+
+            iframe.src = dataUrl;
+            iframe.width = "100%";
+            iframe.height = "400";
+            targetElement.appendChild(iframe);
+        });
+     </script>
+    {{ super() }}
+{% endblock %}

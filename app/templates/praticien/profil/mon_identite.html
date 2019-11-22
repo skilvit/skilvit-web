@@ -1,0 +1,18 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <div class="col-8">
+        <h2>{{ _('Mon profil') }}</h2>
+        <p>{{ _('Prénom : ') }}{{ praticien.prenom }} Nom : {{ praticien.nom }}</p>
+        <p>{{ _('Adresse email : ') }}{{ praticien.email}}</p>
+        <p>{{ _('Adresse postale : ') }}{{ praticien.rue}} {{ praticien.code_postal }} {{ praticien.ville }} {{ praticien.pays }}</p>
+
+        <p><a href="{{ url_for('main.recuperer_mes_donnees_praticien') }}"><button class="btn btn-primary">{{ _('Récupérer toutes mes données') }}</button></a></p>
+
+
+        <h5>{{ _('Suppression du compte') }}</h5>
+        <p><a href="{{ url_for('main.supprimer_compte_praticien') }}"><button class="btn btn-primary">{{ _('Supprimer le compte') }}</button></a></p>
+        {{ super() }}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,996 @@
+# French translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-01-14 00:14+0100\n"
+"PO-Revision-Date: 2018-12-31 14:37+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.5.0\n"
+
+#: app/main/forms.py:21
+msgid "fiche_inscription_patient"
+msgstr "Fiche d'inscription patient"
+
+#: app/main/forms.py:23
+msgid "bien_inscrit"
+msgstr "Bien inscript"
+
+#: app/main/forms.py:25 app/main/forms.py:52
+msgid "prenom"
+msgstr "Prénom"
+
+#: app/main/forms.py:27 app/main/forms.py:53
+msgid "nom"
+msgstr "Nom"
+
+#: app/main/forms.py:29
+msgid "sexe"
+msgstr "Sexe"
+
+#: app/main/forms.py:37 app/main/forms.py:57
+msgid "adresse_email"
+msgstr "Adresse email"
+
+#: app/main/forms.py:39 app/main/forms.py:74
+msgid "mot_de_passe"
+msgstr "Mot de passe"
+
+#: app/main/forms.py:41 app/main/forms.py:76
+msgid "meme_mot_de_passe"
+msgstr "Le même mot de passe"
+
+#: app/main/forms.py:43 app/main/forms.py:78
+msgid "valider"
+msgstr "Valider"
+
+#: app/main/forms.py:48
+msgid "fiche_inscription_praticien"
+msgstr "Fiche d'inscription praticien"
+
+#: app/main/forms.py:50
+msgid "demande_inscription_enregistree"
+msgstr "Demande d'inscription enregistrée"
+
+#: app/main/forms.py:55
+msgid "profession"
+msgstr "Profession"
+
+#: app/main/forms.py:62
+msgid "numero_telephone_mobile"
+msgstr "Numéro de téléphone"
+
+#: app/main/forms.py:64
+msgid "rue"
+msgstr "Rue"
+
+#: app/main/forms.py:66
+msgid "code_postale"
+msgstr "Code postale"
+
+#: app/main/forms.py:68
+msgid "ville"
+msgstr "Ville"
+
+#: app/main/forms.py:71
+msgid "pays"
+msgstr "Pays"
+
+#: app/main/forms.py:84 app/main/forms.py:91
+msgid "Adresse email"
+msgstr ""
+
+#: app/main/forms.py:85 app/main/forms.py:92
+msgid "Mot de passe"
+msgstr "Mot de passe"
+
+#: app/main/forms.py:86 app/main/forms.py:93
+msgid "Connexion"
+msgstr "Connexion"
+
+#: app/main/forms.py:123
+msgid "Nouvelle fiche activitÃ© physique"
+msgstr ""
+
+#: app/main/forms.py:124
+msgid "La fiche est bien enregistrÃ©e."
+msgstr ""
+
+#: app/main/forms.py:126
+msgid "Sport"
+msgstr ""
+
+#: app/main/forms.py:127
+msgid "DurÃ©e"
+msgstr ""
+
+#: app/main/forms.py:128
+msgid "DifficultÃ© ressentie"
+msgstr ""
+
+#: app/main/forms.py:129 app/main/forms.py:182 app/main/forms.py:194
+msgid "Enregistrer"
+msgstr ""
+
+#: app/main/forms.py:136
+#: app/templates/patient/entrees/nouvelle_entree_alimentation.html:7
+msgid "Nouvelle fiche repas"
+msgstr ""
+
+#: app/main/forms.py:138
+msgid "petit-dÃ©jeÃ»ner"
+msgstr ""
+
+#: app/main/forms.py:139
+msgid "dÃ©jeuner"
+msgstr ""
+
+#: app/main/forms.py:140
+msgid "goÃ»ter"
+msgstr ""
+
+#: app/main/forms.py:140
+msgid "dÃ®ner"
+msgstr ""
+
+#: app/main/forms.py:141
+msgid "grignotage"
+msgstr ""
+
+#: app/main/forms.py:142
+msgid "Contenu : "
+msgstr ""
+
+#: app/main/forms.py:143
+msgid "Enregistrer fiche repas"
+msgstr ""
+
+#: app/main/forms.py:164
+msgid "Nouvelle prise de mÃ©dicament"
+msgstr ""
+
+#: app/main/forms.py:166
+msgid "MÃ©dicament : "
+msgstr ""
+
+#: app/main/forms.py:167
+msgid "Dosage : "
+msgstr ""
+
+#: app/main/forms.py:168
+msgid "Enregistrer prise mÃ©dicament"
+msgstr ""
+
+#: app/main/forms.py:173
+#: app/templates/patient/entrees/nouvelle_entree_sommeil.html:7
+msgid "Nouvelle fiche sommeil"
+msgstr ""
+
+#: app/main/forms.py:175
+msgid "evenement_sommeil"
+msgstr ""
+
+#: app/main/forms.py:180
+msgid "Moment du sommeil"
+msgstr ""
+
+#: app/main/forms.py:181
+msgid "Commentaire"
+msgstr ""
+
+#: app/main/forms.py:189
+msgid "Donner la situation"
+msgstr ""
+
+#: app/main/forms.py:190
+msgid "Quelles Ã©motions et sensations ?"
+msgstr ""
+
+#: app/main/forms.py:191
+msgid "IntensitÃ© : "
+msgstr ""
+
+#: app/main/forms.py:192
+msgid "PensÃ©e : "
+msgstr ""
+
+#: app/main/forms.py:193 app/templates/macros/afficher_situation.html:26
+#: app/templates/macros/afficher_situation.html:40
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:11
+msgid "Comportement : "
+msgstr ""
+
+#: app/main/mail_manager.py:15 app/main/mail_manager.py:22
+msgid "Nouvelle connexion Ã  votre compte"
+msgstr ""
+
+#: app/main/mail_manager.py:29 app/main/mail_manager.py:37
+msgid "Demande de validation de votre inscription"
+msgstr ""
+
+#: app/main/mail_manager.py:45
+msgid "En attente de la validation de votre inscription"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:50
+#: app/templates/motif_principal_bs.html:58
+msgid "Déconnexion"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:53
+#: app/templates/motif_principal_bs.html:61
+msgid "Menu principal"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:65
+msgid "Connexion praticien"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:68
+msgid "Connexion patient"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:71
+msgid "Nouveau praticien"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:74
+msgid "Nouveau patient"
+msgstr ""
+
+#: app/templates/motif_principal_bs.html:77
+msgid "Contact"
+msgstr ""
+
+#: app/templates/page_inconnue.html:3
+msgid "Page inconnue"
+msgstr ""
+
+#: app/templates/page_inconnue.html:7
+msgid ""
+"La page que vous recherchez est incoonue. Revenez en arrière et "
+"réessayez. Si cela échoue, alors contactez le responsable du site."
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:8
+#: app/templates/macros/afficher_activite_physique.html:20
+#: app/templates/macros/afficher_activite_physique.html:29
+msgid "Sport : "
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:13
+msgid "Activité physique"
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:16
+#: app/templates/macros/afficher_glycemie.html:15
+#: app/templates/macros/afficher_prise_medicament.html:20
+#: app/templates/macros/afficher_sommeil.html:18
+msgid "Date et heure :"
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:18
+#: app/templates/macros/afficher_activite_physique.html:28
+#: app/templates/macros/afficher_glycemie.html:17
+#: app/templates/macros/afficher_glycemie.html:27
+#: app/templates/macros/afficher_prise_medicament.html:22
+#: app/templates/macros/afficher_prise_medicament.html:31
+#: app/templates/macros/afficher_sommeil.html:20
+#: app/templates/macros/afficher_sommeil.html:32
+msgid "Date :"
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:18
+#: app/templates/macros/afficher_activite_physique.html:28
+#: app/templates/macros/afficher_glycemie.html:17
+#: app/templates/macros/afficher_glycemie.html:27
+#: app/templates/macros/afficher_prise_medicament.html:22
+#: app/templates/macros/afficher_prise_medicament.html:31
+#: app/templates/macros/afficher_situation.html:21
+#: app/templates/macros/afficher_situation.html:36
+#: app/templates/macros/afficher_sommeil.html:20
+#: app/templates/macros/afficher_sommeil.html:32
+msgid "et heure : "
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:21
+#: app/templates/macros/afficher_activite_physique.html:30
+msgid "Durée : "
+msgstr ""
+
+#: app/templates/macros/afficher_activite_physique.html:22
+#: app/templates/macros/afficher_activite_physique.html:31
+msgid "Difficulté ressentie : "
+msgstr ""
+
+#: app/templates/macros/afficher_alimentation.html:14
+msgid "Alimentation"
+msgstr ""
+
+#: app/templates/macros/afficher_glycemie.html:6
+#: app/templates/macros/afficher_glycemie.html:19
+#: app/templates/macros/afficher_glycemie.html:28
+msgid "Glycémie : "
+msgstr ""
+
+#: app/templates/macros/afficher_glycemie.html:12
+msgid "Glycémie"
+msgstr ""
+
+#: app/templates/macros/afficher_prise_medicament.html:10
+#: app/templates/macros/afficher_prise_medicament.html:24
+#: app/templates/macros/afficher_prise_medicament.html:32
+msgid "Médicament : "
+msgstr ""
+
+#: app/templates/macros/afficher_prise_medicament.html:11
+#: app/templates/macros/afficher_prise_medicament.html:25
+#: app/templates/macros/afficher_prise_medicament.html:33
+#: app/templates/macros/afficher_situation.html:10
+#: app/templates/macros/afficher_situation.html:24
+#: app/templates/macros/afficher_situation.html:38
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:9
+msgid "Situation : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:8
+msgid "Evénement général"
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:9
+#: app/templates/macros/afficher_situation.html:23
+#: app/templates/macros/afficher_situation.html:37
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:8
+msgid "Intensité de l'événement : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:11
+#: app/templates/macros/afficher_situation.html:25
+#: app/templates/macros/afficher_situation.html:39
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:10
+msgid "Emotions et sensations du moment : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:19
+msgid "Date et heure : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:21
+#: app/templates/macros/afficher_situation.html:36
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:7
+msgid "Date : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:27
+#: app/templates/macros/afficher_situation.html:41
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:13
+msgid "Pensées : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:28
+#: app/templates/macros/afficher_situation.html:42
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:14
+msgid "Taux de croyance : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:29
+#: app/templates/macros/afficher_situation.html:43
+msgid "ensées alternatives : "
+msgstr ""
+
+#: app/templates/macros/afficher_situation.html:30
+#: app/templates/macros/afficher_situation.html:44
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:16
+msgid "Taux de croyance actualisé : "
+msgstr ""
+
+#: app/templates/macros/afficher_sommeil.html:10
+#: app/templates/macros/afficher_sommeil.html:15
+msgid "Sommeil"
+msgstr ""
+
+#: app/templates/macros/afficher_sommeil.html:11
+#: app/templates/macros/afficher_sommeil.html:25
+#: app/templates/macros/afficher_sommeil.html:35
+msgid "Commentaire : "
+msgstr ""
+
+#: app/templates/macros/afficher_sommeil.html:23
+#: app/templates/macros/afficher_sommeil.html:33
+msgid "Evénement : "
+msgstr ""
+
+#: app/templates/macros/afficher_sommeil.html:24
+#: app/templates/macros/afficher_sommeil.html:34
+msgid "Date et heure de l'événement : "
+msgstr ""
+
+#: app/templates/macros/macro_datetime.html:3
+#: app/templates/macros/macro_datetime.html:56
+msgid "Jour"
+msgstr ""
+
+#: app/templates/macros/macro_datetime.html:12
+#: app/templates/macros/macro_datetime.html:65
+msgid "Mois"
+msgstr ""
+
+#: app/templates/macros/macro_datetime.html:23
+#: app/templates/macros/macro_datetime.html:76
+msgid "Année"
+msgstr ""
+
+#: app/templates/macros/macro_datetime.html:34
+msgid "Heure"
+msgstr ""
+
+#: app/templates/macros/macro_datetime.html:43
+msgid "Minute"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:5
+msgid "Création de fiches personnalisées"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:9
+msgid "Création nouvelle entrée"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:10
+msgid "Créer nouvelle prise de médicament"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:11
+msgid "Création nouvelle fiche repas"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:12
+msgid "Création événement sommeil"
+msgstr ""
+
+#: app/templates/patient/interface_patient.html:13
+msgid "Création fiche activité physique"
+msgstr ""
+
+#: app/templates/patient/connexion/connexion_patient_bs.html:14
+#: app/templates/praticien/connexion/connexion_patricien.html:12
+msgid "L'adresse email ou le mot de passe est incorrect."
+msgstr ""
+
+#: app/templates/patient/connexion/connexion_patient_bs.html:16
+msgid "Bonjour "
+msgstr ""
+
+#: app/templates/patient/connexion/connexion_patient_bs.html:16
+#: app/templates/praticien/connexion/connexion_patricien.html:14
+msgid "Le connexion est bien établie."
+msgstr ""
+
+#: app/templates/patient/connexion/deconnexion_patient.html:4
+#: app/templates/praticien/connexion/deconnexion_praticien.html:4
+msgid "Déconnexion du praticien"
+msgstr ""
+
+#: app/templates/patient/connexion/deconnexion_patient.html:5
+#: app/templates/praticien/connexion/deconnexion_praticien.html:5
+msgid "La déconnexion s'est correctement déroulée."
+msgstr ""
+
+#: app/templates/patient/connexion/nouveau_patient_bs.html:19
+msgid "Sexe"
+msgstr ""
+
+#: app/templates/patient/connexion/nouveau_patient_bs.html:21
+msgid "Date de naissance"
+msgstr ""
+
+#: app/templates/patient/connexion/pas_connecte_patient.html:4
+#: app/templates/praticien/connexion/pas_connecte.html:4
+msgid "Non connecté"
+msgstr ""
+
+#: app/templates/patient/connexion/pas_connecte_patient.html:5
+#: app/templates/praticien/connexion/pas_connecte.html:5
+msgid ""
+"Vous n'avez pas le droit d'accéder à cette page parce que vous n'êtes pas"
+" connecté."
+msgstr ""
+
+#: app/templates/patient/connexion/patient_enregistre.html:5
+msgid "Inscription validée"
+msgstr ""
+
+#: app/templates/patient/connexion/patient_enregistre.html:5
+msgid "Demande d'inscription confirmée"
+msgstr ""
+
+#: app/templates/patient/connexion/patient_enregistre.html:8
+msgid ""
+"Vous êtes inscrits sur notre application web. Vous pouvez dorénavant "
+"l'utiliser pour vous."
+msgstr ""
+
+#: app/templates/patient/connexion/patient_enregistre.html:10
+msgid ""
+"Une demande de validation de l'inscription a été envoyée sur votre boîte "
+"électronique."
+msgstr ""
+
+#: app/templates/patient/entrees/menu_entrees.html:6
+msgid "Page principale"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_activite_physique.html:7
+msgid "Nouvelle fiche activité physique"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_entree_cycle_menstruelle.html:5
+msgid "Nouvelle fiche cycle menstruelle"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_entree_glycémie.html:5
+msgid "Nouvelle fiche glycémie"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_entree_prise_medicament.html:7
+msgid "Nouvelle prise de médicament"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_entree_sommeil.html:16
+msgid "Maintenant"
+msgstr ""
+
+#: app/templates/patient/entrees/nouvelle_situation.html:6
+msgid "Nouvelle situation"
+msgstr ""
+
+#: app/templates/patient/entrees/visualisation_entree.html:11
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:4
+msgid "Elément de suivi"
+msgstr ""
+
+#: app/templates/patient/entrees/visualisation_entrees.html:11
+msgid "Visualiser ses entrées"
+msgstr ""
+
+#: app/templates/patient/praticiens/gestion_praticien.html:4
+#: app/templates/praticien/ses_patients/gestion_patients.html:4
+msgid "Gestionnaire des praticiens"
+msgstr ""
+
+#: app/templates/patient/praticiens/gestion_praticien.html:6
+msgid "Liste des praticiens qui ont accès à vos données"
+msgstr ""
+
+#: app/templates/patient/praticiens/gestion_praticien.html:19
+msgid "Ajouter un praticien"
+msgstr ""
+
+#: app/templates/patient/praticiens/gestion_praticien.html:21
+msgid "Donnez l'adresse email du praticien qui vous suivra : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:4
+msgid "Gestionnaire des praticiens - Profil"
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:8
+msgid "Coordonnées"
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:10
+#: app/templates/patient/profil/mon_identite.html:6
+#: app/templates/praticien/profil/mon_identite.html:6
+msgid "Prénom : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:11
+msgid "Nom : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:12
+msgid "Profession : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:13
+msgid "Numéro de téléphone : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:14
+msgid "Adresse : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:15
+#: app/templates/patient/profil/mon_identite.html:8
+#: app/templates/praticien/profil/mon_identite.html:7
+msgid "Adresse email : "
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:19
+msgid "Ne plus se faire suivre par ce praticien"
+msgstr ""
+
+#: app/templates/patient/praticiens/profil_praticien.html:22
+msgid "Contacter ce praticien"
+msgstr ""
+
+#: app/templates/patient/profil/mon_identite.html:5
+#: app/templates/praticien/index_praticien.html:16
+#: app/templates/praticien/profil/mon_identite.html:5
+msgid "Mon profil"
+msgstr ""
+
+#: app/templates/patient/profil/mon_identite.html:6
+msgid " Nom : "
+msgstr ""
+
+#: app/templates/patient/profil/mon_identite.html:7
+msgid "Sexe : "
+msgstr ""
+
+#: app/templates/patient/taches/taches_a_faire.html:4
+msgid "Tâches à faire"
+msgstr ""
+
+#: app/templates/patient/taches/taches_a_faire.html:7
+msgid "Votre thérapeute"
+msgstr ""
+
+#: app/templates/patient/taches/taches_a_faire.html:7
+msgid "vous conseille de faire :"
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:2
+#: app/templates/praticien/questionnaire/accueil_questionnaire.html:4
+msgid "Gestionnaire de questionnaire"
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:5
+msgid "Gestionnaire de questionnaire - Voir le questionnaire"
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:9
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:7
+msgid "Valider le chargement du fichier"
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:17
+msgid "Question "
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:21
+msgid "Réponse "
+msgstr ""
+
+#: app/templates/praticien/consultation_questionnaire.html:28
+msgid "Erreur, veuillez vous adresser au concepteur de cette application."
+msgstr ""
+
+#: app/templates/praticien/creation_questionnaire.html:4
+msgid "Gestionnaire de questionnaire - Création d'un questionnaire"
+msgstr ""
+
+#: app/templates/praticien/creation_questionnaire.html:11
+msgid "Ajouter nouvelle question"
+msgstr ""
+
+#: app/templates/praticien/creation_questionnaire.html:12
+msgid "Supprimer denière question"
+msgstr ""
+
+#: app/templates/praticien/demande_fichier_suivi_tcc.html:4
+msgid "Formulaire suivi TCC"
+msgstr ""
+
+#: app/templates/praticien/demande_fichier_suivi_tcc.html:7
+msgid "Choisissez parmi vos patients : "
+msgstr ""
+
+#: app/templates/praticien/demande_fichier_suivi_tcc.html:17
+#: app/templates/praticien/index_praticien.html:9
+msgid "Analyser"
+msgstr ""
+
+#: app/templates/praticien/demande_fichier_suivi_tcc.html:18
+msgid "Afficher"
+msgstr ""
+
+#: app/templates/praticien/demande_fichier_suivi_tcc.html:19
+msgid "Afficher PDF"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:6
+msgid "Mes patients"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:7
+msgid "Gestion des patients"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:8
+msgid "Analyse"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:10
+msgid "Questionnaires"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:11
+msgid "Questionnaire"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:12
+msgid "Tâches"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:13
+#: app/templates/praticien/taches/donner_taches.html:4
+msgid "Donner des tâches"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:14
+msgid "Voir les tâches données"
+msgstr ""
+
+#: app/templates/praticien/index_praticien.html:17
+msgid "Afficher mon profil"
+msgstr ""
+
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:6
+msgid "Type : "
+msgstr ""
+
+#: app/templates/praticien/analyse/affichage_element_suivi_tcc.html:15
+msgid "Pensées alternatives : "
+msgstr ""
+
+#: app/templates/praticien/analyse/affichage_fichier_suivi_tcc.html:9
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:14
+msgid "Mise en forme du suivi"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:20
+msgid "Courbes"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:21
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:76
+msgid "Texte"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:22
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:37
+msgid "Fréquence"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:23
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:41
+msgid "Corrélation"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:26
+msgid "Vocabulaire"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:27
+msgid "Ranger"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:28
+msgid "Rechercher"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:29
+msgid "Mettre à jour le rendu PDF"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:33
+msgid "Génération de courbe"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:45
+msgid "Grandeur 1"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:51
+msgid "Grandeur 2"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:57
+msgid "Durée"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:63
+msgid "Créer la courbe"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:68
+msgid "Afficher la fréquence"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:72
+msgid "Afficher la corrélation"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:81
+msgid "Gestion du vocabulaire"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:86
+msgid "Recherche"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:90
+msgid "Rangement"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:105
+msgid "Prévisualisation du résultat"
+msgstr ""
+
+#: app/templates/praticien/analyse/analyse_fichier_suivi.html:113
+msgid "Document PDF"
+msgstr ""
+
+#: app/templates/praticien/connexion/connexion_patricien.html:14
+msgid "Bonjour"
+msgstr ""
+
+#: app/templates/praticien/connexion/demande_nouveau_praticien.html:15
+msgid ""
+"Une fois cette fiche remplie, vous serez contacté afin de confirmer votre"
+" identité et vos qualifications."
+msgstr ""
+
+#: app/templates/praticien/connexion/demande_nouveau_praticien.html:17
+msgid ""
+"Merci de votre inscription. Vous serez contacté pour vérifier votre "
+"identité et vos compétences."
+msgstr ""
+
+#: app/templates/praticien/connexion/demande_nouveau_praticien.html:19
+msgid "Vérifiez vos données dans le formulaire"
+msgstr ""
+
+#: app/templates/praticien/connexion/demande_nouveau_praticien.html:22
+msgid "Fiche d'inscription"
+msgstr ""
+
+#: app/templates/praticien/profil/mon_identite.html:8
+msgid "Adresse postale : "
+msgstr ""
+
+#: app/templates/praticien/questionnaire/accueil_questionnaire.html:6
+msgid "Créer questionnaire"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/accueil_questionnaire.html:7
+msgid "Consulter questionnaire"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/accueil_questionnaire.html:8
+msgid "Modifier questionnaire"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/accueil_questionnaire.html:9
+msgid "Remplissage questionnaire"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:4
+msgid "Modification questionnaire"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:16
+msgid "Ajouter une réponse"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:17
+msgid "Question"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:22
+msgid "Réponse"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:23
+msgid "poids"
+msgstr ""
+
+#: app/templates/praticien/questionnaire/modification_questionnaire.html:33
+msgid "Nouvelle question"
+msgstr ""
+
+#: app/templates/praticien/ses_patients/gestion_patients.html:5
+msgid "Liste des patient pour lesquels vous avez accès à leurs données"
+msgstr ""
+
+#: app/templates/praticien/ses_patients/gestion_patients.html:19
+msgid "Liste des nouveaux patients"
+msgstr ""
+
+#: app/templates/praticien/ses_patients/gestion_patients.html:24
+msgid "Accepter : "
+msgstr ""
+
+#: app/templates/praticien/taches/donner_taches.html:5
+msgid "Liste des patients"
+msgstr ""
+
+#: app/templates/praticien/taches/donner_taches.html:7
+msgid "Les tâches ont bien été envoyées."
+msgstr ""
+
+#: app/templates/praticien/taches/donner_taches.html:20
+msgid "Ajouter une tâche"
+msgstr ""
+
+#: app/templates/praticien/taches/donner_taches.html:21
+msgid "Remettre à zéro"
+msgstr ""
+
+#: app/templates/praticien/taches/taches_donnees.html:4
+msgid "Tâches données"
+msgstr ""
+
+#~ msgid "Pseudonyme"
+#~ msgstr "Pseudonyme"
+
+#~ msgid "La fiche est bien enregistrée."
+#~ msgstr ""
+
+#~ msgid "Difficulté ressentie"
+#~ msgstr ""
+
+#~ msgid "petit-déjeûner"
+#~ msgstr ""
+
+#~ msgid "déjeuner"
+#~ msgstr ""
+
+#~ msgid "goûter"
+#~ msgstr ""
+
+#~ msgid "dîner"
+#~ msgstr ""
+
+#~ msgid "Enregistrer prise médicament"
+#~ msgstr ""
+
+#~ msgid "Quelles émotions et sensations ?"
+#~ msgstr ""
+
+#~ msgid "Intensité : "
+#~ msgstr ""
+
+#~ msgid "Pensée : "
+#~ msgstr ""
+
+#~ msgid ""
+#~ "La page que vous recherchez est "
+#~ "incoonue. Revenez en arrière et "
+#~ "réessayez. Si cela échoue, alors "
+#~ "cnotactez le responsable du site."
+#~ msgstr ""
+
+#~ msgid "Votre pseudonyme n'est pas enregistré."
+#~ msgstr ""
+
+#~ msgid "Le mot de passe est incorrect"
+#~ msgstr ""
+
+#~ msgid "}Mon profil"
+#~ msgstr ""
+
+#~ msgid "}Non connecté"
+#~ msgstr ""
+

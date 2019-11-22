@@ -1,0 +1,21 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>Exportation de ses données</h2>
+
+    <form method="post" name="exporter_donnees" id="exporter_donnees">
+        <p><input type="submit" value="Exporter JSON" name="json" class="btn btn-primary"></p>
+        <p><input type="submit" value="Exporter PDF" name="pdf" class="btn btn-primary"></p>
+        <p><input type="submit" value="Exporter CSV" name="csv" class="btn btn-primary"></p>
+        <p><input type="submit" value="Exporter TXT" name="txt" class="btn btn-primary"></p>
+    </form>
+    {% if message == "envoyé" %}
+        <p class="important">Le fichier contenant toutes vos données vous a été envoyé.</p>
+    {% endif %}
+
+    {% block scripts %}
+        {{ super() }}
+    {% endblock %}
+
+    {{ super() }}
+{% endblock %}

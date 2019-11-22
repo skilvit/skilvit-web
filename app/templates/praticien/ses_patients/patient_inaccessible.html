@@ -1,0 +1,10 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    {{ super() }}
+    <p>Le patient que vous recherchez est inaccessible. Vérifiez que c'est un patient qui vous a accordé la permission d'aller sur son profil.</p>
+
+    <p>Si vous pensez que c'est une erreur, contactez l'équipe de développement.</p>
+    {# TODO mettre une adresse email de développement. #}
+
+{% endblock %}

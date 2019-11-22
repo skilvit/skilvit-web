@@ -1,0 +1,434 @@
+{% extends "motif_principal_bs.html" %}
+
+{% from "macros/afficher_choix_duree.html" import afficher_choix_duree %}
+{% from "macros/afficher_choix_grandeur.html" import afficher_choix_grandeur %}
+{% from "macros/afficher_commentaire.html" import afficher_commentaire %}
+{% from "macros/afficher_positions.html" import afficher_positions %}
+{% from "macros/afficher_rendu.html" import afficher_rendu %}
+{% from "macros/afficher_vocabulaire.html" import afficher_vocabulaire %}
+
+
+{% block content %}
+
+
+    <h2>{{ _('Mise en forme du suivi') }}</h2>
+    <div class="hidden-xs">
+        <div class="row">
+            <div class="col-md-12 col-lg-8 col-xl-6">
+                <div class="menu">
+                    <p>
+                        <button id="courbe" class="btn btn-primary">{{ _('Courbes') }}</button>
+                        <button id="texte" class="btn btn-primary">{{ _('Texte') }}</button>
+                        <button id="frequence" class="btn btn-primary">{{ _('Fréquence') }}</button>
+                        <button id="correlation" class="btn btn-primary">{{ _('Corrélation') }}</button>
+                    </p>
+                    <p>
+                        <button id="vocabulaire" class="btn btn-primary">{{ _('Vocabulaire') }}</button>
+                        <button id="ranger" class="btn btn-primary">{{ _('Ranger') }}</button>
+                        <button id="rechercher" class="btn btn-primary">{{ _('Rechercher') }}</button>
+                        <button id="mettre_a_jour_pdf" class="btn btn-primary">{{ _('Mettre à jour le rendu PDF') }}</button>
+                    </p>
+                </div>
+                         <div class="courbe_debut">
+                    <h3> {{ _('Génération de courbe') }}</h3>
+                </div>
+
+                <div class="frequence_debut">
+                    <h3>{{ _('Fréquence') }}</h3>
+                </div>
+
+                <div class="correlation_debut">
+                    <h3>{{ _('Corrélation') }}</h3>
+                </div>
+
+                <div class="grandeur1">
+                    <h5>{{ _('Grandeur 1') }}</h5>
+
+                   {{ afficher_choix_grandeur("grandeur1_form", "", dico["themes"].keys(),  dico["mots"]) }}
+                </div>
+
+                <div class="grandeur2">
+                    <h5>{{ _('Grandeur 2') }}</h5>
+                    {{ afficher_choix_grandeur("grandeur2_form", "", dico["themes"].keys(), dico["mots"]) }}
+
+                </div>
+
+                <div class="duree">
+                    <h5>{{ _('Durée') }}</h5>
+                    {{ afficher_choix_duree() }}
+                </div>
+
+
+                <div class="courbe_fin">
+                    <button id="validation_courbe" class="btn btn-primary">{{ _('Créer la courbe') }}</button>
+                </div>
+
+
+                <div class="frequence_fin">
+                    <button id="validation_frequence" class="btn btn-primary">{{ _('Afficher la fréquence') }}</button>
+                </div>
+
+                <div class="correlation_fin">
+                    <button id="validation_correlation" class="btn btn-primary">{{ _('Afficher la corrélation') }}</button>
+                </div>
+
+                <div class="texte">
+                    <h3>{{ _('Texte') }}</h3>
+                    {{ afficher_commentaire() }}
+                </div>
+
+                <div class="vocabulaire">
+                    <h3>{{ _('Gestion du vocabulaire') }}</h3>
+                    {{ afficher_vocabulaire() }}
+                </div>
+
+                <div class="recherche">
+                    <h3>{{ _('Recherche') }}</h3>
+                </div>
+
+                <div class="rangement">
+                    <h3>{{ _('Rangement') }}</h3>
+                    {{ afficher_positions() }}
+                </div>
+            </div>
+
+
+            <div class="col-md-12 col-lg-4 col-xl-6 hidden-sm">
+                <div id="menu_visualisation">
+                    <div id="visualisation_consultation">
+                        <select name="select_elements_d_affichage" size="l">
+
+                        </select>
+                    </div>
+
+                    <div class="previsualisation_resultat">
+                        <h3>{{ _('Prévisualisation du résultat') }}</h3>
+                        <ul id="sortable">
+{#                            style="width: 400px; height: 500px; overflow: auto"#}
+
+                        </ul>
+                    </div>
+
+                    <div id="previsualisation_pdf">
+                        <h3>{{ _('Document PDF') }}</h3>
+                        <iframe id="pdf_conteneur">
+
+                        </iframe>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-lg-8 col-xl-6">
+
+            </div>
+        </div>
+    </div>
+<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='pdfmake.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='vfs_fonts.js') }}"></script>
+
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>-->
+    <script>
+        window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.min.js') }}">\x3C/script>')
+    </script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>-->
+    <script type="text/javascript">
+
+        var docDefinition = {{ data_pdf|safe }};
+            const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+            pdfDocGenerator.getDataUrl( function (dataUrl){
+                const iframe = document.querySelector('#pdf_conteneur');
+                iframe.src = dataUrl;
+                iframe.width = "100%";
+                iframe.height = "300";
+            });
+
+        $("#menu_visualisation").css("float", "right");
+
+        function selectionner_mot_grandeur1() {
+
+            $('select[id="grandeur1_form_mots_a_choisir"] option').dblclick(function () {
+                var mot = $('select[id="grandeur1_form_mots_a_choisir"] option:selected').val();
+                var valeur = $('input[id="mots_grandeur1_form"]').val();
+                if(valeur === "")
+                {
+                    $('input[id="mots_grandeur1_form"]').val(mot);
+                }
+                else{
+                    $('input[id="mots_grandeur1_form"]').val(valeur+","+mot);
+                }
+            });
+            $('select[name="select_grandeur1_form_themes"] option').dblclick(function () {
+                var mot = $('select[name="select_grandeur1_form_themes"] option:selected').val();
+                $.ajax({
+                   url : "/tcc/ajax/recuperation_mots_par_theme",
+                    data : {"theme" : mot},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        $("select#grandeur1_form_mots_du_theme_a_choisir").html(data);
+                    }
+                });
+            });
+            $('select[id="grandeur1_form_mots_du_theme_a_choisir"]').dblclick(function(){
+                var mot = $('select[id="grandeur1_form_mots_du_theme_a_choisir"] option:selected').val();
+                var valeur = $('input[id="mots_grandeur1_form"]').val();
+                if(valeur === "")
+                {
+                    $('input[id="mots_grandeur1_form"]').val(mot);
+                }
+                else{
+                    $('input[id="mots_grandeur1_form"]').val(valeur+","+mot);
+            }});
+        }
+
+
+        function selectionner_mot_grandeur2() {
+           $("bouton_grandeur2_form_a_zero").click(function (){
+                $('input[id="mots_grandeur2_form"]').val("");
+
+            });
+            $('select[id="grandeur2_form_mots_a_choisir"] option').dblclick(function () {
+                var mot = $('select[id="grandeur2_form_mots_a_choisir"] option:selected').val();
+                var valeur = $('input[id="mots_grandeur2_form"]').val();
+                if(valeur === "")
+                {
+                    $('input[id="mots_grandeur2_form"]').val(mot);
+                }
+                else{
+                    $('input[id="mots_grandeur2_form"]').val(valeur+","+mot);
+            }
+            });
+            $('select[name="select_grandeur2_form_themes"] option').dblclick(function () {
+                var mot = $('select[name="select_grandeur2_form_themes"] option:selected').val();
+                $.ajax({
+                   url : "/tcc/ajax/recuperation_mots_par_theme",
+                    data : {"theme" : mot},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        $("select#grandeur2_form_mots_du_theme_a_choisir").html(data);
+                    }
+                });
+            });
+            $('select[id="grandeur2_form_mots_du_theme_a_choisir"]').dblclick(function(){
+                var mot = $('select[id="grandeur2_form_mots_du_theme_a_choisir"] option:selected').val();
+                var valeur = $('input[id="mots_grandeur2_form"]').val();
+                if(valeur === "")
+                {
+                    $('input[id="mots_grandeur2_form"]').val(mot);
+                }
+                else{
+                    $('input[id="mots_grandeur2_form"]').val(valeur+","+mot);
+            }
+            });
+        }
+
+        function envoyer_frequence()
+        {
+            $.ajax({
+                url : '/tcc/ajax/calcul_correlation',
+                data : {}
+            })
+        }
+        function tout_cacher()
+        {
+            $("div.grandeur1").hide();
+            $("div.grandeur2").hide();
+            $("div.duree").hide();
+            $("div.texte").hide();
+            $("div.vocabulaire").hide();
+            $("div.recherche").hide();
+            $("div.rangement").hide();
+            $("div.correlation_debut").hide();
+            $("div.correlation_fin").hide();
+            $("div.frequence_debut").hide();
+            $("div.frequence_fin").hide();
+            $("div.courbe_debut").hide();
+            $("div.courbe_fin").hide();
+
+        }
+        tout_cacher();
+
+        // affichage des parties
+
+        $("button#courbe").bind("click",function() {
+            tout_cacher();
+            $("div.courbe_debut").show();
+            $("div.grandeur1").show();
+            $("div.duree").show();
+            $("div.courbe_fin").show();
+
+           selectionner_mot_grandeur1();
+
+            $("button#validation_courbe").click(function(){
+                $.ajax({
+                    url : "/tcc/ajax/calcul_courbe",
+                    data : {"debut": $('input[id="input_date_debut"]').val(), "fin": $('input[id="input_date_fin"]').val(),
+                        "mots_grandeur1": $('input[id="mots_grandeur1_form"]').val(),
+                        "theme_grandeur1": $('select[name="select_grandeur1_form"]').val(),
+                        "id": $("div.previsualisation_resultat ul li").length},
+                    dataType: "json",
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        var options = {
+                            lines: {
+                                show: true
+                            },
+                            points: {
+                                show: true
+                            },
+                            xaxis: {
+                                tickDecimals: 0,
+                                tickSize: 1
+                            }
+                        };
+                        $("div.previsualisation_resultat ul").append("<li class='ui-state-default'><div id='placeholder_"+data["id"] +"' style='width:500px;height:300px'></div></li>");
+                        $.plot('#placeholder_'+data["id"], [data["data"]], options);
+                        console.log(data["data"]);
+                        console.log($("div.previsualisation_resultat").html());
+//                        $("div.previsualisation_resultat .element_rapport").each(function(index, element){
+//                            console.log($(element).html());
+//                            $( element ).draggable({
+//                                snap : true,
+//                                revert : true
+//                            });
+//                        });
+                    }
+                });
+            });
+        });
+
+        $("button#texte").bind("click",function() {
+            tout_cacher();
+            $("div.texte").show();
+            $("button#validation_frequence").click(function(){
+                $.ajax({
+                   url : "/tcc/ajax/calcul_frequence",
+                    data : {"duree": $("form.duree").serialize(), "grandeur1": $("form.grandeur1_form").serialize()},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        $("div.previsualisation_resultat ul").append(data);
+                        console.log($("div.previsualisation_resultat").html());
+//                        $("div.previsualisation_resultat .element_rapport").each(function(index, element){
+//                            console.log($(element).html());
+//                            $( element ).draggable({
+//                                snap : true,
+//                                revert : true
+//                            });
+//                        });
+                    }
+                });
+            });
+        });
+        $("button#frequence").bind("click",function() {
+            tout_cacher();
+            $("div.frequence_debut").show();
+            $("div.grandeur1").show();
+            $("div.duree").show();
+            $("div.frequence_fin").show();
+            selectionner_mot_grandeur1();
+            $("button#validation_frequence").click(function(){
+                $.ajax({
+                   url : "/tcc/ajax/calcul_frequence",
+                    data : {"debut": $('input[id="input_date_debut"]').val(), "fin": $('input[id="input_date_fin"]').val(),
+                        "mots_grandeur1": $('input[id="mots_grandeur1_form"]').val(),
+                        "theme_grandeur1": $('select[name="select_grandeur1_form"]').val(),
+                        "id": $("div.previsualisation_resultat").length},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        $("div.previsualisation_resultat ul").append(data);
+                        console.log($("div.previsualisation_resultat").html());
+//                        $("div.previsualisation_resultat .element_rapport").each(function(index, element){
+//                            console.log($(element).html());
+//                            $( element ).draggable({
+//                                snap : true,
+//                                revert : true
+//                            });
+//                        });
+                    }
+                });
+            });
+        });
+        $("button#correlation").bind("click",function() {
+            tout_cacher();
+            $("div.correlation_debut").show();
+            $("div.grandeur1").show();
+            $("div.grandeur2").show();
+            $("div.duree").show();
+            $("div.correlation_fin").show();
+            selectionner_mot_grandeur1();
+            selectionner_mot_grandeur2();
+            $("button#validation_correlation").click(function(){
+                $.ajax({
+                   url : "/tcc/ajax/calcul_correlation",
+                    data : {"debut": $('input[id="input_date_debut"]').val(), "fin": $('input[id="input_date_fin"]').val(),
+                        "mots_grandeur1": $('input[id="mots_grandeur1_form"]').val(),
+                        "theme_grandeur1": $('select[name="select_grandeur1_form"]').val(),
+                        "mots_grandeur2": $('input[id="mots_grandeur2_form"]').val(),
+                        "theme_grandeur2": $('select[name="select_grandeur2_form"]').val(),
+                        "id": $("div.previsualisation_resultat").length},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        $("div.previsualisation_resultat ul").append(data);
+                        console.log($("div.previsualisation_resultat").html());
+//                        $("div.previsualisation_resultat .element_rapport").each(function(index, element){
+//                            console.log($(element).html());
+//                            $( element ).draggable({
+//                                snap : true,
+//                                revert : true
+//                            });
+//                        });
+                    }
+                });
+            });
+        });
+        $("button#vocabulaire").bind("click", function() {
+            tout_cacher();
+            $("div.vocabulaire").show();
+        });
+        $("button#ranger").bind("click",function() {
+            tout_cacher();
+            $("div.rangement").show();
+        });
+        $("button#rechercher").bind("click",function() {
+            tout_cacher();
+            $("div.recherche").show();
+        });
+
+        function recuperer_donner_pour_pdf(){
+
+        }
+
+        $("button#mettre_a_jour_pdf").bind("click", function(){
+            //Ici on récupère les données de la prévisualisation et on met ça dans le fichier PDF.
+        });
+
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+
+
+
+
+
+        // activation des boutons
+
+        /*$("").bind("click", function(){
+           $("").append("<option value="{{theme}}">{{theme}}</option>")
+
+
+        }); */
+
+    </script>
+
+        {{ super() }}
+{% endblock %}

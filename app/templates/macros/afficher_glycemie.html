@@ -1,0 +1,31 @@
+
+{% macro afficher_glycemie_indice_court(indice, glycemie) %}
+{#    #}
+
+    <a href="{{ url_for('main.afficher_entree_patient', indice) }}"> {{ glycemie.date }} {{ glycemie.heure }}</a>
+    <p>{{ _('Glycémie : ') }}{{ glycemie.glycemie }} </p>
+
+{% endmacro %}
+
+{% macro afficher_glycemie_praticien(glycemie) %}
+{#    #}
+    <p class="important">{{ _('Glycémie') }}</p>
+    <ul>
+        {% if glycemie.date_heure %}
+            <li> {{ _('Date et heure :') }}{{ glycemie.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date :') }} {{ glycemie.date }} {{ _('et heure : ') }} {{ glycemie.heure }}</li>
+        {% endif %}
+        <li>{{ _('Glycémie : ') }}{{ glycemie.glycemie }} </li>
+    </ul>
+
+{% endmacro %}
+
+{% macro afficher_glycemie(glycemie) %}
+{#    #}
+    <ul>
+        <li> {{ _('Date :') }} {{ glycemie.date }} {{ _('et heure : ') }} {{ glycemie.heure }}</li>
+        <li>{{ _('Glycémie : ') }}{{ glycemie.glycemie }} </li>
+    </ul>
+
+{% endmacro %}

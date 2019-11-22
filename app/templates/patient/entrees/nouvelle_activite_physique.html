@@ -1,0 +1,24 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% from "macros/macro_datetime.html" import choisir_date_heure %}
+
+{% block content %}
+    {{ super() }}
+    <h2>
+        {{ _('Nouvelle fiche activité physique') }}
+    </h2>
+    {% if message != "" %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div id="creation_fiche_activite_physique_pour_patients" class="col-8">
+        <form id="creation_fiche_activite_physique_pour_patients_form" method="POST">
+            {{ form.csrf_token }}
+            {{ choisir_date_heure(maintenant.jour, maintenant.mois, maintenant.annee, maintenant.heure, maintenant.minute) }}
+
+            {{ wtf.form_field(form.sport) }}
+            {{ wtf.form_field(form.duree) }}
+            {{ wtf.form_field(form.difficulte_ressentie) }}
+            {{ wtf.form_field(form.enregistrement_activite_physique) }}
+        </form>
+    </div>
+{% endblock %}

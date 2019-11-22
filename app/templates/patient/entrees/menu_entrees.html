@@ -1,0 +1,18 @@
+{% extends "motif_principal_bs.html" %}
+
+
+{% block content %}
+
+    <h2>{{ _('Page principale') }}</h2>
+
+    <form id="" method="post">
+        <p><input type="submit" name="menu_entrees" value="{{ _('Ajouter une nouvelle entrée') }}" class="btn btn-primary"></p>
+        <p><input type="submit" name="bouton_visualiser_entrees" value="{{ _('Visualiser la liste des entrées') }}" class="btn btn-primary"></p>
+        <p><input type="submit" name="gestion_praticien" value="{{ _('Gérer ses praticiens') }}" class="btn btn-primary"></p>
+        <p><input type="submit" name="exportation_donnees" value="{{ _('Exporter les données') }}" class="btn btn-primary"></p>
+        <p><input type="submit" name="importation_donnees" value="{{ _('Importer les données') }}" class="btn btn-primary"></p>
+        <p><input type="submit" name="voir_profil" value="{{ _('Voir mon profil') }}" class="btn btn-primary"></p>
+    </form>
+
+    {{ super() }}
+{% endblock %}

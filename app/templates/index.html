@@ -1,0 +1,52 @@
+{% extends "motif_principal_bs.html" %}
+
+{#{% block title %} Accueil {% endblock %}#}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9">
+                <h2>Aide au suivi de diagnostic</h2>
+            </div>
+
+        </div>
+    {#    col-sm-11 col-md-10 col-lg-9#}
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9 float-left">
+                <h5>Concept</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9 float-left">
+                <h6>Côté patient</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col float-left">
+                <p>
+                    Ce site permet d'enregistrer vos ressentis sur des événements.
+                    Si vous le souhaitez, vous pouvez partager ces informations avec un praticien qui utilise aussi SILVIT afin d'analyser au mieux ce qui vous arrive.
+
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9 float-left">
+                <h6>Côté praticien</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9 float-left">
+                <p>
+                    Vous proposez à vos patients l'enregistrement de leurs ressentis.
+                    Vous souhaitez, lors de séances avec le patient, aller à l'essentiel, poser les questions les plus pertinentes.
+                </p>
+            </div>
+        </div>
+        <p></p>
+    </div>
+    {{ super() }}
+
+{% endblock %}

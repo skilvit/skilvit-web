@@ -1,0 +1,51 @@
+{% extends "patient/entrees/motif_entrees.html" %}
+{% from "macros/macro_datetime.html" import choisir_date_heure %}
+
+{% block content %}
+    {{ super() }}
+    <h2>
+        {{ _('Nouvelle situation') }}
+    </h2>
+    {% if message != "" %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <div id="creation_fiche_entree_pour_patients" class ="form-row">
+        <form id="creation_fiche_entree_pour_patients_form" name="creation_fiche_entree_pour_patients_form" method="POST">
+            <div class="col-5">
+                <p>
+                    <input type="datetime-local" name="date_heure" id="entree_date" placeholder="{{ _("Donner la date et l'heure") }}" class="form-control">
+                </p>
+            </div>
+            <div class="col-5">
+                <p>{{ _('Situation : ') }}<input type="input" name="situation" value="" placeholder="{{ _('Donner la situation') }}" class="form-control"> </p>
+            </div>
+            <div class="col-5">
+                <p>{{ _('Emotions et sensations : ') }} <input type="input" name="emotions_sensations" placeholder="{{ _('Quelles émotions et sensations ?') }}" class="form-control"></p>
+            <!--<p>Sentiment(s) : <input type="input" name="entree_sentiments"></p>-->
+            </div>
+{#            <div class="col-5">#}
+{#               <p>Emotion(s) : <input type="input" name="entree_emotions" placeholder="Quelles émotions ?" class="form-control"></p#}
+{#            </div>#}
+            <div class="col-5">
+                <p>{{ _('Intensité : ') }}<input type="number" name="intensite" placeholder="{{ _('Intensité') }}" class="form-control"></p>
+            </div>
+            <div class="col-5">
+                <p>{{ _('Pensée : ') }}<input type="input" name="pensees" placeholder="{{ _('Les pensées') }}" class="form-control"></p>
+            </div>
+            <!--{% if message == "pensees_alternaltives" %}-->
+
+                <!--<p>Taux de croyance <input type="input" name="entree_taux_de_croyance" value="Création événement sommeil"></p>-->
+                <!--<p>Pensées alternatives: <input type="input" name="entree_pensees_alternatives"></p>-->
+                <!--<p>Taux de croyance actualisé: <input type="input" name="entree_taux_de_croyance_actualise" value="Création événement sommeil"></p>-->
+            <!--{% endif %}-->
+            <div class="col-5">
+               <p>{{ _('Comportement : ') }}<input type="input" name="comportement" placeholder="{{ _('Le comportement adopté') }}" class="form-control"></p>
+            </div>
+            <div class="col-5">
+                <p>
+                    <input type="submit" name="enregistrement_entree" value="{{ _('Enregistrer') }}" class="btn btn-primary">
+                </p>
+            </div>
+        </form>
+    </div>
+{% endblock %}

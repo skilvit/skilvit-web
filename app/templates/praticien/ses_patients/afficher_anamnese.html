@@ -1,0 +1,12 @@
+
+{% extends "motif_principal_bs.html" %}
+{% from "macros/afficher_anamnese.html" import afficher_anamneses %}
+
+{% block content %}
+
+    <h5>{{ _("Anamnèse du patient ") }}{{ patient.prenom }} {{ patient.nom }}</h5>
+
+    {{ afficher_anamneses(anamneses, categories) }}
+
+    {{ super() }}
+{% endblock %}

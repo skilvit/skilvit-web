@@ -1,0 +1,175 @@
+html{
+    width:100%;
+
+}
+
+
+body {
+    /*font-family: 'Verdana', sans-serif;*/
+    width: 100%;
+    padding: 70px 20px 20px 25px;
+}
+
+a {
+    color: #2a99b6;
+}
+
+a:hover {
+    color: #33bbdf;
+}
+
+header, footer {
+    width: 100%;
+    margin: 5px auto;
+    background: #9da4ff;
+    padding: 10px 15px;
+}
+
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 5px 0 0;
+    padding: 0;
+}
+
+/*div.page {*/
+    /*background-color: #fea1c9;*/
+/*}*/
+
+table
+{
+    border-collapse: collapse;
+}
+td, th /* Mettre une bordure sur les td ET les th */
+{
+    border: 1px solid black;
+}
+
+img.resize {
+  max-width:75%;
+  max-height:75%;
+}
+
+.super-important
+{
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+}
+.important
+{
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+}
+.moyennement-important
+{
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+}
+
+.peu-important
+{
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+}
+
+.insignifiant
+{
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+
+}
+
+p
+{
+    /*font-size: 0.8em;*/
+    text-align: justify;
+    margin: 20px;
+    /*padding: 20px;*/
+}
+/*h1
+{
+    font-size: 1.3em;
+}*/
+
+h2
+{
+    /*font-size: 1.2em;*/
+    color: #002db6;
+    padding-left: 20px ;
+
+
+}
+/*@font-face {*/
+    /*font-family: ;*/
+    /*src: url() format('');*/
+/*}*/
+
+/*body*/
+/*{*/
+    /*background-image: url("");*/
+    /*background-attachment: fixed;*/
+/*}*/
+
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #68559D !important;
+    border-color: #68559D !important;
+}
+
+.navbar
+{
+    background-color: #553e9d !important;
+    margin-bottom: 0px;
+}
+
+textarea
+{
+    width: 80%;
+    position: center;
+}
+
+.annotable
+{
+    padding: 5px;
+}
+
+.anamnese
+{
+    margin: 2px;
+}
+
+
+.ajouter_reponse
+{
+    margin-right: 10px;
+}
+
+.isolement
+{
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.grand-isolement
+{
+    padding: 20px;
+    margin: 20px;
+}
+
+.commentaire
+{
+    background-color: darkgray;
+}

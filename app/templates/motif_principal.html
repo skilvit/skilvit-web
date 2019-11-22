@@ -1,0 +1,88 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--<link href="navbar-top.css" rel="stylesheet">-->
+
+<head>
+    <link rel="stylesheet" href='style.css' type="text/css">
+    <style>
+      /*#sortable { list-style-type: none; margin: 15px; padding: 5px; width: 60%; }*/
+      #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+
+    </style>
+
+</head>
+
+<title>{% block title %} Journal de bord en ligne {% endblock %} </title>
+<header class="masthead">
+
+
+</header>
+<body>
+
+    <div class="navbar navbar-default navbar-expand-md navbar-dark navbar-fixed-top bg-dark">
+        <div class="navbar-header">
+            <h1>Journal de bord en ligne</h1>
+        </div>
+
+        <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">-->
+            <!--<span class="navbar-toggler-icon"></span>-->
+        <!--</button>-->
+        <!--<a class="navbar-brand" href="#">Accueil</a>-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <!--<ul class="nav nav-pills nav-fill">-->
+          <ul class="navbar-nav">
+              <!--navbar-nav mr-auto-->
+            <li class="active nav-item" >
+                  <a class="nav-link" href="/">Accueil</a>
+              </li>
+            {% if "pseudo" in session %}
+              {% set liens_barre = [
+                ["/tcc/deconnexion_praticien", "Déconnexion"],
+                ['/tcc/afficher_index_praticien', 'Menu principal'],
+
+              ] %}
+
+            {% elif "pseudo_patient" in session %}
+              {% set liens_barre = [
+                  ["/tcc/patient/deconnexion", "Déconnexion"],
+                  ["/tcc/patient/index_patient", "Menu principal"]] %}
+            {% else %}
+              {% set liens_barre = [
+                ["/tcc/connexion_praticien", "Connexion praticien"],
+                ["/tcc/patient/connexion", "Connexion patient"],
+                ["/tcc/nouveau_praticien", "Nouveau praticien"],
+                ["/tcc/patient/nouveau_patient", "Nouveau patient"],
+              ] %}
+            {% endif %}
+            {% for href, title in liens_barre %}
+
+              <li class="nav-item active" >
+                <a class="nav-link" href={{ href }}>{{ title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script src='/static/pdfmake.min.js'></script>-->
+    <!--<script src='/static/vfs_fonts.js'></script>-->
+      <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/navbar-top.css" rel="stylesheet">-->
+
+{#  <div class="page">#}
+    {% block page_content %}
+
+    {% endblock %}
+
+{#  </div>#}
+  <footer>
+    Contact : skilvitapp@gmail.com
+  </footer>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+  <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+</body>

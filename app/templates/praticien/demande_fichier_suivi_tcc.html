@@ -1,0 +1,23 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Formulaire suivi TCC') }}</h2>
+
+    <form method="post" action="affichage_suivi" enctype="multipart/form-data" class="form-option">
+        <label for="selection_patient">{{ _('Choisissez parmi vos patients : ') }}</label>
+        <select size="5" name="selection_patient">
+            {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.prenom }} {{ patient.nom }}</option>
+            {% endfor %}
+        </select>
+        <p>
+            <input type="file" name="fichier_suivi" />
+        </p>
+        <p>
+            <input type="submit" value="{{ _('Analyser') }}" name="analyse" class="btn btn-primary"/>
+            <input type="submit" value="{{ _('Afficher') }}" name="affichage" class="btn btn-primary"/>
+            <input type="submit" value="{{ _('Afficher PDF') }}" name="affichage_pdf" class="btn btn-primary"/>
+        </p>
+    </form>
+    {{ super() }}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "patient/praticiens/motif_gestionnaire_praticien.html" %}
+
+{% block content %}
+    <h2>{{ _('Gestionnaire des praticiens - Profil') }}</h2>
+    <ul>
+        <li>
+            <h5>{{ _('Coordonnées') }} :</h5>
+            <ul>
+                <li>{{ _('Prénom : ') }}{{ praticien.prenom }}</li>
+                <li>{{ _('Nom : ') }}{{ praticien.nom }}</li>
+                <li>{{ _('Profession : ') }}{{ praticien.profession }}</li>
+                <li>{{ _('Numéro de téléphone : ') }}{{ praticien.numero_telephone }}.</li>
+                <li>{{ _('Adresse : ') }}{{ praticien.adresse_postale }}</li>
+                <li>{{ _('Adresse email : ') }}{{ praticien.email }}</li>
+            </ul>
+        </li>
+        <li>
+            <p><a>{{ _('Ne plus se faire suivre par ce praticien') }}</a></p>
+        </li>
+        <li>
+            <a href="{{ url_for("main.contacter_son_praticien", numero_praticien=praticien.id) }}">
+                <button class="btn btn-primary">{{ _('Contacter ce praticien') }}</button>
+            </a>
+        </li>
+    </ul>
+
+    {{ super() }}
+{% endblock %}
+
+
+
+
+

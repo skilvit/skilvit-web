@@ -1,0 +1,52 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Connexion au site en tant que patient') }}</h2>
+    {% if connecte != "connecte" %}
+        <form method="post" class="form-control">
+            <div class="form-group">
+                <label for="pseudo-patient">{{ _("Adresse email : ") }}</label>
+                <input type="text" name="pseudo_patient" id="pseudo-patient">
+            </div>
+            <div class="form-group">
+                <label for="mdp-patient">{{ _("Mot de passe : ") }}</label>
+                <input type="password" name="mdp_patient" id="mdp-patient">
+            </div>
+            <div class="form-group">
+                <input type="submit" name="tester_pseudo_mdp">
+            </div>
+{#        {{ _("") }}#}
+        </form>
+    {% endif %}
+
+    {% if connecte == "pseudo_non_enrigistre" or connecte == "mdp_incorrect"%}
+        <p>{{ _("Votre adresse email ou votre mot de passe est incorrect") }}</p>
+    {% elif connecte == "connecte" %}
+        <p>{{ _("Bonjour") }} {{ prenom }} {{ nom }}. {{ _("Le connexion est bien établie.") }}</p>
+    {% endif %}
+
+    <script type="text/javascript">
+            function truncateText(selector, maxLength) {
+            var element = document.querySelector(selector),
+                truncated = element.innerText;
+
+            if (truncated.length > maxLength) {
+                    truncated = truncated.substr(0,maxLength) + '...';
+                }
+                return truncated;
+            }
+            //You can then call the function with something like what i have below.
+            $(".texte_pas_long").innerText = truncateText('.texte_pas_long', 100);
+
+            $( "#sortable" )
+                .sortable()
+                .disableSelection();
+        </script>
+
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+
+    {{ super() }}
+{% endblock %}

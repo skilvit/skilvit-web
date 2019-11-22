@@ -1,0 +1,40 @@
+
+{% macro afficher_choix_grandeur(classe, id, themes, mots) %}
+
+
+    <form method="post" class="{{ classe }}">
+
+        <p>Mots : </p> <input type="text" id="mots_{{ classe }}">
+        <p>Vocabulaire : </p>
+
+
+        <p>
+            Mots à choisir
+            <select class="liste_mots_a_selctionner" size="5" id="{{ classe }}_mots_a_choisir">
+
+                {% for mot in mots %}
+                    <option value="{{ mot }}"> {{mot}} </option>
+                {% endfor %}
+
+            </select>
+
+        </p>
+        <select name="select_{{ classe }}_themes" size="5">
+            {% for theme in themes %}
+
+                <option value="{{ theme }}" {% if theme == '' %} selected="selected" {% endif %}>{{theme}}</option>
+            {% endfor %}
+        </select>
+
+        <p> Mots du thème choisi :
+        <select class="liste_mots_par_theme_a_selectionner" size="5" id="{{ classe }}_mots_du_theme_a_choisir">
+        </select>
+
+        </p>
+
+    </form>
+
+
+
+
+{% endmacro %}

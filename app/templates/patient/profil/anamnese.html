@@ -1,0 +1,108 @@
+{% extends "motif_principal_bs.html" %}
+{% from "macros/afficher_anamnese.html" import afficher_anamneses %}
+
+{% block content %}
+
+    <h2 id="titre-anamnese">{{ _('Anamnèse') }}</h2>
+
+    {# Partie ajout d'un élément avec une catégorie à choisir dans une liste prédéfinie #}
+{#    <div class="row">#}
+    <div class="container card grand-isolement" style="padding: 20px; margin: 20px">
+        <form id="nouvelle-anamnese" class="" method="POST">
+            <div class="form-row">
+                <div class="col-md-5 mb-5">
+                    <label for="liste-categorie">Catégories</label>
+                    <select class="form-control" id="liste-categorie" name="categorie">
+                        {% for category in categories %}
+                            <option class="" value="{{ category }}">{{ category | capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5 mb-5 col-md-push-1">
+                    <label for="texte-nouvelle-anamnese">Contenu</label>
+                    <textarea id="texte-nouvelle-anamnese" name="texte-nouvelle-anamnese" class="form-control" rows="15"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-secondary isolement" type="submit">Ajouter</button>
+    {#    </div>#}
+        </form>
+    </div>
+
+    {# Partie consultation par catégorie#}
+    <div class="card grand-isolement">
+        {{ afficher_anamneses(anamneses, categories) }}
+    </div>
+
+    <script type="text/javascript">
+
+        set_modification_mode = function(id, editable) {
+            $("#"+id+"-modification-anamnese").toggleClass("clicked");
+
+            if(editable) {
+                $("#"+id+"-element-texte").attr("contentEditable", "true");
+            }
+            else {
+                $("#"+id+"-element-texte").attr("contentEditable", "false");
+            }
+            console.log($("#"+id+"-element-texte"));
+        };
+
+        modify_anamnese = function(id, texte) {
+            $.ajax({
+                    url: "/tcc/patient/anamnese/update",
+                    data: {"id_anamnese": id, "texte": texte},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        console.log(data);
+                        $("#"+id+"-element-texte").text(texte);
+                    }
+                });
+        };
+
+        $(".modification-anamnese").on("click", function() {
+            var anamnese_element = $(this).attr("id");
+            var clicked = $(this).hasClass("clicked");
+            console.log(clicked);
+            console.log(anamnese_element);
+            var id = anamnese_element.split("-")[0];
+            console.log(id);
+            if(!clicked)
+            {
+                set_modification_mode(id, !clicked);
+            }
+            else
+            {
+                var texte = $("#"+id+"-element-texte").text();
+                set_modification_mode(id, false);
+                modify_anamnese(id, texte);
+
+
+            }
+
+        });
+
+        $(".suppression-anamnese").on("click", function() {
+            var anamnese_element = $(this).attr("id");
+            $.ajax({
+                    url: "/tcc/patient/anamnese/supprimer",
+                    data: {"id_anamnese": $(this).attr("id")},
+                    type : "POST",
+                    success : function(data, statut)
+                    {
+                        console.log(data);
+                        $("#"+anamnese_element+"-element").remove();
+                    }
+                });
+        });
+
+
+    </script>
+
+    {% block scripts %}
+        {{ super() }}
+
+    {% endblock %}
+
+    {{ super() }}
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends "praticien/questionnaire/index_questionnaire.html" %}
+
+{% block content %}
+    <p>{{ super() }}</p>
+    <h2>{{ _('Modification questionnaire') }}</h2>
+    <form id="chargement_questionnaire" method="post" enctype="multipart/form-data">
+        <input type="file" name="questionnaire">
+        <input type="submit" name="valider_chargement_questionnaire" value="{{ _('Valider le chargement du fichier') }}" class="btn btn-primary">
+    </form>
+    <form id="questionnaire_form">
+        <div id="questionnaire">
+            {% if message == "ici" %}
+                {% set index = 1 %}
+                {% for question in questionnaire %}
+
+                    <div class='question' id='question_{{ index }}'>
+                        <p><button type='button' class='ajouter_reponse' id='ajouter_reponse'>{{ _('Ajouter une réponse') }}</button></p>
+                        <p>{{ _('Question') }} {{ index }} : <input type='text' id='question_{{ index }}' name='question_{{ index }}'></p>
+                        {% set index_reponse = 1 %}
+                        {% for proposition in question.propositions %}
+
+                            <div id='reponse_{{ index }}' class='reponse'>
+                                <p>{{ _('Réponse') }} {{ index_reponse }} : <input type='text' id='reponse_{{ index_reponse }}' name='question_{{ index }}_reponse_{{ index_reponse }}'>
+                                    {{ _('poids') }} {{ index_reponse }} : <input type='text' id='poids_{{ index_reponse }}' name='question_{{ index }}_poids_{{ index_reponse }}'></p>
+                            </div>
+                        {% set index_reponse = index_reponse + 1 %}
+                        {% endfor %}
+                    </div>
+                    {% set index = index + 1 %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </form>
+    <button type="button" id="creation_question" class="btn btn-primary">{{ _('Nouvelle question') }}</button>
+    <form id="validation_questionnaire">
+        <input type="submit" class="btn btn-primary">
+        <!--<a id="validation_questionnaire" download="" target="_blank"><button>Validation</button></a>-->
+    </form>
+
+
+{#    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>#}
+{#    <script>#}
+{#        window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.min.js') }}">\x3C/script>')#}
+{#    </script>#}
+    <script type="text/javascript">
+
+//        $n_questions_generes = 0;
+//        function generer_questionnaire_pret_a_etre_modifie(questionnaire)
+//        {
+//            var nombre_questions = questionnaire.length;
+//            $.each(questionnaire, function(index, value){
+//                $n_questions_generes ++;
+//                $("div#questionnaire").append("<div id='question_"+index+"'><input type='text' value='"+value["question"]+"'></div>");
+//                $.each(value["propositions"], function(index_reponse, value_reponse){
+//                    $("div#question_"+index).append("<p> Réponse "+index_reponse+": <input type='text' name='question_"+index+"_reponse"+index_reponse+"' value='"+value_reponse["reponse"]+"'>  poids : <input type='text' name='question_"+index+"poids_"+index_reponse+"' value='"+value_reponse["poids"]+"'></p>")
+//                });
+//            });
+//        }
+//
+//        function questionnaire_plein(){
+//
+//        }
+
+        n_questions = $("div#questionnaire").children.length;
+        $body = $('body');
+
+        $body.on("click", 'button#creation_question', function(){
+            n_questions ++;
+
+            var bloc_question = "<div class='question' id='question_"+n_questions+"'><p><button type='button' class='ajouter_reponse' id='ajouter_reponse'>Ajouter une réponse</button></p>" +
+                    "<p>Question "+n_questions+" : <input type='text' id='question"+n_questions+"' name='question_"+n_questions+"'></p>" +
+                    "<div id='reponse_1' class='reponse'><p>Réponse 1 : <input type='text' id='reponse_1' name='question_"+n_questions+"_reponse_1'> poids 1 : <input type='text' id='poids_1' name='question_"+n_questions+"_poids_1'></p></div></div>";
+            $('div#questionnaire').append(bloc_question);
+        });
+        $body.on("click", 'button.ajouter_reponse', function(){
+            $n_question = $(this).parents(".question").attr("id");
+//            console.log($n_question = $(this).parents(".question").html());
+           $n_reponse = $(this).parents(".question").find("div.reponse p").length + 1;
+//            console.log($(this).parents(".question").find("div.reponse").html());
+           $(this).parents(".question").find(".reponse").append("" +
+                   "<p> Réponse "+$n_reponse+" : " +
+                     "<input type='text' id='reponse_"+$n_reponse+"' name='"+$n_question+"_reponse_"+$n_reponse+"'>" +
+                   " poids "+$n_reponse +" : " +
+                   "<input type='text' id='poids_"+$n_reponse+"' name='"+$n_question+"_poids_"+$n_reponse+"'></p>");
+            });
+
+
+        jQuery.download = function(url, key, data){
+            // Build a form
+            var form = $('<form></form>').attr('action', url).attr('method', 'post');
+            // Add the one key/value
+            form.append($("<input></input>").attr('type', 'hidden').attr('name', key).attr('value', data));
+            //send request
+            form.appendTo('body').submit().remove();
+        };
+
+        $("#validation_questionnaire").on("submit", function () {
+            $.download("{{ url_for("main.verifier_enregistrer_questionnaire") }}", "data", $('#questionnaire_form').serialize());
+            console.log("j'ai cliqué");
+//            $.ajax({
+//                url: "/tcc/ajax/verifier_enregistrer_questionnaire",
+//                data: $('#questionnaire_form').serialize(),
+//                type: "POST",
+//                success: function (data, statut) {
+//                    console.log(data);
+//                    $.                }
+//            });
+            return false;
+        });
+//        $("#validation_questionnaire").click(function (){
+//            console.log("j'ai cliqué");
+//            $.ajax({
+//                url : "/tcc/ajax/verifier_enregistrer_questionnaire",
+//                data : $('#questionnaire_form').serialize(),
+//                type: "POST",
+//                success: function(data, statut)
+//                {
+//                    console.log(data);
+//                }
+//            });
+//            return false;
+//
+//        });
+
+    </script>
+
+{% endblock %}

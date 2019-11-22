@@ -1,0 +1,20 @@
+{% extends "motif_principal_bs.html" %}
+
+
+{% block content %}
+
+    <h5>{{ _('Mes patients') }}</h5>
+    <p><a href="{{ url_for("main.gerer_ses_patients") }}">{{ _('Gestion des patients') }}</a></p>
+{#    <h5>{{ _('Analyse') }}</h5>#}
+{#    <p><a href="{{ url_for("main.affichage_demande_suivi") }}">{{ _('Analyser') }} </a></p>#}
+    <h5>{{ _('Questionnaires') }}</h5>
+    <p><a href="{{ url_for("main.afficher_accueil_questionnaire") }}">{{ _('Questionnaire') }} </a></p>
+    <h5>{{ _('Tâches') }}</h5>
+    <p><a href="{{ url_for("main.donner_taches") }}">{{ _('Donner des tâches') }}</a> </p>
+    <p><a href="{{ url_for("main.voir_taches_donnees") }}">{{ _('Voir les tâches données') }}</a> </p>
+
+    <h5>{{ _('Mon profil') }}</h5>
+    <p><a href="{{ url_for("main.afficher_profil") }}">{{ _('Afficher mon profil') }}</a> </p>
+
+    {{ super() }}
+{% endblock %}

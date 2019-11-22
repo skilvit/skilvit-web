@@ -1,0 +1,17 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block content %}
+    <h2>{{ _('Tâches à faire') }}</h2>
+
+    {% if 0 != (taches_a_faire | count) %}
+        {{ _('Votre thérapeute') }} {{ nom_therapeute }} {{ _("vous conseille de faire :") }}
+        <ul>
+        {% for tache in taches_a_faire %}
+            <li>
+                {{ tache }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {{ super() }}
+{% endblock %}

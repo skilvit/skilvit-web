@@ -1,0 +1,33 @@
+{% macro afficher_alimentation_indice_court(indice, alimentation) %}
+
+    {% if alimentation.date_heure %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ alimentation.date_heure }}</a>
+    {% else %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ alimentation.date }} {{ alimentation.heure }}</a>
+    {% endif %}
+    <p>Repas</p>
+    <p class="texte_pas_long">Moment: {{ alimentation.repas }}</p>
+    {# <p class="texte_pas_long">Ce qui a été mangé : {{ ligne.nourriture }}</p> #}
+{% endmacro %}
+
+{% macro afficher_alimentation_praticien(alimentation) %}
+    <p class="important">{{ _('Alimentation') }}</p>
+    <ul>
+        {% if alimentation.date_heure %}
+            <li> Date et heure : {{ alimentation.date_heure }}</li>
+        {% else %}
+            <li> Date : {{ alimentation.date }} et heure : {{ alimentation.heure }}</li>
+        {% endif %}
+        <li>Repas : {{ alimentation.repas }}</li>
+        <li>Au menu : {{ alimentation.nourriture }}</li>
+    </ul>
+{% endmacro %}
+
+{% macro afficher_alimentation(alimentation) %}
+    <ul>
+        <li>Type : {{ alimentation.type }}</li>
+        <li>Date : {{ alimentation.date }} et heure : {{ alimentation.heure }}</li>
+        <li>Repas : {{ alimentation.repas }}</li>
+        <li>Au menu : {{ alimentation.nourriture }}</li>
+    </ul>
+{% endmacro %}

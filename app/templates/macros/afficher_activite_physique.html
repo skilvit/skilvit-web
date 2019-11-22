@@ -1,0 +1,33 @@
+{% macro afficher_activite_physique_indice_court(indice, ap) %}
+    {% if ap.date_heure %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ ap.date_heure }}</a>
+    {% else %}
+        <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ ap.date }} {{ ap.heure }}</a>
+    {% endif %}
+{#    <a href="/tcc/patient/visualiser_entree/{{ indice }}"> {{ ap.date }} {{ ap.heure }}</a>#}
+    <p class="texte_pas_long">{{ _('Sport : ') }}{{ ap.sport }}</p>
+
+{% endmacro %}
+
+{% macro afficher_activite_physique_praticien(ap) %}
+    <p class="important">{{ _('Activité physique') }}</p>
+    <ul>
+        {% if ap.date_heure %}
+            <li> {{ _('Date et heure :') }}{{ ap.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date :') }} {{ ap.date }} {{ _('et heure : ') }} {{ ap.heure }}</li>
+        {% endif %}
+        <li>{{ _('Sport : ') }}{{ ap.sport }}</li>
+        <li>{{ _('Durée : ') }}{{ ap.duree }}</li>
+        <li>{{ _('Difficulté ressentie : ') }}{{ ap.difficulte_ressentie }}</li>
+    </ul>
+{% endmacro %}
+
+{% macro afficher_activite_physique(ap) %}
+    <ul>
+        <li> {{ _('Date :') }} {{ ap.date }} {{ _('et heure : ') }} {{ ap.heure }}</li>
+        <li>{{ _('Sport : ') }}{{ ap.sport }}</li>
+        <li>{{ _('Durée : ') }}{{ ap.duree }}</li>
+        <li>{{ _('Difficulté ressentie : ') }}{{ ap.difficulte_ressentie }}</li>
+    </ul>
+{% endmacro %}

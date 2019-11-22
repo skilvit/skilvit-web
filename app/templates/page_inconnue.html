@@ -1,0 +1,11 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block title %} {{ _("Page inconnue") }} {% endblock %}
+
+{% block content %}
+    <p>
+        {{ _('La page que vous recherchez est incoonue. Revenez en arrière et réessayez. Si cela échoue, alors contactez le responsable du site.') }}
+    </p>
+        {{ super() }}
+
+{% endblock %}
