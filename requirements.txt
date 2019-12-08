@@ -28,6 +28,7 @@ pyparsing==2.3.0
 python-dateutil==2.7.5
 python-editor==1.0.3
 pytz==2018.9
+selenium
 singledispatch==3.4.0.3
 six==1.12.0
 SQLAlchemy>=1.3.0

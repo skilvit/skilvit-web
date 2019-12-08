@@ -1,13 +1,50 @@
 import datetime
-
 from flask_wtf import FlaskForm
 from flask_babel import lazy_gettext
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateTimeField
+# from flask_uploads import UploadSet, IMAGES
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateTimeField, Field, DateField, TimeField
 import wtforms
-from wtforms.validators import Length, DataRequired, Email, EqualTo
+from wtforms.validators import Length, DataRequired, Email, EqualTo, ValidationError
 from wtforms.fields.html5 import EmailField
 
-from app.utils import Sexe, EvenementSommeil
+from app.utils import Sexe, EvenementSommeil, UniteMasse
+
+
+# region validators
+class NotAfterDateValidator:
+    def __init__(self, date: datetime.date, message=None):
+        self.reference_date = date
+        self.message = message
+
+    def __call__(self, form, field):
+        data = field.data
+        if data is None or (self.reference_date is not None and self.reference_date < data):
+            message = self.message
+            if message is None:
+                if self.reference_date is None:
+                    message = field.gettext('There is no date')
+                else:
+                    message = field.gettext('Given date must be older than %(date)')
+
+            raise ValidationError(message % dict(date=self.reference_date))
+# endregion
+
+
+# region fields
+class BootstrapDatetimeField(Field):
+    def __init__(self, default=None, id=None, label=None, validators=None, format='%Y-%m-%d %H:%M:%S', **kwargs):
+        super().__init__(default=None, id=id, label=label, validators=validators, **kwargs)
+
+
+class BootstrapDateField(Field):
+    def __init__(self, label=None, validators=None, format='%Y-%m-%d %H:%M:%S', **kwargs):
+        super().__init__(label=label, validators=validators, **kwargs)
+
+
+class BootstrapTimeField(Field):
+    def __init__(self, label=None, validators=None, format='%Y-%m-%d %H:%M:%S', **kwargs):
+        super().__init__(label=label, validators=validators, **kwargs)
+# endregion
 
 
 class LoginForm(FlaskForm):
@@ -19,6 +56,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+# region patient
 class NewPatientForm(FlaskForm):
     # nouveau_patient.html
     # "Fiche d'inscription - patient"
@@ -34,16 +72,26 @@ class NewPatientForm(FlaskForm):
     # "Sexe"
     sex = wtforms.RadioField(lazy_gettext("sexe"), validators=[DataRequired(
         lazy_gettext("Il est impératif de spécifier le sexe."))], choices=[
-        (Sexe.homme.name, Sexe.homme.name.capitalize()),
-        (Sexe.femme.name, Sexe.femme.name.capitalize())
-    ])
+        (Sexe.homme.name, lazy_gettext(Sexe.homme.name).capitalize()),
+        (Sexe.femme.name, lazy_gettext(Sexe.femme.name).capitalize()),
+        # (Sexe.indefini.name, lazy_gettext(Sexe.indefini.name).capitalize())
+    ]
+                             # , default=Sexe.indefini.name
+                             )
     # "Date de naissance"
-    # birth_date = wtforms.DateField(lazy_gettext("date_naissance"), validators=[DataRequired()], format="%Y-%m-%d")
+    birth_date = wtforms.DateField(lazy_gettext("date_naissance"), _name="datetimepicker-date-input-",
+                                   validators=[DataRequired(lazy_gettext("La date est obligatoire")),
+                                               NotAfterDateValidator(
+                                                   datetime.date.today() - datetime.timedelta(days=365*15+4),
+                                                   lazy_gettext("Il faut être au moins âgé de 15 ans "
+                                                                "pour utiliser ce service"))],
+                                   format="%d/%m/%Y",
+                                   default=datetime.date(1980, 1, 1))
     # %d/%m/%Y
     # "Adresse email"
     email_address = EmailField(lazy_gettext("adresse_email"), validators=[
         DataRequired(lazy_gettext("L'adresse email est obligatoire.")),
-        Email(lazy_gettext("Veuillez une adresse email correcte."))])
+        Email(lazy_gettext("Veuillez entrer une adresse email correcte."))])
     # "Mot de passe"
     first_password = wtforms.PasswordField(lazy_gettext("mot_de_passe"), validators=[
         DataRequired(lazy_gettext("Il est impératif de donner le premier mot de passe.")),
@@ -57,57 +105,6 @@ class NewPatientForm(FlaskForm):
     submit = SubmitField(lazy_gettext("valider"))
 
 
-class NewPraticienForm(FlaskForm):
-    # "Fiche d'inscription - praticien"
-    titre = lazy_gettext("fiche_inscription_praticien")
-    # "Votre demande d'inscription est enregistré"
-    message_succes = lazy_gettext("demande_inscription_enregistree")
-
-    first_name = StringField(lazy_gettext("prenom"), validators=[
-        DataRequired(lazy_gettext("Le prénom est obligatoire."))])
-    family_name = StringField(lazy_gettext("nom"), validators=[
-        DataRequired(lazy_gettext("Le nom de famille est obligatoire."))])
-
-    job = StringField(lazy_gettext("profession"), validators=[
-        DataRequired("La profession est obligatoire.")])
-
-    email_address = EmailField(lazy_gettext("adresse_email"), validators=[
-        DataRequired(lazy_gettext("L'adresse email est obligatoire.")),
-        Email(lazy_gettext("Veuillez une adresse email correcte."))])
-
-    # Numéro de téléphone fixe
-    # numero_telephone_fixe = StringField(lazy_gettext("numero_telephone_fixe"))
-    # "Numéro de téléphone mobile"
-    phone_number = StringField(lazy_gettext("numero_telephone_mobile"))
-    # "Rue"
-    street = StringField(lazy_gettext("rue"))
-    # "Code postale"
-    post_code = StringField(lazy_gettext("code_postale"))
-    # "Ville"
-    city = StringField(lazy_gettext("ville"))
-
-    # "Pays"
-    country = StringField(lazy_gettext("pays"))
-
-    # "Mot de passe"
-    first_password = wtforms.PasswordField(lazy_gettext("mot_de_passe"),
-                                           validators=[DataRequired(
-                                               lazy_gettext("Il est impératif de donner le premier mot de passe.")),
-                                               Length(min=8, message=lazy_gettext(
-                                                   "Le mot de passe doit au moins contenir 8 caractères.")),
-                                               EqualTo('second_same_password', message=lazy_gettext(
-                                                   "Les mots de passe doivent correspondre."))])
-    # "Le même mot de passe"
-    second_same_password = wtforms.PasswordField(lazy_gettext("meme_mot_de_passe"),
-                                                 validators=[
-                                                     DataRequired(lazy_gettext(
-                                                         "Il est impératif de remplir le second mot de passe.")),
-                                                     Length(min=8, message=lazy_gettext(
-                                                         "Le mot de passe doit au moins contenir 8 caractères."))])
-
-    submit = SubmitField(lazy_gettext("valider"))
-
-
 class PatientConnexion(FlaskForm):
     # connexion_patient.html
     titre = "Connexion au site en tant que patient"
@@ -118,32 +115,6 @@ class PatientConnexion(FlaskForm):
                                         validators=[DataRequired(
                                             lazy_gettext("Il est impératif de donner le premier mot de passe."))])
     tester_pseudo_mdp = wtforms.SubmitField(lazy_gettext("Connexion"))
-
-
-class PraticienConnexion(FlaskForm):
-    titre = "Connexion au site en tant que praticien"
-    pseudo_praticien = StringField(lazy_gettext("Adresse email"),
-                                   validators=[DataRequired(lazy_gettext("L'adresse email est obligatoire.")),
-                                               Email(lazy_gettext("Veuillez une adresse email correcte."))])
-    mdp_praticien = PasswordField(lazy_gettext("Mot de passe"),
-                                  validators=[DataRequired(
-                                      lazy_gettext("Il est impératif de donner le premier mot de passe."))])
-    tester_pseudo_mdp = SubmitField(lazy_gettext("Connexion"))
-
-
-class DataExportation(FlaskForm):
-    # exportation_donnees.html
-    pass
-
-
-class AppDataExport(FlaskForm):
-    # exportation_donnees_appli.html
-    pass
-
-
-class DataImport(FlaskForm):
-    # importation_donnees.html
-    pass
 
 
 #
@@ -260,6 +231,20 @@ class NewSituationEntry(FlaskForm):
     enregistrement_entree = wtforms.SubmitField(lazy_gettext("Enregistrer"))
 
 
+class NewWeightEntry(FlaskForm):
+    # nouvelle_entree_poids.html
+    titre = lazy_gettext("Nouvelle mesure de poids")
+    # date_heure = DateTimeLocalField("Date et heure", default=datetime.datetime.now())
+    masse = wtforms.IntegerField(lazy_gettext("Masse : "), validators=[DataRequired(
+        lazy_gettext("Ce champ est obligatoire."))])
+    unite_masse = sex = wtforms.RadioField(lazy_gettext("Unité de masse"), validators=[], choices=[
+        (UniteMasse.kg.name, UniteMasse.kg.name, ),
+    ], default=UniteMasse.kg.name)
+    enregistrement_poids = wtforms.SubmitField(lazy_gettext("Enregistrer poids"))
+
+# endregion
+
+
 class NewSituationWithAlternative(NewSituationEntry):
     pass
 
@@ -278,6 +263,79 @@ class PraticianAddConfirmation(FlaskForm):
     pass
 
 
+# region praticien
+class NewPraticienForm(FlaskForm):
+    # "Fiche d'inscription - praticien"
+    titre = lazy_gettext("fiche_inscription_praticien")
+    # "Votre demande d'inscription est enregistré"
+    message_succes = lazy_gettext("demande_inscription_enregistree")
+
+    first_name = StringField(lazy_gettext("prenom"), validators=[
+        DataRequired(lazy_gettext("Le prénom est obligatoire."))])
+    family_name = StringField(lazy_gettext("nom"), validators=[
+        DataRequired(lazy_gettext("Le nom de famille est obligatoire."))])
+
+    job = StringField(lazy_gettext("profession"), validators=[
+        DataRequired("La profession est obligatoire.")])
+
+    # "Date de naissance"
+    birth_date = wtforms.DateField(lazy_gettext("date_naissance"), _name="datetimepicker-date-input-",
+                                   validators=[DataRequired(lazy_gettext("La date est obligatoire")),
+                                               NotAfterDateValidator(
+                                                   datetime.date.today() - datetime.timedelta(days=365 * 18 + 4),
+                                                   lazy_gettext("Il faut être au moins âgé de 15 ans "
+                                                                "pour utiliser ce service"))],
+                                   format="%d/%m/%Y",
+                                   default=datetime.date(1980, 1, 1))
+
+    email_address = EmailField(lazy_gettext("adresse_email"), validators=[
+        DataRequired(lazy_gettext("L'adresse email est obligatoire.")),
+        Email(lazy_gettext("Veuillez une adresse email correcte."))])
+
+    # Numéro de téléphone fixe
+    # numero_telephone_fixe = StringField(lazy_gettext("numero_telephone_fixe"))
+    # "Numéro de téléphone mobile"
+    phone_number = StringField(lazy_gettext("numero_telephone_mobile"))
+    # "Rue"
+    street = StringField(lazy_gettext("rue"))
+    # "Code postale"
+    post_code = StringField(lazy_gettext("code_postale"))
+    # "Ville"
+    city = StringField(lazy_gettext("ville"))
+
+    # "Pays"
+    country = StringField(lazy_gettext("pays"))
+
+    # "Mot de passe"
+    first_password = wtforms.PasswordField(lazy_gettext("mot_de_passe"),
+                                           validators=[DataRequired(
+                                               lazy_gettext("Il est impératif de donner le premier mot de passe.")),
+                                               Length(min=8, message=lazy_gettext(
+                                                   "Le mot de passe doit au moins contenir 8 caractères.")),
+                                               EqualTo('second_same_password', message=lazy_gettext(
+                                                   "Les mots de passe doivent correspondre."))])
+    # "Le même mot de passe"
+    second_same_password = wtforms.PasswordField(lazy_gettext("meme_mot_de_passe"),
+                                                 validators=[
+                                                     DataRequired(lazy_gettext(
+                                                         "Il est impératif de remplir le second mot de passe.")),
+                                                     Length(min=8, message=lazy_gettext(
+                                                         "Le mot de passe doit au moins contenir 8 caractères."))])
+
+    submit = SubmitField(lazy_gettext("valider"))
+
+
+class PraticienConnexion(FlaskForm):
+    titre = "Connexion au site en tant que praticien"
+    pseudo_praticien = StringField(lazy_gettext("Adresse email"),
+                                   validators=[DataRequired(lazy_gettext("L'adresse email est obligatoire.")),
+                                               Email(lazy_gettext("Veuillez une adresse email correcte."))])
+    mdp_praticien = PasswordField(lazy_gettext("Mot de passe"),
+                                  validators=[DataRequired(
+                                      lazy_gettext("Il est impératif de donner le premier mot de passe."))])
+    tester_pseudo_mdp = SubmitField(lazy_gettext("Connexion"))
+
+
 class FicheSeancePatientForm(FlaskForm):
     titre = "Nouvelle fiche consultation/séance"
     date_heure = DateTimeField("Date et heure", default=datetime.datetime.now(),
@@ -285,3 +343,72 @@ class FicheSeancePatientForm(FlaskForm):
     contenu = wtforms.TextAreaField(lazy_gettext("Texte"),
                                     validators=[DataRequired(lazy_gettext("Ce champ est obligatoire."))])
     enregistrement_fiche_seance = wtforms.SubmitField(lazy_gettext("Enregistrer"))
+# endregion
+
+
+class DataExportation(FlaskForm):
+    # exportation_donnees.html
+    pass
+
+
+class AppDataExport(FlaskForm):
+    # exportation_donnees_appli.html
+    pass
+
+
+class DataImport(FlaskForm):
+    # importation_donnees.html
+    pass
+
+
+
+def check_hour(field: dict, label="", language="fr") -> bool:
+    """
+    >>> d= {"datetimepicker-hour-input-naissance": "09:40"}
+    >>> check_hour(d, "naissance")
+    True
+
+    :param field:
+    :param label:
+    :param language:
+    :return:
+    """
+    hour = field["datetimepicker-hour-input-" + label]
+    hour_s = hour.split(":")
+    if len(hour_s) == 2:
+        heure, minute = hour_s
+        return heure.isdigit() and minute.isdigit()
+    return False
+
+
+def check_date(field: dict, label="", language="fr") -> bool:
+    """
+    >>> d= {"datetimepicker-date-input-naissance": "02/03/1994"}
+    >>> check_date(d, "naissance")
+    True
+
+    :param field:
+    :param label:
+    :param language:
+    :return:
+    """
+    date = field["datetimepicker-date-input-" + label]
+    date_s = date.split("/")
+    if len(date_s) == 3:
+        jour, mois, annee = date_s
+        return jour.isdigit() and mois.isdigit() and annee.isdigit()
+    return False
+
+
+def check_datetime(field, label="", language="fr"):
+    """
+    >>> d= {"datetimepicker-date-input-naissance": "02/03/1994", "datetimepicker-hour-input-naissance": "09:40"}
+    >>> check_datetime(d, "naissance")
+    True
+
+    :param language:
+    :param field:
+    :param label:
+    :return:
+    """
+    return check_hour(field, label, language) and check_date(field, label, language)

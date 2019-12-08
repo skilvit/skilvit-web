@@ -1,14 +1,14 @@
 
+import re
 from random import shuffle
 
 from app.main import main
 from app.main.routes_utils import *
 import app.sessions_manager as sm
 from app.utils import *
-import re
 
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 
 def serie_questionnaire_en_json(data):

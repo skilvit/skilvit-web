@@ -1,0 +1,27 @@
+{% macro bouton_supprimer_compte(lien) %}
+
+    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#removalModal">
+      {{ _('Supprimer mon compte') }}
+    </button>
+
+
+    <div class="modal fade" id="removalModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ _("Suppression du compte") }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>{{ _("La suppression de votre compte est irréversible. Êtes-vous sûr de supprimer votre compte ?") }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _("Annuler") }}</button>
+            <a href='{{ lien }}'><button type="button" class="btn btn-primary">{{ _("Supprimer") }}</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endmacro %}

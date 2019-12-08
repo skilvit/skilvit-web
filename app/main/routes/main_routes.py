@@ -2,13 +2,23 @@
 from random import shuffle, sample
 import time
 
+from flask import url_for, g, request
 from flask_wtf.csrf import CSRFError
 from werkzeug.utils import secure_filename
+from flask_babel import lazy_gettext
 
-from app.config.constants import URL
 from app.main.routes_utils import *
+from app.main.forms import LoginForm
 import app.sessions_manager as sm
 from app.utils import *
+from app import babel
+from app.config.development import Config
+from app.main.mail_manager import envoyer_message_contact
+import time
+
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
+
+ALREADY_SENT = {}
 
 
 #  Accueil
@@ -19,8 +29,19 @@ def index():
     return render_template("index.html", message=message)
 
 
-@main.route("/contact")
+@main.route("/contact", methods=["GET", "POST"])
 def contact():
+    if request.method == "POST":
+        message = request.form["message"]
+        email_address = request.form["email-address"]
+        if email_address in ALREADY_SENT:
+            if time.time() - ALREADY_SENT[email_address] < 600:
+                flash(lazy_gettext("Vous avez déjà envoyé un message il y a moins de 10 minutes. Veuillez attendre."))
+                return render_template("contact.html")
+        ALREADY_SENT[email_address] = time.time()
+        envoyer_message_contact(email_address, message)
+        flash(lazy_gettext("Votre message a correctement été envoyé"))
+        return render_template("contact.html")
     return render_template("contact.html")
 
 
@@ -175,7 +196,7 @@ def exporter_ses_donnees():
         lignes = {"situation": corpus.get_situations(), "prise_medicament": corpus.get_prise_medicament()}
         unique = "".join(sample("azertyuiopqsdfghjklmwxcvbn", 10))+str(time.time()).split(".")[0]
         generer_pdf(unique, lignes)
-        return URL+"/tcc/patient/export_pdf/"+unique+".pdf"
+        return "https://www.skilvit.fr/tcc/patient/export_pdf/"+unique+".pdf"
 
 
 @main.route("/a_propos", methods=['GET'])

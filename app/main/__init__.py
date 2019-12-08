@@ -15,6 +15,9 @@ main = Blueprint('main', __name__)
 
 from app.main.routes import main_routes
 from app.main.routes.patient_routes import *
+from app.main.routes.patient.anamnese_routes import *
+from app.main.routes.patient.entries_routes import *
 from app.main.routes.praticien_routes import *
 from app.main.routes.questionnaire_routes import *
 from app.main.routes_utils import *
+

@@ -4,7 +4,8 @@
 {% from "macros/afficher_prise_medicament.html" import afficher_prise_medicament %}
 {% from "macros/afficher_sommeil.html" import afficher_sommeil %}
 {% from "macros/afficher_alimentation.html" import afficher_alimentation %}
-{% from "macros/afficher_activite_physique.html" import afficher_activite_physique%}
+{% from "macros/afficher_activite_physique.html" import afficher_activite_physique %}
+{% from "macros/afficher_masse.html" import afficher_masse %}
 
 {% block content %}
 
@@ -20,6 +21,8 @@
         {{ afficher_alimentation(element) }}
     {% elif element.type == "activite_physique" %}
         {{ afficher_activite_physique(element) }}
+    {% elif element.type == "masse" %}
+        {{ afficher_masse(element) }}
     {% endif %}
 
     {{ super() }}

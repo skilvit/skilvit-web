@@ -3,14 +3,15 @@
 {% from "macros/afficher_situation.html" import afficher_situation_indice_court, afficher_situation_praticien %}
 {% from "macros/afficher_prise_medicament.html" import afficher_prise_medicament_indice_court, afficher_prise_medicament_praticien %}
 {% from "macros/afficher_sommeil.html" import afficher_sommeil_indice_court, afficher_sommeil_praticien %}
+{% from "macros/afficher_masse.html" import afficher_masse_indice_court, afficher_masse_praticien %}
 
 {% macro afficher_entrees(entrees) %}
 
     {% for ligne in entrees %}
         <li class="list-group-item">
-        {#                <p>{{ ligne.type }} - {{ indice }}</p>#}
+
         {% set indice = loop.index - 1%}
-        {#                <p>{{ bizarre }}</p>#}
+
         {% if ligne.type == "situation" %}
             {{ afficher_situation_indice_court(indice, ligne) }}
 
@@ -25,6 +26,9 @@
 
         {% elif ligne.type == "activite_physique" %}
             {{ afficher_activite_physique_indice_court(indice, ligne) }}
+
+        {% elif ligne.type == "masse" %}
+            {{ afficher_masse_indice_court(indice, ligne) }}
 
         {% endif %}
         </li>
@@ -55,6 +59,9 @@
 
             {% elif ligne.type == "activite_physique" %}
                 {{ afficher_activite_physique_praticien(ligne) }}
+
+            {% elif ligne.type == "masse" %}
+                {{ afficher_masse_praticien(ligne) }}
 
             {% endif %}
             </div>

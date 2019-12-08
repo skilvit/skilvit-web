@@ -2,7 +2,7 @@
 {% macro afficher_glycemie_indice_court(indice, glycemie) %}
 {#    #}
 
-    <a href="{{ url_for('main.afficher_entree_patient', indice) }}"> {{ glycemie.date }} {{ glycemie.heure }}</a>
+    <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ glycemie.date }} {{ glycemie.heure }}</a>
     <p>{{ _('Glycémie : ') }}{{ glycemie.glycemie }} </p>
 
 {% endmacro %}

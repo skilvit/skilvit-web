@@ -1,0 +1,14 @@
+{% macro formulaire_contact() %}
+<form method="POST">
+    <div class="form-group">
+        <label for="email-address">{{ _("Adresse email") }}</label>
+        <input type="email" name="email-address" class="form-control" id="email-address" placeholder="{{ _('Entrez une adresse-email') }}">
+
+        <label for="message">{{ _("Votre message") }}</label>
+        <textarea class="form-control rounded-0" name="message" id="message" rows="10" placeholder="{{ _('Votre texte') }}"></textarea>
+
+        <button type="submit" class="btn btn-primary">{{ _('Envoyer') }}</button>
+    </div>
+
+</form>
+{% endmacro %}

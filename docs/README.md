@@ -3,7 +3,7 @@ An Introduction to Flask
 
 This repository contains the software that accompanies my O'Reilly training video [An Introduction to Flask](http://bit.ly/flaskintro).
 
-https://github.com/miguelgrinberg/oreilly-intro-to-flask-video
+[![An Introduction to Flask](http://img.youtube.com/vi/Hzg16-4k-Kk/0.jpg)](http://bit.ly/flaskintro)
 
 Instructions on how to use these examples is included in the appropriate segments of the class.
 

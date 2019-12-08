@@ -1,11 +1,12 @@
 
-import os
+from .constants import *
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = "Clément Besnier <admin@skilvit.com>"
 
 
 class Config:
     DEBUG = False
+    TESTING = False
     SECRET_KEY = ''  # TODO define it
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.dirname(__file__), '../data-prod.sqlite3')
 

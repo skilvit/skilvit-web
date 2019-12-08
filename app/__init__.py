@@ -15,8 +15,14 @@ from flask_admin.contrib.sqla import ModelView
 from flask_migrate import Migrate
 
 from app.database_manager import db, PatientDB, PraticienDB, RelationPatientPraticienDB, \
-    DemandeConnexionPatientPraticienDB, SituationDB, TacheDB, QuestionnaireDB, AnnotationEntree, SuiviPatient
+    DemandeConnexionPatientPraticienDB, SituationDB, TacheDB, QuestionnaireDB, AnnotationEntree, SuiviPatient, \
+    Anamnese, AlimentationDB, ActivitePhysiqueDB, GlycemieDB, MasseDB, PriseMedicamentDB, SommeilDB, \
+    MessageEchangeDB
 from app.config.development import Config
+import app.config.testing as config_test
+
+PACKDIR = os.path.abspath(os.path.dirname(__file__))
+print("packdir "+PACKDIR)
 
 
 bootstrap = Bootstrap()
@@ -102,6 +108,7 @@ class MyAdminIndexView(AdminIndexView):
         # link = '<p>Don't have an account? <a href="' + url_for('.register_view') + '">Click here to register.</a></p>'
         # self._template_args['link'] = link
         print('login ntr')
+        # return render_template('gestion/index.html')
         return super(MyAdminIndexView, self).index()
 
     @expose('/logout/')
@@ -117,6 +124,73 @@ def create_app():
     # import configuration
     # cfg = os.path.join(os.getcwd(), 'app', 'config', config_name + '.py')
     app.config.from_object(Config)
+    # app.config.from_pyfile(cfg)
+    app.secret_key = Config.SECRET_KEY
+
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template("page_inconnue.html"), 400
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template("500.html"), 500
+
+    # initialize extensions
+    bootstrap.init_app(app)
+    db.init_app(app)
+
+    # login manager for admin
+    lm.init_app(app)
+
+    babel.init_app(app)
+    # print(babel.list_translations())
+    # print(babel.default_locale)
+    # print(babel.default_timezone)
+    # print(babel.translation_directories)
+    csrf.init_app(app)
+    mail.init_app(app)
+
+    # admin page
+    admin = Admin(app, "Administration", base_template='my_master.html', index_view=MyAdminIndexView(),
+                  template_mode="bootstrap3")
+    admin.add_view(SkilvitAdminModelView(PatientDB, db.session))
+    admin.add_view(SkilvitAdminModelView(PraticienDB, db.session))
+    admin.add_view(SkilvitAdminModelView(RelationPatientPraticienDB, db.session))
+    admin.add_view(SkilvitAdminModelView(DemandeConnexionPatientPraticienDB, db.session))
+    admin.add_view(SkilvitAdminModelView(SituationDB, db.session))
+    admin.add_view(SkilvitAdminModelView(TacheDB, db.session))
+    admin.add_view(SkilvitAdminModelView(QuestionnaireDB, db.session))
+    admin.add_view(SkilvitAdminModelView(AnnotationEntree, db.session))
+    admin.add_view(SkilvitAdminModelView(SuiviPatient, db.session))
+    admin.add_view(SkilvitAdminModelView(AlimentationDB, db.session))
+    admin.add_view(SkilvitAdminModelView(SommeilDB, db.session))
+    admin.add_view(SkilvitAdminModelView(GlycemieDB, db.session))
+    admin.add_view(SkilvitAdminModelView(ActivitePhysiqueDB, db.session))
+    admin.add_view(SkilvitAdminModelView(Anamnese, db.session))
+    admin.add_view(SkilvitAdminModelView(MasseDB, db.session))
+    admin.add_view(SkilvitAdminModelView(PriseMedicamentDB, db.session))
+
+    # migration
+    migrate.init_app(app, db)
+    moment.init_app(app)
+
+    @lm.user_loader
+    def load_user(user_id):
+        return PatientDB.query.get(int(user_id))
+
+    # import blueprints
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+    print("application lancée")
+    return app
+
+
+def create_app_test():
+    app = Flask(__name__)
+
+    # import configuration
+    # cfg = os.path.join(os.getcwd(), 'app', 'config', config_name + '.py')
+    app.config.from_object(config_test.Config)
     # app.config.from_pyfile(cfg)
     app.secret_key = Config.SECRET_KEY
 
@@ -147,6 +221,13 @@ def create_app():
     admin.add_view(SkilvitAdminModelView(QuestionnaireDB, db.session))
     admin.add_view(SkilvitAdminModelView(AnnotationEntree, db.session))
     admin.add_view(SkilvitAdminModelView(SuiviPatient, db.session))
+    admin.add_view(SkilvitAdminModelView(AlimentationDB, db.session))
+    admin.add_view(SkilvitAdminModelView(SommeilDB, db.session))
+    admin.add_view(SkilvitAdminModelView(GlycemieDB, db.session))
+    admin.add_view(SkilvitAdminModelView(ActivitePhysiqueDB, db.session))
+    admin.add_view(SkilvitAdminModelView(Anamnese, db.session))
+    admin.add_view(SkilvitAdminModelView(MasseDB, db.session))
+    admin.add_view(SkilvitAdminModelView(PriseMedicamentDB, db.session))
 
     # migration
     migrate.init_app(app, db)

@@ -1,0 +1,31 @@
+
+{% macro afficher_masse_indice_court(indice, masse) %}
+
+    <a href="{{ url_for('main.afficher_entree_patient', indice=indice) }}"> {{ masse.date }} {{ masse.heure }}</a>
+    <p>{{ _('Poids : ') }}{{ masse.masse }} {{ masse.unite_masse }}</p>
+
+{% endmacro %}
+
+{% macro afficher_masse_praticien(masse) %}
+
+    <p class="important">{{ _('Poids') }}</p>
+    <ul>
+        {% if masse.date_heure %}
+            <li> {{ _('Date et heure :') }}{{ masse.date_heure }}</li>
+        {% else %}
+            <li> {{ _('Date :') }} {{ masse.date }} {{ _('et heure : ') }} {{ masse.heure }}</li>
+        {% endif %}
+        <li>{{ _('Poids : ') }}{{ masse.masse }} {{ masse.unite_masse }}</li>
+    </ul>
+
+{% endmacro %}
+
+{% macro afficher_masse(masse) %}
+
+
+    <ul>
+        <li> {{ _('Date :') }} {{ masse.date }} {{ _('et heure : ') }} {{ masse.heure }}</li>
+        <li>{{ _('Poids : ') }}{{ masse.masse }} {{ masse.unite_masse }}</li>
+    </ul>
+
+{% endmacro %}

@@ -173,3 +173,8 @@ textarea
 {
     background-color: darkgray;
 }
+
+
+.span:hover[contenteditable="true"] {
+  background-color: rgba(217, 245, 255,0.5);
+}

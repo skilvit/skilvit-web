@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>{{ _('Gestionnaire des praticiens') }}</h2>
-        {% if praticiens | length > 0 %}
+        {% if praticiens  %}
             <h5>{{ _('Liste des praticiens qui ont accès à vos données') }}</h5>
             <ul>
                 {% set i = 1 %}

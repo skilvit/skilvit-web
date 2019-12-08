@@ -1,4 +1,5 @@
 {% extends "motif_principal_bs.html" %}
+{% from "macros/afficher_formulaire_contact.html" import formulaire_contact %}
 
 {#{% block title %} Accueil {% endblock %}#}
 
@@ -10,13 +11,11 @@
             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9">
                 <h2>Contact</h2>
             </div>
-
         </div>
+
         <div class="row">
             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-9 float-left">
-                <p>
-                    Contacter l'équipe de Skilvit par mail : skilvitapp@gmail.com.
-                </p>
+                {{ formulaire_contact() }}
             </div>
         </div>
         <p></p>

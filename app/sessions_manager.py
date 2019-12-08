@@ -6,13 +6,14 @@ import time
 from flask_babel import to_utc
 
 from app.data_manager import DateHeure
+
 from app.database_manager import *
 from app.utils import *
 from app import data_manager as dm
 from datetime import datetime, date
 from sqlalchemy import tuple_
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 
 engine = db.create_engine('sqlite:///sqlalchemy_example.db')
@@ -81,14 +82,6 @@ class Praticiens:
         else:
             return False
 
-    def supprimer_praticien(self):
-        """
-        Si un praticien cesse de vouloir continuer l'application
-        :return:
-        """
-        # TODO suppression d'un praticien
-        pass
-
     @staticmethod
     def retrieve_praticien_by_validation_link(link):
         return dm.PraticienDB.query.filter_by(link_to_validate=link).first()
@@ -99,6 +92,10 @@ class Praticiens:
         praticien.confirmed = True
         praticien.confirmed_on = datetime.datetime.now()
         db.session.commit()
+
+    @staticmethod
+    def check_if_praticien_exists_by_email_address(email_address):
+        return PraticienDB.query.filter_by(email=email_address).first()
 
 
 class PatientSess(Utilisateur):
@@ -125,16 +122,22 @@ class PatientSess(Utilisateur):
     @staticmethod
     def creer_nouveau(formulaire, mdp_hash):
         # TODO normaliser les données
-        print("tout", PatientDB.query.all())
-        print(formulaire)
+        # print("tout", PatientDB.query.all())
+        # print(formulaire.birth_date.data)
+        # print(type(formulaire.birth_date.data))
+
         # date_naissance = datetime.strptime(forme["jour_"]+"/"+forme["mois_"]+"/"+forme["annee_"], "%d/%m/%Y")
-        date_naissance = to_utc(DateHeure.from_datepicker(formulaire, ""))
-        nouveau_patient = PatientDB(prenom=formulaire["first_name"], nom=formulaire["family_name"],
-                                    sexe=Sexe[formulaire["sex"]],
-                                    date_naissance=date_naissance,
-                                    email=formulaire["email_address"], mdp_hash=mdp_hash,
+        # date_naissance = DateHeure.from_datepicker(formulaire, "")
+        # if date_naissance != None:
+        #     date_naissance = to_utc(date_naissance)
+        # else:
+        #     return None
+        nouveau_patient = PatientDB(prenom=formulaire["first_name"].data, nom=formulaire["family_name"].data,
+                                    sexe=Sexe[formulaire["sex"].data],
+                                    date_naissance=formulaire.birth_date.data,
+                                    email=formulaire["email_address"].data, mdp_hash=mdp_hash,
                                     date_inscription=datetime.now())
-        print("new", nouveau_patient)
+        # print("new", nouveau_patient)
         # nouveau_patient = PatientDB(prenom=forme.prenom.data, nom=forme.nom.data,
         #                             sexe=Sexe[forme.sexe.data],
         #                             date_naissance=dm.Date.from_html_to_date(forme.date_naissance.data),
@@ -204,11 +207,23 @@ class PatientSess(Utilisateur):
         Supprime le compte utilisateur de ce patient
         :return:
         """
-        pass
+        dm.PatientDB.query.filter_by(id=self.patient_db.get_id()).delete()
+        dm.db.session.commit()
+        return True
+
+    def entries_to_json(self):
+        id_patient = self.patient_db.get_id()
+        return dm.get_entrees_patient(id_patient)
+
+    def profile_to_json(self):
+        id_patient = self.patient_db.get_id()
+        return dm.get_profil_patient(id_patient)
 
     def to_json(self):
         id_patient = self.patient_db.get_id()
-        return dm.get_entrees_patient(id_patient)
+        res = {"profil": self.profile_to_json(), "entrees": self.entries_to_json()}
+        print(res)
+        return res
 
     def to_txt(self):
         entrees = self.to_json()
@@ -290,10 +305,11 @@ class PatientSess(Utilisateur):
         dm.db.session.add(gl_db)
         dm.db.session.commit()
 
-    def enregistrer_poids(self, poids):
-        ps_db = PoidsDB(id_patient=self.patient_db.get_id(),
-                        poids=poids.poids,
-                        date_heure=poids.date_heure)
+    def enregistrer_poids(self, masse):
+        ps_db = MasseDB(id_patient=self.patient_db.get_id(),
+                        masse=masse.masse,
+                        unite_masse=masse.unite_masse,
+                        date_heure=masse.date_heure)
         dm.db.session.add(ps_db)
         dm.db.session.commit()
 
@@ -338,12 +354,12 @@ class PatientSess(Utilisateur):
         return activites_physiques
 
     def obtenir_entrees_poids(self):
-        l_poids = []
-        for poids_db in PoidsDB.query.filter_by(id_patient=self.patient_db.get_id()):
-            poids = dm.Poids()
-            poids.from_database(poids_db)
-            l_poids.append(poids)
-        return l_poids
+        l_masses = []
+        for masse_db in MasseDB.query.filter_by(id_patient=self.patient_db.get_id()):
+            masse = dm.Masse()
+            masse.from_database(masse_db)
+            l_masses.append(masse)
+        return l_masses
 
     def obtenir_entrees_glycemie(self):
         glycemies = []
@@ -375,9 +391,15 @@ class PatientSess(Utilisateur):
         dm.db.session.commit()
         return anamnese
 
-    def supprimer_anamnese_patient(self, patient_id, id_anamnese):
-        dm.Anamnese.query.filter_by(id_patient=patient_id, id=id_anamnese).delete()
-        dm.db.session.commit()
+    def supprimer_anamnese_patient(self, patient_id: int, id_anamnese: int):
+        anamnese = dm.Anamnese.query.filter_by(id_patient=patient_id, id=id_anamnese).first()
+        print(anamnese)
+        if anamnese is not None:
+            dm.db.session.delete(anamnese)
+            dm.db.session.commit()
+            return True
+        else:
+            return False
 
     def mettre_a_jour_anamnese_patient(self, patient_id, id_anamnese, nouveau_texte):
         anamnese = dm.Anamnese.query.filter_by(id_patient=patient_id, id=id_anamnese).first()
@@ -407,14 +429,16 @@ class PraticienSess(Utilisateur):
             json.dump(forme, f)
 
     @staticmethod
-    def creer_nouveau(forme, mdp_hash):
+    def creer_nouveau(formulaire, mdp_hash):
         # TODO normaliser les données
-        print(PraticienDB.query.all())
-        nouveau_praticien = PraticienDB(prenom=forme["first_name"], nom=forme["family_name"],
-                                        numero_telephone=forme["phone_number"],
-                                        profession=forme["job"], rue=forme["street"], code_postal=forme["post_code"],
-                                        ville=forme["city"], pays=forme["country"],
-                                        email=forme["email_address"], mdp_hash=mdp_hash,
+        # print(PraticienDB.query.all())
+
+        nouveau_praticien = PraticienDB(prenom=formulaire["first_name"].data, nom=formulaire["family_name"].data,
+                                        numero_telephone=formulaire["phone_number"].data,
+                                        profession=formulaire["job"].data, rue=formulaire["street"],
+                                        code_postal=formulaire["post_code"].data,
+                                        ville=formulaire["city"].data, pays=formulaire["country"].data,
+                                        email=formulaire["email_address"].data, mdp_hash=mdp_hash,
                                         date_inscription=datetime.now())
         dm.db.session.add(nouveau_praticien)
         try:
@@ -422,6 +446,11 @@ class PraticienSess(Utilisateur):
         except:
             dm.db.session.rollback()
         return nouveau_praticien
+
+    def supprimer_compte(self):
+        dm.PraticienDB.query.filter_by(id=self.praticien_db.get_id()).delete()
+        dm.db.session.commit()
+        return True
 
     @staticmethod
     def consulter_pseudo_praticien(pseudo):

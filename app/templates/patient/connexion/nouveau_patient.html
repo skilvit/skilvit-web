@@ -1,6 +1,6 @@
 {% extends "motif_principal_bs.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% from "macros/macro_datetime.html" import choisir_date %}
+{% from "macros/macro_datetime.html" import choisir_date, wtf_choisir_date %}
 {#{% from "macros/form_helpers.html" import render_field %}#}
 
 {% block content %}
@@ -12,18 +12,30 @@
     <div class="row">
         <div class="col-xs-9 col-9">
 
-            <form id="creation_patient_form" method="POST">
+            <form id="creation_patient_form" method="POST" role="form">
                 {{ form.csrf_token }}
 {#                {{ form.hidden_tag() }}#}
-{#                {{ wtf.form_errors(form) }}#}
+
 
                 {{ wtf.form_field(form.first_name) }}
                 {{ wtf.form_field(form.family_name) }}
 
                 <label for="sex">{{ _("Sexe") }}</label>
                 {{ wtf.form_field(form.sex) }}
-                <label >{{ _("Date de naissance") }}</label>
-                {{ choisir_date(1, 1, 1980) }}
+                {# <div>{{ form.birth_date.label }}: {{ form.birth_date(class="form-control datetimepicker-input", data_toggle="datetimepicker", data_target="#" + form.birth_date.id) }}</div> #}
+                {# {{ wtf_choisir_date(form.birth_date, 1, 1, 1980, label=_("Date de naissance")) }} #}
+                {{ wtf_choisir_date(form.birth_date, 1, 1, 1980, label=_("Date de naissance")) }}
+                {% for field in errors %}
+                    {% for error in errors[field] %}
+                        <div class="alert alert-error">
+                            <strong>Error!</strong> {{error}}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ wtf.form_errors(form) }}
+                {# {{ wtf.form_field(form.birth_date) }} #}
+
+                {# {{ choisir_date(1, 1, 1980, label=_("Date de naissance")) }} #}
                 {{ wtf.form_field(form.email_address) }}
                 {{ wtf.form_field(form.first_password) }}
                 {{ wtf.form_field(form.second_same_password) }}

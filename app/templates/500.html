@@ -1,0 +1,11 @@
+{% extends "motif_principal_bs.html" %}
+
+{% block title %} {{ _("Erreur") }} {% endblock %}
+
+{% block content %}
+    <p>
+        {{ _('Une erreur s'est produite. L'administrateur du site a été prévenue.') }}
+    </p>
+        {{ super() }}
+
+{% endblock %}

@@ -3,6 +3,7 @@ import os
 
 class Config:
     DEBUG = True
+    TESTING = False
     SECRET_KEY = 'top secret!'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
         os.path.dirname(__file__), '../data-dev.sqlite3')
@@ -21,7 +22,7 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_DEBUG = True
     MAIL_USERNAME = "skilvitapp"
-    MAIL_PASSWORD = "edkyrkuwugbccvkj"
+    MAIL_PASSWORD = ""  # TODO define it
     MAIL_DEFAULT_SENDER = ""  # TODO define it
     # MAIL_MAX_EMAILS
     # MAIL_SUPPRESS_SEND : default app.testing

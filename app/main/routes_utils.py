@@ -3,13 +3,16 @@ from flask import render_template, redirect, request, session, jsonify, send_fil
 import os
 import json
 
+from werkzeug.exceptions import abort
+
 from app import data_manager as dm
-from app.utils import DIRECTORY_JSON
 from . import main
 from functools import wraps
+from app.config.constants import DIRECTORY_JSON_FILES
+import app
 
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 
 def validation_connexion_et_retour_defaut(pseudo, val):
@@ -28,7 +31,7 @@ def validation_connexion_et_retour_defaut(pseudo, val):
 @validation_connexion_et_retour_defaut("pseudo", redirect("/tcc/pas_connecte_praticien"))
 def afficher_suivi_element(type_element, indice):
     corpus = dm.Corpus()
-    with open(os.path.join(DIRECTORY_JSON, "transitoire_"+session["pseudo"]+".json"), "r") as f:
+    with open(os.path.join(DIRECTORY_JSON_FILES, "transitoire_"+session["pseudo"]+".json"), "r") as f:
         corpus.from_json_beau_format(json.load(f))
 
     print(session)
@@ -166,3 +169,14 @@ def recuperer_mots_par_theme():
         return " ".join(["<option value=\""+mot+"\">"+mot+"</option>"
                          for mot in vocabu.d["themes"][request.form["theme"]]])
     return "<option value=\"pas ok\"> pas ok</option>"
+
+
+@main.route("/shutdown")
+def server_shutdown():
+    if not app.Config.TESTING:
+        abort(404)
+    shutdown = request.environ.get("werkzeug.server.shutdown")
+    if not shutdown:
+        abort(500)
+    shutdown()
+    return "Shutting down"

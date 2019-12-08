@@ -3,7 +3,9 @@ import datetime
 import enum
 import os
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+from flask_babel import to_utc, to_user_timezone, lazy_gettext
+
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 EMAIL_PATTERN = r"^[A-Za-z0-9\-_\.]+@[A-Za-z0-9\-_\.]+\.[a-z]{2,4}"
 # Constantes
@@ -41,12 +43,24 @@ def allowed_file_json(filename):
 class Sexe(enum.Enum):
     homme = 0
     femme = 1
+    # indefini = 2
+
+    def get_pretty_form(self):
+        if self.value == Sexe.homme.value:
+            return str(lazy_gettext("Homme"))
+        elif self.value == Sexe.femme.value:
+            return str(lazy_gettext("Femme"))
 
 
 class EvenementSommeil(enum.Enum):
     coucher = 0
     lever = 1
     reveil_nuit = 2
+
+
+class UniteMasse(enum.Enum):
+    kg = 0
+
 
 
 def is_valid_email_address(courriel):

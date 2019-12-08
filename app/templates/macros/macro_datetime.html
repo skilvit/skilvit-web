@@ -1,22 +1,11 @@
+
+
 {% macro choisir_date_heure(jour, mois, annee, heure, minute, id="", language="fr") %}
 
-<!--    <div class="input-group date" id="datetimepicker-hour-{{ id }}" data-target-input="nearest">-->
-<!--        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-hour-{{ id }}"/>-->
-<!--        <div class="input-group-append" data-target="#datetimepicker-hour-{{ id }}" data-toggle="datetimepicker">-->
-<!--            <div class="input-group-text"><i class="fa fa-clock-o"></i></div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <div class="input-group date" id="datetimepicker-date-{{ id }}" data-target-input="nearest">-->
-<!--        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker-date-{{ id }}"/>-->
-<!--        <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">-->
-<!--            <div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
-<!--        </div>-->
-<!--    </div>-->
     <div class="form-group required">
         <label class="form-control-label" for="datetimepicker-hour-{{ id }}">{{ _("Heure") }}</label>
         <div class="input-group date form-group required" id="datetimepicker-hour-{{ id }}" data-target-input="nearest">
-            <input type="text" name="datetimepicker-hour-input-{{ id }}" class="form-control datetimepicker-input form-control" data-target="#datetimepicker-hour-{{ id }}" value="{{ heure }}:{{ minute }}"/>
+            <input type="text" required="" name="datetimepicker-hour-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-hour-{{ id }}" value="{{ heure }}:{{ minute }}"/>
             <div class="input-group-append" data-target="#datetimepicker-hour-{{ id }}" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
             </div>
@@ -35,7 +24,7 @@
     <div class="form-group required">
         <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label>
         <div class="input-group date form-group required" id="datetimepicker-date-{{ id }}" data-target-input="nearest">
-            <input type="text" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input form-control" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/>
+            <input type="text" required="" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/>
             <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -49,113 +38,18 @@
             });
     </script>
 
-{#<!--    <label for="jour_{{ id }}">{{ _('Jour') }}</label>-->#}
-{#<!--    <select id="jour_{{ id }}" name="jour_{{ id }}">-->#}
-{#<!--    {% for i in range(1, 32) %}-->#}
-{#<!--        <option value="{{ i }}" {% if i == jour %}selected{% endif %}>{{ i }}</option>-->#}
-{#<!--    {% endfor %}-->#}
-{#<!--    </select>-->#}
-{#<!--    <label for="mois_{{ id }}">{{ _('Mois') }}</label>-->#}
-{#<!--    <select id="mois_{{ id }}" name="mois_{{ id }}">-->#}
-{#<!--    {% for i in range(1, 13) %}-->#}
-{#<!--        <option value="{{ i }}" {% if i == mois %}selected{% endif %}>-->#}
-{#<!--            {{ i }}-->#}
-{#<!--        </option>-->#}
-{#<!--    {% endfor %}-->#}
-{#<!--    </select>-->#}
-{#<!--    <label for="annee_{{ id }}">{{ _('Année') }}</label>-->#}
-{#<!--    <select id="annee_{{ id }}" name="annee_{{ id }}">-->#}
-{#<!--    {% for i in range(1900, 2020) %}-->#}
-{#<!--        <option value="{{ i }}" {% if i == annee %}selected{% endif %}>-->#}
-{#<!--            {{ i }}-->#}
-{#<!--        </option>-->#}
-{#<!--    {% endfor %}-->#}
-{#<!--    </select>-->#}
-{#<!--    <label for="heure_{{ id }}">{{ _('Heure') }}</label>-->#}
-{#<!--    <select id="heure_{{ id }}" name="heure_{{ id }}">-->#}
-{#<!--        {% for i in range(0, 24) %}-->#}
-{#<!--        <option value="{{ i }}" {% if i == heure %}selected{% endif %}>-->#}
-{#<!--            {{ i }}-->#}
-{#<!--        </option>-->#}
-{#<!--    {% endfor %}-->#}
-{#<!--    </select>-->#}
-{#<!--    <label for="minute_{{ id }}">{{ _('Minute') }}</label>-->#}
-{#<!--    <select id="minute_{{ id }}" name="minute_{{ id }}">-->#}
-{#<!--        {% for i in range(0, 60) %}-->#}
-{#<!--        <option value="{{ i }}" {% if i == minute %}selected{% endif %}>-->#}
-{#<!--            {{ i }}-->#}
-{#<!--        </option>-->#}
-{#<!--    {% endfor %}-->#}
-{#<!--    </select>-->#}
 {% endmacro %}
 
-{#{% macro choisir_date_heure(maintenant, id="") %}#}
-{#    'H:M d/M/Y'#}
-{#    {{  moment(maintenant).format("D") }}#}
-{#    {{  moment(maintenant).format("M") }}#}
-{#    {{  moment(maintenant).format("Y") }}#}
-{#    {{  moment(maintenant).format("H") }}#}
-{#    {{  moment(maintenant).format("mm") }}#}
-{#    {{  moment(maintenant).calendar() }}#}
-{##}
-{##}
-{#    <label for="jour_{{ id }}">{{ _('Jour') }}</label>#}
-{#    <select id="jour_{{ id }}" name="jour_{{ id }}">#}
-{#    {% for i in range(1, 32) %}#}
-{#        <option value="{{ i }}" {% if i == moment(maintenant).format("D") %}selected{% endif %}>{{ i }}</option>#}
-{#    {% endfor %}#}
-{##}
-{##}
-{#    </select>#}
-{##}
-{#    <label for="mois_{{ id }}">{{ _('Mois') }}</label>#}
-{#    <select id="mois_{{ id }}" name="mois_{{ id }}">#}
-{#    {% for i in range(1, 13) %}#}
-{#        <option value="{{ i }}" {% if i == moment(maintenant).format("M") %}selected{% endif %}>#}
-{#            {{ i }}#}
-{#        </option>#}
-{#    {% endfor %}#}
-{##}
-{##}
-{#    </select>#}
-{##}
-{#    <label for="annee_{{ id }}">{{ _('Année') }}</label>#}
-{#    <select id="annee_{{ id }}" name="annee_{{ id }}">#}
-{#    {% for i in range(1900, 2019) %}#}
-{#        <option value="{{ i }}" {% if i == moment(maintenant).format("Y") %}selected{% endif %}>#}
-{#            {{ i }}#}
-{#        </option>#}
-{#    {% endfor %}#}
-{##}
-{##}
-{#    </select>#}
-{##}
-{#    <label for="heure_{{ id }}">{{ _('Heure') }}</label>#}
-{#    <select id="heure_{{ id }}" name="heure_{{ id }}">#}
-{#        {% for i in range(0, 24) %}#}
-{#        <option value="{{ i }}" {% if i == moment(maintenant).format("H") %}selected{% endif %}>#}
-{#            {{ i }}#}
-{#        </option>#}
-{#    {% endfor %}#}
-{#    </select>#}
-{##}
-{#    <label for="minute_{{ id }}">{{ _('Minute') }}</label>#}
-{#    <select id="minute_{{ id }}" name="minute_{{ id }}">#}
-{#        {% for i in range(0, 60) %}#}
-{#        <option value="{{ i }}" {% if i == moment(maintenant).format("mm") %}selected{% endif %}>#}
-{#            {{ i }}#}
-{#        </option>#}
-{#    {% endfor %}#}
-{#    </select>#}
-{##}
-{#{% endmacro %}#}
-
-{% macro choisir_date(jour, mois, annee, _id="", language="fr") %}
+{% macro choisir_date(jour, mois, annee, _id="", language="fr", label="") %}
 
     <div class="form-group required">
-        <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label>
+        {%  if label == "" %}
+            <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label>
+        {% else %}
+            <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ label }}</label>
+        {% endif %}
         <div class="input-group date form-group required" id="datetimepicker-date-{{ id }}" data-target-input="nearest">
-            <input type="text" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input form-control" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/>
+            <input type="text" required="" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/>
             <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">
                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
@@ -170,35 +64,81 @@
             });
     </script>
 
-<!--    <label for="jour_{{ id }}">{{ _('Jour') }}</label>-->
-<!--    <select id="jour_{{ id }}" name="jour_{{ id }}">-->
-<!--    {% for i in range(1, 32) %}-->
-<!--        <option value="{{ i }}" {% if i == jour %}selected{% endif %}>{{ i }}</option>-->
-<!--    {% endfor %}-->
+
+{% endmacro %}
 
 
-<!--    </select>-->
+{% macro wtf_choisir_date_heure(field, jour, mois, annee, heure, minute, id="", language="fr") %}
 
-<!--    <label for="mois_{{ id }}">{{ _('Mois') }}</label>-->
-<!--    <select id="mois_{{ id }}" name="mois_{{ id }}">-->
-<!--    {% for i in range(1, 13) %}-->
-<!--        <option value="{{ i }}" {% if i == mois %}selected{% endif %}>-->
-<!--            {{ i }}-->
-<!--        </option>-->
-<!--    {% endfor %}-->
-
-
-<!--    </select>-->
-
-<!--    <label for="annee_{{ id }}">{{ _('Année') }}</label>-->
-<!--    <select id="annee_{{ id }}" name="annee_{{ id }}">-->
-<!--    {% for i in range(1900, 2001) %}-->
-<!--        <option value="{{ i }}" {% if i == annee %}selected{% endif %}>-->
-<!--            {{ i }}-->
-<!--        </option>-->
-<!--    {% endfor %}-->
+    <div class="form-group required">
+        {# <label class="form-control-label" for="datetimepicker-hour-{{ id }}">{{ _("Heure") }}</label> #}
+        <div class="input-group date form-group required" id="datetimepicker-hour-{{ id }}" data-target-input="nearest">
+            <div>{{ field.label }}: {{ field(class="form-control datetimepicker-input", data_toggle="datetimepicker", data_target="#datetimepicker-hour-"+_id, value=heure+":"+minute) }}</div>
+            {# <input type="text" required="" name="datetimepicker-hour-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-hour-{{ id }}" value="{{ heure }}:{{ minute }}"/> #}
+            <div class="input-group-append" data-target="#datetimepicker-hour-{{ id }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+            </div>
+        </div>
+    </div>
 
 
-<!--    </select>-->
+    <script type="text/javascript">
+        $(function(){
+        $('#datetimepicker-hour-{{ id }}').datetimepicker({
+            format: 'LT',
+            locale: '{{ language }}'
+        });
+        });
+    </script>
+
+    <div class="form-group required">
+        {# <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label> #}
+        <div class="input-group date form-group required" id="datetimepicker-date-{{ id }}" data-target-input="nearest">
+            {{ field(class="form-control datetimepicker-input", data_toggle="datetimepicker", data_target="#datetimepicker-date-"+_id, value="{{ jour }}/{{ mois }}/{{ annee }}") }}
+            {# <input type="text" required="" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/> #}
+            <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+            $(function(){$('#datetimepicker-date-{{ id }}').datetimepicker({
+                format: 'L',
+                locale: '{{ language }}'
+            });
+            });
+    </script>
+
+{% endmacro %}
+
+
+{% macro wtf_choisir_date(field, jour, mois, annee, _id="", language="fr", label="") %}
+
+    {# <div>{{ field.label }}: {{ field(class="form-control datetimepicker-date-input", data_toggle="datetimepicker", data_target="#" + field.id) }}</div> #}
+
+    <div class="form-group required">
+
+        {%  if label == "" %}
+            <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ _("Date") }}</label>
+        {% else %}
+            <label class="form-control-label" for="datetimepicker-date-{{ id }}">{{ label }}</label>
+        {% endif %}
+        <div class="input-group date form-group required" id="datetimepicker-date-{{ id }}" data-target-input="nearest">
+            {{ field(class="form-control datetimepicker-input", data_toggle="datetimepicker", data_target="#datetimepicker-date-"+_id) }}
+            {# <input type="text" required="" name="datetimepicker-date-input-{{ id }}" class="form-control datetimepicker-input" data-target="#datetimepicker-date-{{ id }}" value="{{ jour }}/{{ mois }}/{{ annee }}"/> #}
+            <div class="input-group-append" data-target="#datetimepicker-date-{{ id }}" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+            $(function(){$('#datetimepicker-date-{{ id }}').datetimepicker({
+                format: 'L',
+                locale: '{{ language }}'
+            });
+            });
+    </script>
 
 {% endmacro %}

@@ -5,8 +5,9 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.utils import *
 
+from app.config.development import Config
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 db = SQLAlchemy()
 
@@ -23,6 +24,10 @@ class JsonEncodedDict(db.TypeDecorator):
 
     def process_result_value(self, value, dialect):
         return json.loads(value)
+
+
+def row_to_dict(row):
+    return {c.name: getattr(row, c.name) for c in row.__table__.columns if c.name != "mdp_hash"}
 
 
 class PatientDB(UserMixin, db.Model):
@@ -55,6 +60,19 @@ class PatientDB(UserMixin, db.Model):
     #
     #     self.confirmed = confirmed
     #     self.confirmed_on = confirmed_on
+
+    @staticmethod
+    def row_to_dict(id_patient):
+        row = PatientDB.query.filter_by(id=id_patient).first()
+        row = row_to_dict(row)
+        row.pop("confirmed")
+        row.pop("confirmed_on")
+        row.pop("is_admin")
+        row.pop("link_to_validate")
+        row["sexe"] = row["sexe"].get_pretty_form()
+        row["date_naissance"] = row["date_naissance"].isoformat()
+        row["date_inscription"] = row["date_inscription"].isoformat()
+        return row
 
     def set_password(self, password):
         self.mdp_hash = generate_password_hash(password)
@@ -111,6 +129,7 @@ class PraticienDB(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True, default=None)
     link_to_validate = db.Column(db.String(64), nullable=True, default="")
+    patients = db.relationship("PatientDB", secondary="relation_pat_pra")
 
     # def __init__(self, prenom, nom, profession='', email='', numero_telephone='', rue='', code_postal='',
     #              ville='', pays='', confirmed=False, confirmed_on=None):
@@ -162,6 +181,13 @@ class PraticienDB(UserMixin, db.Model):
     def __repr__(self):
         return '<Praticien {0}>'.format(self.email)
 
+    @staticmethod
+    def row_to_dict(id_praticien):
+        row = PraticienDB.query.filter_by(id=id_praticien).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
+
 
 class RelationPatientPraticienDB(db.Model):
     __tablename__ = "relation_pat_pra"
@@ -210,6 +236,13 @@ class SituationDB(db.Model):
     def get_id(self):
         return self.id
 
+    @staticmethod
+    def row_to_dict(id_situation):
+        row = SituationDB.query.filter_by(id=id_situation).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
+
 
 class PriseMedicamentDB(db.Model):
     __tablename__ = "prise_medicament"
@@ -223,6 +256,13 @@ class PriseMedicamentDB(db.Model):
 
     def get_id(self):
         return self.id
+
+    @staticmethod
+    def row_to_dict(id_masse):
+        row = PriseMedicamentDB.query.filter_by(id=id_masse).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
 
 
 class AnalysePraticien(db.Model):
@@ -240,6 +280,13 @@ class AnalysePraticien(db.Model):
     def get_id(self):
         return self.id
 
+    @staticmethod
+    def row_to_dict(id_masse):
+        row = AnalysePraticien.query.filter_by(id=id_masse).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
+
 
 class AlimentationDB(db.Model):
     __tablename__ = "alimentation"
@@ -254,6 +301,13 @@ class AlimentationDB(db.Model):
 
     def get_id(self):
         return self.id
+
+    @staticmethod
+    def row_to_dict(is_alimentation):
+        row = AlimentationDB.query.filter_by(id=is_alimentation).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
 
 
 class ActivitePhysiqueDB(db.Model):
@@ -270,6 +324,13 @@ class ActivitePhysiqueDB(db.Model):
 
     def get_id(self):
         return self.id
+
+    @staticmethod
+    def row_to_dict(id_activite_physique):
+        row = ActivitePhysiqueDB.query.filter_by(id=id_activite_physique).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
 
 
 class SommeilDB(db.Model):
@@ -289,18 +350,35 @@ class SommeilDB(db.Model):
     def get_id(self):
         return self.id
 
+    @staticmethod
+    def row_to_dict(id_sommeil):
+        row = SommeilDB.query.filter_by(id=id_sommeil).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        row["date_heure_evenement"] = row["date_heure_evenement"].isoformat()
+        return row
 
-class PoidsDB(db.Model):
-    __tablename__ = "poids"
+
+class MasseDB(db.Model):
+    __tablename__ = "masse"
     __table_args__ = {'sqlite_autoincrement': True}
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     id_patient = db.Column(db.Integer, db.ForeignKey('patient.id'))
     patient = db.relationship(PatientDB)
     date_heure = db.Column(db.DateTime, nullable=False)
-    poids = db.Column(db.Integer, nullable=False)
+    masse = db.Column(db.Integer, nullable=False)
+    unite_masse = db.Column(db.Enum(UniteMasse), nullable=False, default=UniteMasse.kg)
 
     def get_id(self):
         return self.id
+
+    @staticmethod
+    def row_to_dict(id_masse):
+        row = MasseDB.query.filter_by(id=id_masse).first()
+        row = row_to_dict(row)
+        row["unite_masse"] = row["unite_masse"].get_pretty_form()
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
 
 
 class GlycemieDB(db.Model):
@@ -314,6 +392,13 @@ class GlycemieDB(db.Model):
 
     def get_id(self):
         return self.id
+
+    @staticmethod
+    def row_to_dict(id_masse):
+        row = GlycemieDB.query.filter_by(id=id_masse).first()
+        row = row_to_dict(row)
+        row["date_heure"] = row["date_heure"].isoformat()
+        return row
 
 
 class MessageEchangeDB(db.Model):
@@ -426,8 +511,8 @@ class AnnotationEntree(db.Model):
 class Anamnese(db.Model):
     __tablename__ = "anamnese"
     __table_args__ = {'sqlite_autoincrement': True}
-    categories = ["école", "travail et études", "amitié", "cercle familiale", "amis", "lieux de vie",
-                  "traumatismes potentiels"]
+    categories = ["école", "travail et études", "amitié", "cercle familiale", "amour", "lieux de vie",
+                  "événements marquants"]
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
 
     id_patient = db.Column(db.Integer, db.ForeignKey('patient.id'))
@@ -448,27 +533,19 @@ def to_date(jour, mois, annee):
     return jour_mois_annee
 
 
-def define_admin(db):
-    moi = PatientDB(prenom="Truc", nom="Truc", sexe=Sexe.homme, date_naissance=to_date(1, 1, 1990),
-                    date_inscription=datetime.datetime.now(), email="bidon@bidon.com",
-                    mdp_hash=generate_password_hash("truc"), confirmed=True, confirmed_on=datetime.datetime.now(),
-                    is_admin=True)
-    db.session.add(moi)
-
-    moi_aussi = PraticienDB(prenom="Truc",
-                            nom="Truc",
-                            profession="bidon",
-                            email="bidon@bidon.com",
-                            numero_telephone="0600000000",
-                            date_inscription=datetime.datetime.now(),
-                            mdp_hash=generate_password_hash("truc"),
-                            confirmed=True,
-                            confirmed_on=datetime.datetime.now(),
-                            rue="1 rue du machin",
-                            code_postal="00000",
-                            ville="Bidule",
-                            pays="France",
-                            link_to_validate="")
-    db.session.add(moi_aussi)
-
-    db.session.commit()
+PatientDB.situations = db.relationship("SituationDB", order_by=SituationDB.id, back_populates="patient",
+                                       cascade="all, delete, delete-orphan")
+PatientDB.sommeils = db.relationship("SommeilDB", order_by=SommeilDB.id, back_populates="patient",
+                                     cascade="all, delete, delete-orphan")
+PatientDB.masse = db.relationship("MasseDB", order_by=MasseDB.id, back_populates="patient",
+                                  cascade="all, delete, delete-orphan")
+PatientDB.anamneses = db.relationship("Anamnese", order_by=Anamnese.id, back_populates="patient",
+                                      cascade="all, delete, delete-orphan")
+PatientDB.prises_medicaments = db.relationship("PriseMedicamentDB", order_by=PriseMedicamentDB.id,
+                                               back_populates="patient", cascade="all, delete, delete-orphan")
+PatientDB.alimentations = db.relationship("AlimentationDB", order_by=AlimentationDB.id,
+                                          back_populates="patient", cascade="all, delete, delete-orphan")
+PatientDB.glycemies = db.relationship("GlycemieDB", order_by=GlycemieDB.id, back_populates="patient",
+                                      cascade="all, delete, delete-orphan")
+PatientDB.activites_physiques = db.relationship("ActivitePhysiqueDB", order_by=ActivitePhysiqueDB.id,
+                                                back_populates="patient", cascade="all, delete, delete-orphan")

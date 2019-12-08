@@ -7,11 +7,10 @@ import numpy as np
 import abc
 
 # import matplotlib.pyplot as plt
-from flask_babel import to_utc, to_user_timezone
 
 from app.database_manager import *
 
-__author__ = "Clément Besnier <skilvitapp@gmail.com>"
+__author__ = ["Clément Besnier <admin@skilvit.fr>", ]
 
 mots_trop_frequents = stopwords.words("french")
 
@@ -403,7 +402,7 @@ class Glycemie(Champ):
         self.glycemie = None
 
     def from_view_to_data(self, post: dict):
-        self.date_heure = to_utc(DateHeure.from_datetimepicker(post["date_heure"]))
+        self.date_heure = to_utc(DateHeure.from_datetimepicker(post, ""))
         self.glycemie = post["glycemie"]
 
     def from_dictionary(self, d: dict):
@@ -431,10 +430,11 @@ class Glycemie(Champ):
         self.glycemie = champ["glycemie"]
 
 
-class Poids(Champ):
+class Masse(Champ):
     def __init__(self):
-        Champ.__init__(self, "poids")
-        self.poids = None
+        Champ.__init__(self, "masse")
+        self.masse = None
+        self.unite_masse = UniteMasse.kg
 
     def from_view_to_data(self, d: dict):
         """
@@ -442,24 +442,28 @@ class Poids(Champ):
         :param d:
         :return: data, list of sleep event
         """
-        self.date_heure = to_utc(DateHeure.from_datetimepicker(d["date_heure"]))
-        self.poids = d["poids"]
+        self.date_heure = to_utc(DateHeure.from_datetimepicker(d, ""))
+        self.masse = d["masse"]
+        self.unite_masse = d["unite_masse"]
 
     def from_dictionary(self, d: dict):
         self.date_heure.from_dictionary_beau_format(d)
-        self.poids = d["poids"]
+        self.masse = d["masse"]
+        self.unite_masse = d["unite_masse"]
         if "id" in d:
             self.id = d["id"]
 
     def from_database(self, poids_db):
         self.date_heure = DateHeure()
         self.date_heure.from_datetime(to_user_timezone(poids_db.date_heure))
-        self.poids = poids_db.poids
+        self.masse = poids_db.masse
+        self.unite_masse = poids_db.unite_masse.name
         self.id = poids_db.get_id()
 
     def to_dictionary(self):
         return {"type": self.type,
-                "poids": self.poids,
+                "masse": self.masse,
+                "unite_masse": self.unite_masse,
                 "date": self.date_heure.beau_format_jour(),
                 "heure": self.date_heure.beau_format_heure(),
                 "id": self.id}
@@ -467,7 +471,8 @@ class Poids(Champ):
     def from_dictionary_app(self, champ: dict):
         self.date_heure = DateHeure()
         self.date_heure.from_dictionary_app(champ)
-        self.poids = champ["poids"]
+        self.masse = champ["masse"]
+        self.unite_masse = champs["unite_masse"]
 
 
 class Sommeil(Champ):
@@ -853,6 +858,11 @@ class Corpus:
                 gl.from_dictionary_app(champ)
                 self.ajout_champ(gl)
 
+            elif champ["type"] == "masse":
+                gl = Masse()
+                gl.from_dictionary_app(champ)
+                self.ajout_champ(gl)
+
     def charger_champs_db(self, id_patient: int):
 
         situations_db = SituationDB.query.filter_by(id_patient=id_patient)
@@ -885,11 +895,11 @@ class Corpus:
             som.from_database(sommeil_db)
             self.ajout_champ(som)
 
-        poids_db = PoidsDB.query.filter_by(id_patient=id_patient)
+        poids_db = MasseDB.query.filter_by(id_patient=id_patient)
         for pdb in poids_db:
-            poids = Poids()
-            poids.from_database(pdb)
-            self.ajout_champ(poids)
+            masse = Masse()
+            masse.from_database(pdb)
+            self.ajout_champ(masse)
 
         glycemie_db = GlycemieDB.query.filter_by(id_patient=id_patient)
         for gdb in glycemie_db:
@@ -1010,7 +1020,7 @@ class Corpus:
         return self.get_field(Glycemie)
 
     def get_poids(self):
-        return self.get_field(Poids)
+        return self.get_field(Masse)
 
 
 class Vocabulaire:
@@ -1071,6 +1081,10 @@ class Questionnaire:
         pass
 
 
+def get_profil_patient(id_patient: int):
+    return PatientDB.row_to_dict(id_patient)
+
+
 def get_entrees_patient(id_patient: int):
     situations_db = SituationDB.query.filter_by(id_patient=id_patient)
     entrees = []
@@ -1103,11 +1117,11 @@ def get_entrees_patient(id_patient: int):
         som.from_database(sommeil_db)
         entrees.append(som.to_dictionary())
 
-    poids_db = PoidsDB.query.filter_by(id_patient=id_patient)
-    for pdb in poids_db:
-        poids = Poids()
-        poids.from_database(pdb)
-        entrees.append(poids.to_dictionary())
+    masse_db = MasseDB.query.filter_by(id_patient=id_patient)
+    for pdb in masse_db:
+        masse = Masse()
+        masse.from_database(pdb)
+        entrees.append(masse.to_dictionary())
 
     glycemie_db = GlycemieDB.query.filter_by(id_patient=id_patient)
     for gdb in glycemie_db:
@@ -1136,28 +1150,3 @@ def get_taches(patients: List):
     for patient in patients:
         taches[patient.get_id()] = TacheDB.query.filter_by(patient=patient)
     return taches
-
-
-def test():
-    dh = DateHeure(12, 3, 1, 8, 2017)
-    dh2 = DateHeure(15, 2, 5, 9, 2017)
-    example_filename = "static/images/essai.png"
-    corpus = Corpus()
-
-    with open("suivis/suivi_05_09_2017.json", "r", encoding="utf8") as f:
-        texte = json.load(f)
-        # print(texte)
-        corpus.from_json_app(texte)
-        print(corpus.calculer_frequence(["ballonnement", "palpitation", "diarhée", "ventre"], dh, dh2))
-        print(corpus.calculer_frequence(["ventre"], dh, dh2))
-        print(corpus.calculer_frequence(["ballonnement", "diarhée"], dh, dh2))
-        print(corpus.calculer_frequence(["ballonnement", "palpitation", "diarhée", "ventre"], dh, dh2))
-        # print(corpus.calculer_occurrence_par_jour(["ballonnement", "palpitation", "diarhée", "ventre"], dh, dh2))
-        # print(corpus.calculer_occurrence_par_jour(["ballonnement", "palpitation", "diarhée", "ventre"], dh, dh2))
-        # print(corpus.calculer_occurrence_par_jour(["ballonnement", "palpitation", "diarhée", "ventre"], dh, dh2))
-        # print(corpus.calcule_correlation(["triste", "seul", "solitude"], ["diarhée", "ventre", "mal"], dh, dh2))
-        # print(corpus.liste_intensite(dh, dh2))
-
-
-if __name__ == "__main__":
-    test()

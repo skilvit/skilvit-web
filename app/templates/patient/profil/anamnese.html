@@ -6,7 +6,7 @@
     <h2 id="titre-anamnese">{{ _('Anamnèse') }}</h2>
 
     {# Partie ajout d'un élément avec une catégorie à choisir dans une liste prédéfinie #}
-{#    <div class="row">#}
+
     <div class="container card grand-isolement" style="padding: 20px; margin: 20px">
         <form id="nouvelle-anamnese" class="" method="POST">
             <div class="form-row">
@@ -24,7 +24,6 @@
                 </div>
             </div>
             <button class="btn btn-secondary isolement" type="submit">Ajouter</button>
-    {#    </div>#}
         </form>
     </div>
 
@@ -40,6 +39,9 @@
 
             if(editable) {
                 $("#"+id+"-element-texte").attr("contentEditable", "true");
+
+                $("#"+id+"-element-texte").focus();
+
             }
             else {
                 $("#"+id+"-element-texte").attr("contentEditable", "false");
@@ -55,7 +57,10 @@
                     success : function(data, statut)
                     {
                         console.log(data);
-                        $("#"+id+"-element-texte").text(texte);
+                        if(data.success == "ok")
+                        {
+                            $("#"+id+"-element-texte").text(texte);
+                        }
                     }
                 });
         };
@@ -76,22 +81,25 @@
                 var texte = $("#"+id+"-element-texte").text();
                 set_modification_mode(id, false);
                 modify_anamnese(id, texte);
-
-
             }
 
         });
 
         $(".suppression-anamnese").on("click", function() {
             var anamnese_element = $(this).attr("id");
+            console.log(anamnese_element);
+            var id = anamnese_element.split("-")[0];
             $.ajax({
                     url: "/tcc/patient/anamnese/supprimer",
-                    data: {"id_anamnese": $(this).attr("id")},
+                    data: {"id_anamnese": id},
                     type : "POST",
                     success : function(data, statut)
                     {
                         console.log(data);
-                        $("#"+anamnese_element+"-element").remove();
+                        if(data.success == "ok")
+                        {
+                            $("#"+id+"-element").remove();
+                        }
                     }
                 });
         });
